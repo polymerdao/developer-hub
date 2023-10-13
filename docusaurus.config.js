@@ -74,7 +74,7 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'tutorialSidebar',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Docs',
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
@@ -88,14 +88,35 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: 'Documentation',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Polymer',
+                to: '/docs/',
               },
+              {
+                label: 'IBC specs',
+                to: 'https://github.com/cosmos/ibc',
+              },
+              {
+                label: 'ibc-go',
+                to: 'https://github.com/cosmos/ibc-go',
+              },
+              {
+                label: 'ibcx-go',
+                to: 'https://github.com/open-ibc/ibcx-go',
+              },
+              {
+                label: 'Ethereum',
+                to: 'https://ethereum.org/en/developers/docs/'
+              },
+              {
+                label: 'OP Stack',
+                to: 'https://stack.optimism.io/'
+              }
             ],
           },
+          
           {
             title: 'Community',
             items: [
