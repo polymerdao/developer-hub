@@ -5,10 +5,8 @@ sidebar_label : 'Further reading'
 
 # Further reading
 
-:::info Content
+:::danger To be removed
 
-List of resources for further reading: Cosmos SDK, IBC, OP stack, Ethereum, Solidity, ...
+Make a separate navigation tab for Resources
 
 :::
-
-TODO

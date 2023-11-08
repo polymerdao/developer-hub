@@ -5,6 +5,12 @@ sidebar_label: 'Competitive landscape'
 
 # The (state layer) interoperability landscape
 
+:::danger Placeholder
+
+Eshita is doing some research and writing a piece about this, will update with result.
+
+:::
+
 The transport layer is the uniquely defining layer of interoperability protocols. At a high level, there’s the IBC transport standard that Polymer implements and there’s incompatible alt-transports that competitors implement. Most of these alt-transports cannot even be considered a transport standard as they do not enforce TAO logic, do not have a specification and are highly simplistic. Since alt-transports are incompatible with the IBC network and lack standardization, we’ll review the interoperability landscape from the lens of the state layer.
 
 ## Centralized bridges

@@ -71,8 +71,6 @@ We think it's the developers (and through them, the end-users). At Polymer, we b
 
 Additionally, there are no protocol level incentives that encourage open participation of clients at the state layer.
 
-<!-- TODO: add links -->
-
 :::note Client incentivization
 
 With some of the IBC innovations that the Polymer Labs team is working on, client update incentivization will happen _in protocol_ ensuring an open market for clients.
