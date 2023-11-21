@@ -13,6 +13,8 @@ Still need to iterate on this. Bo delivered this initial draft.
 
 The interoperability story for rollups on Ethereum today is both highly fragmented and insecure. The primary goal for Polymer is to bring the interoperability story of the Cosmos or IBC to Ethereum and its rollups. Our approach to doing so is to put the Cosmos SDK on top of the OP stack and build Ethereum’s first interoperability hub. A secondary goal is to enable builders to build a network of natively interoperable rollups. 
 
+![Ethereum's IBC interoperability Hub](../../static/img/background/ethereum-ibc.png)
+
 ## IBC as the Interoperability Standard
 
 IBC is best positioned to become the interoperability standard for Ethereum and web3 broadly. It’s an open and neutral standard with no single entity controlling the direction of the technology. It’s the product of a collaboration across a number of teams and exists as both a formal specification and a number of implementations across a growing number of ecosystems.

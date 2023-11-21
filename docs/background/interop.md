@@ -47,7 +47,7 @@ The layers in the interoperability model mirror familiar ones in the classic Ope
 
 Increasing interoperability fragmentation is a mostly ignored fact since all of the focus of builders and investors has been on the _state layer_ of interoperability as depicted above.
 
-::: caution Interoperability can fragment the landscape too
+:::caution Interoperability can fragment the landscape too
 
 Focusing on the speed to go to market, most new interoperability protocols exacerbate the issues by introducing **incompatible transport layers further fragmenting web3**.
 
@@ -57,7 +57,7 @@ Counter intuitively perhaps, the _transport layer_ is arguably the most importan
 
 <!-- TODO: add link to transport commitment section -->
 
-Currently, transport commitments produced by one interoperability protocol are not understood by another, requiring translation layers between protocols. This is anti-competitive and promotes vendor lock in at the protocol level.
+Currently, transport commitments produced by one interoperability protocol are not understood by another, requiring translation layers between protocols. This is anti-competitive and promotes vendor lock-in at the protocol level.
 
 :::tip Developer first
 
@@ -71,6 +71,7 @@ We think it's the developers (and through them, the end-users). At Polymer, we b
 
 Additionally, there are no protocol level incentives that encourage open participation of clients at the state layer.
 
+<!-- TODO: add link to client incentivization work -->
 :::note Client incentivization
 
 With some of the IBC innovations that the Polymer Labs team is working on, client update incentivization will happen _in protocol_ ensuring an open market for clients.

@@ -22,7 +22,9 @@ When building out the interoperability hub for Ethereum, these design principles
 With those principles in mind and after considerable research on different technology stack, we landed on the following architecture:
 
 - Polymer will be built as a Cosmos SDK (ABCI) application, leveraging ibc-go, the most mature implementation of IBC in production
-- Polymer will be built as an Ethereum rollup, leveraging the OP Stack developed by the Optimism Collective
+- Polymer will be built as an Ethereum rollup, leveraging the [OP Stack](https://stack.optimism.io/) developed by the Optimism Collective
+
+![OP stack + Cosmos SDK](../../static/img/concepts/monomer.png)
 
 :::tip Cosmos SDK rollups on Ethereum
 
@@ -34,7 +36,7 @@ The technical challenge thus, is to enable migrating the Cosmos SDK framework fo
 
 Consider the following diagram to study the archictecture of Polymer, the interoperability hub connecting Ethereum rollups.
 
-![Polymer rollup architecture](../../static/img/concepts/polymer-rollup.jpg)
+![Polymer rollup architecture](../../static/img/concepts/polymer-stack.png)
 
 ## OP stack as rollup framework
 
