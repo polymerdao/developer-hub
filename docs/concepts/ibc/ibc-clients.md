@@ -49,11 +49,11 @@ As mentioned above, he client definition is loose enough to allow for verificati
 
 <!-- Review this section a bit more -->
 
-- **Solomachine**: the [IBC solomachine client](https://github.com/cosmos/ibc/blob/main/spec/client/ics-006-solo-machine-client/README.md) is a client that allows a single machine with a public key (can be a single public key or a multi-signature public key) to implement the unified IBC client interface to use the IBC transport layer.
+- **Solomachine**: The [IBC solomachine client](https://github.com/cosmos/ibc/blob/main/spec/client/ics-006-solo-machine-client/README.md) is a client that allows a single machine with a public key (can be a single public key or a multi-signature public key) to implement the unified IBC client interface to use the IBC transport layer.
 
-- **Optimistic clients**: the client would accept new headers optimistically and update the ConsensusState, with the ability to submit fraud or fault proofs by a challenger within a fraud window. There is also an honest minority assumption or a 1-of-N assumption security wise.
+- **Optimistic clients**: The client would accept new headers optimistically and update the ConsensusState, with the ability to submit fraud or fault proofs by a challenger within a fraud window. The fraud proofs allow to replay the execution starting from a trusted state and prove that the committed ConsensusState is incorrect. This implies an honest minority assumption or a 1-of-N assumption security wise.
 
-- **ZK clients**: the client would be able to verify ZK proofs as validity proofs to prove state transitions rather than consensus.
+- **ZK clients**: In the strongest form of zk IBC clients, the client would be able to verify ZK proofs as validity proofs to prove state transitions rather than consensus. However, these days most so-called _ZK IBC clients_ only do signature verification of the Tendermint consensus algorithm (for Cosmos SDK chains that have native IBC compatibility) in a circuit. This is still consensus based verification, not execution.
 
 :::tip Rollups anyone?
 

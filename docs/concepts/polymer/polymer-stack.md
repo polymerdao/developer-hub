@@ -11,7 +11,7 @@ The vision and product positioning for Polymer as the interoperability hub for E
 
 When building out the interoperability hub for Ethereum, these design principles were guiding us:
 
-- we believe [IBC](../concepts/ibc/ibc.md) is the best positioned candidate to provide a universal transport protocol for all chains, so Polymer aims to facilitate and accelerate IBC adoption
+- we believe [IBC](../../concepts/ibc/ibc.md) is the best positioned candidate to provide a universal transport protocol for all chains, so Polymer aims to facilitate and accelerate IBC adoption
 - we are committed to open-source contributions and aim to build our technology as much as possible by using and extending open-source technology stacks
 - we value the highest level of engineering standards, and build to scale for the explosive future of the industry
 
@@ -24,7 +24,7 @@ With those principles in mind and after considerable research on different techn
 - Polymer will be built as a Cosmos SDK (ABCI) application, leveraging ibc-go, the most mature implementation of IBC in production
 - Polymer will be built as an Ethereum rollup, leveraging the [OP Stack](https://stack.optimism.io/) developed by the Optimism Collective
 
-![OP stack + Cosmos SDK](../../static/img/concepts/monomer.png)
+![OP stack + Cosmos SDK](../../../static/img/concepts/monomer.png)
 
 :::tip Cosmos SDK rollups on Ethereum
 
@@ -36,7 +36,7 @@ The technical challenge thus, is to enable migrating the Cosmos SDK framework fo
 
 Consider the following diagram to study the archictecture of Polymer, the interoperability hub connecting Ethereum rollups.
 
-![Polymer rollup architecture](../../static/img/concepts/polymer-stack.png)
+![Polymer rollup architecture](../../../static/img/concepts/polymer-stack.png)
 
 ## OP stack as rollup framework
 
@@ -146,7 +146,7 @@ Combined, we can say that the Polymer application (i.e. interoperability hub) is
 
 ### Virtual IBC as the application-specific component
 
-Polymer as a Cosmos SDK rollup on Ethereum, is an example of an application specific rollup. It includes [virtual IBC](./vibc.md) as its application-specific module, the _secret sauce_ for Polymer to acts as interoperability hub taking on the interoperability workload for Ethereum rollups. Read more about it in a next section.
+Polymer as a Cosmos SDK rollup on Ethereum, is an example of an application specific rollup. It includes [virtual IBC](../vibc.md) as its application-specific module, the _secret sauce_ for Polymer to acts as interoperability hub taking on the interoperability workload for Ethereum rollups. Read more about it in a next section.
 
 :::caution Theory vs implementation
 

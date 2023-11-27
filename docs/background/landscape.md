@@ -47,7 +47,7 @@ Since clients are verifying the consensus of a chain but not the execution, this
 
 ## Optimistic bridges
 
-Optimistic bridging in its strongest form involves the destination chain being able to **verify fraud proofs** produced by the source chain. This is execution verification instead of consensus verification. 
+Optimistic bridging in its strongest form involves the destination chain being able to **verify fraud/fault proofs** produced by the source chain. This is execution verification instead of consensus verification. 
 
 :::note Analogous to Optimistic rollups
 Bridging from optimistic rollups to Ethereum follows this model. 

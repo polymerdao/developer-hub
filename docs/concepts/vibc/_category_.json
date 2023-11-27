@@ -1,0 +1,7 @@
+{
+    "label" : "Virtual IBC",
+    "position" : 3,
+    "link" : {
+        "type" : "generated-index"
+    }
+}
