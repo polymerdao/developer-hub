@@ -5,7 +5,7 @@ sidebar_label : 'Polymer stack'
 
 # The Polymer stack
 
-The vision and product positioning for Polymer as the interoperability hub for Ethereum rollups has been laid out [earlier](../background/polymer.md), but what is the architecture used to enable this vision?
+The vision and product positioning for Polymer as the interoperability hub for Ethereum rollups has been laid out [earlier](../../background/polymer.md), but what is the architecture used to enable this vision?
 
 :::info Design principles
 
@@ -146,7 +146,7 @@ Combined, we can say that the Polymer application (i.e. interoperability hub) is
 
 ### Virtual IBC as the application-specific component
 
-Polymer as a Cosmos SDK rollup on Ethereum, is an example of an application specific rollup. It includes [virtual IBC](../vibc.md) as its application-specific module, the _secret sauce_ for Polymer to acts as interoperability hub taking on the interoperability workload for Ethereum rollups. Read more about it in a next section.
+Polymer as a Cosmos SDK rollup on Ethereum, is an example of an application specific rollup. It includes [virtual IBC](../vibc/overview.md) as its application-specific module, the _secret sauce_ for Polymer to acts as interoperability hub taking on the interoperability workload for Ethereum rollups. Read more about it in a next section.
 
 :::caution Theory vs implementation
 

@@ -69,4 +69,4 @@ Optimistic IBC connections incur the greatest integration overhead as requiring 
 
 ## Inter-rollup IBC connectivity
 
-Polymer differentiates itself by providing the first IBC transport hub for Ethereum, providing inter-rollup IBC connectivity. The Polymer stack to accomplish this is discussed in detail in [the dedicated section](../polymer-stack.md).
+Polymer differentiates itself by providing the first IBC transport hub for Ethereum, providing inter-rollup IBC connectivity. The Polymer stack to accomplish this is discussed in detail in [the dedicated section](../polymer//polymer-stack.md).

@@ -343,6 +343,6 @@ The configuration of ibc-go, the IBC implementation native to Cosmos SDK chains,
 ICS-2, ICS-3, ICS-4 and ICS-5 are implemented in the "core IBC" SDK module, as are ICS-25 and ICS-26. The IBC application modules are defined as separate modules that communicate with the transport layer through the IBC handler and router interfaces. 
 :::tip
 
-The above diagram will be an important flow to remember when considering how [virtual IBC](../vibc.md) manages to outsource the transport layer of IBC to an interoperability hub like Polymer.
+The above diagram will be an important flow to remember when considering how [virtual IBC](../vibc/overview.md) manages to outsource the transport layer of IBC to an interoperability hub like Polymer.
 
 :::
