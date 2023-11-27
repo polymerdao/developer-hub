@@ -38,6 +38,8 @@ The below overview is high-level and is mainly concerned with understanding the 
 
 ## `SendPacket` cycle
 
+![SendPacket cycle](../../../static/img/concepts/vibc-sendpacket.png)
+
 - **Step 1**: The IBC enabled smart contract calls the dispatcher's `SendPacket` method to send a custom defined IBC packet.
 
 - **Step 2**: The dispatcher vIBC core contract emits a `VirtualSendPacket` event.
@@ -55,6 +57,8 @@ The below overview is high-level and is mainly concerned with understanding the 
 - **Step 5**: The IBC module will emit an `EventSendPacket` event, which can be picked up by regular IBC relayers.
 
 ## `RecvPacket` cycle
+
+![RecvPacket cycle](../../../static/img/concepts/vibc-recvpacket.png)
 
 - **Step 1**: An IBC relayer picks ups  an `EventSendPacket` event and submits a `MsgRecvPacket` to Polymer's IBC module, along with the proof of inclusion.
 
@@ -83,6 +87,8 @@ The below overview is high-level and is mainly concerned with understanding the 
 
 ## The `WriteAcknowledgement` cycle
 
+![WriteAck cycle](../../../static/img/concepts/vibc-writeack.png)
+
 - **Step 1**: During the dispatcher's `recvPacket` call, the application will provide an acknowledgement (`AckPacket`) and this will be set to local state, as well as emit a `VirtualWriteAck` event, that can be picked up by a vIBC relayer.
 
 - **Step 2**: The vIBC relayer picks up the `VirtualWriteAck` event and submits a `MsgWriteAcknowledgement` to the vIBC module, along with proof of the event on the virtual chain.
@@ -90,6 +96,8 @@ The below overview is high-level and is mainly concerned with understanding the 
 - **Step 3**: the vIBC module will call into the IBC module's `WriteAcknowledgement` method. This emits an `EventWriteAck` event which can be picked up by regular IBC relayers.
 
 ## The `Acknowledgement` cycle
+
+![AckPacket cycle](../../../static/img/concepts/vibc-ackpacket.png)
 
 - **Step 1**: A regular IBC relayer has picked up an `EventWriteAck` event and will submit a `MsgAcknowledgement` to Polymer's IBC module. 
 
