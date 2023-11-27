@@ -33,7 +33,7 @@ To make your journey through our documentation a pleasant one, let's give a quic
 
     **For whom?** For cross-chain developers using Polymer as interop solution.
 
-- **[Run infra](./category/run-infra)**
+- **[Run infra](./category/run-infrastructure)**
 
     **What?** Section that outlines how to run (parts of) the infrastructure required, either for local development or in testnet or mainnet environments (when applicable).
 

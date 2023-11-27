@@ -35,7 +35,7 @@ We highlight here a recommended workflow on this journey:
   - Starting from snapshots with existing chain state is currently on still in the works, so for testing entire application flow move on to next step.
 - **Persistent testnet**:
   - To test complete e2e application flows that fully leverage the power of IBC and _interchain composability_, you'll want to move on to using persistent testnets for the chains you're building on top of
-  - Find the necessary information to connect your application with Polymer as middle hop. See [the dedicated documentation](TODO) on this.
+  - Find the necessary information to connect your application with Polymer as middle hop. See [the dedicated documentation](supp-networks.md) on this.
 - **Deploying to mainnet**
   - If all the above steps worked out, you can deploy to mainnet and offer your product!
 
