@@ -11,8 +11,8 @@ Here you'll find an overview of the networks Polymer currently supports and wher
 
 | Testnet                  | General Info & Resources | Dev environment docs                                                          |
 | ------------------------ | ------------------------ | ----------------------------------------------------------------------------- |
-| Ethereum Sepolia Testnet | [Link](./sepolia.md)     | [Link to IBC SDK docs](https://developers.openibc.com/docs/category/evm)      |
-| Wasmd testnet            | [Link](./wasmd.md)       | [Link to IBC SDK docs](https://developers.openibc.com/docs/category/cosmwasm) |
+| Ethereum Sepolia Testnet | Link    | [Link to IBC SDK docs](https://developers.openibc.com/docs/category/evm)      |
+| Wasmd testnet            | Link      | [Link to IBC SDK docs](https://developers.openibc.com/docs/category/cosmwasm) |
 
 ## vIBC Dispatcher contract addresses
 
