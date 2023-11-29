@@ -53,9 +53,7 @@ Focusing on the speed to go to market, most new interoperability protocols exace
 
 :::
 
-Counter intuitively perhaps, the _transport layer_ is arguably the most important layer in the interoperability model. The transport layer produces a commitment to all of the messages sent and received from a chain while also enforcing TAO logic. This commitment is called a _transport commitment_.
-
-<!-- TODO: add link to transport commitment section -->
+Counter intuitively perhaps, the _transport layer_ is arguably the most important layer in the interoperability model. The transport layer produces a commitment to all of the messages sent and received from a chain while also enforcing TAO logic. This commitment is called a [_transport commitment_](../concepts/vibc/clients.md/#fork-handling-and-virtual-roots).
 
 Currently, transport commitments produced by one interoperability protocol are not understood by another, requiring translation layers between protocols. This is anti-competitive and promotes vendor lock-in at the protocol level.
 
