@@ -15,7 +15,7 @@ To make your journey through our documentation a pleasant one, let's give a quic
 
 :::note Navigate your way through the docs.
 
-- **[The interoperability problem](./category/the-interoperability-problem/)**
+- **[The interoperability problem](./category/why-polymer/)**
 
     **What?** This section provides the context around the interoperability space, why it's an important issue to tackle and why the current landscape offers opportunity for Polymer to fill a need.
 
