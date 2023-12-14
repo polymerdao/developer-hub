@@ -1,3 +1,8 @@
+---
+sidebar_position: 3
+sidebar_label: 'Debug packet cycle'
+---
+
 # Events overview for vIBC
 
 ## Virtual to virtual

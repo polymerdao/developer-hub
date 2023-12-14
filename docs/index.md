@@ -7,36 +7,35 @@ sidebar_label: 'Welcome to Polymer'
 
 Polymer is Ethereum's interoperability hub, connecting Ethereum's Layer 2's using the [Inter-Blockchain Communication Protocol](https://ibcprotocol.dev).
 
-Welcome to the developer hub for Polymer! We're excited to collaborate with you on building the future of interoperability together!
+Welcome to the developer hub for Polymer! We're excited to collaborate with you on building the future of interoperability together.
 
 <!-- Depending on what leads the reader here, we could add Polymer features. But there's a chance that info is duplicated on the developer hub homepage, i.e. polymerlabs.org/developers -->
 
-Here's a quick overview of our documentation:
+## Get started
 
-:::note Navigate your way through the docs.
+Here's a quick overview of our documentation, depending on what your goals are:
 
-- **[The interoperability problem](./category/why-polymer/)**
+:::note I want to ...
 
-    **What?** This section provides the context around the interoperability space, why it's an important issue to tackle and why the current landscape offers opportunity for Polymer to fill a need.
+- [**Start testing Polymer's features with quickstart tutorials**](./category/tutorials/)
 
-    **For whom?** Essentially everyone, but in particular founders, product teams that need interoperability solutions and researchers who are researching the space.
+    Go to [`Tutorials`](./category/tutorials/) to quickly experience a cross-chain dApp leveraging Polymer with ready-made demo applications.
 
-- **[Concepts](./category/concepts)**
+- [**Evaluate why to build cross-chain using Polymer**](./category/why-polymer/)
 
-    **What?** This section goes more in-depth on the concepts making up the Polymer protocol. IBC, virtual IBC as well as the stack to build the Polymer L2 are handled.
+    Go to [`Why Polymer`](./category/why-polymer/) to understand the context around the interoperability space, why it's an important issue to tackle and why the current landscape leaves a hole for Polymer to fill.
 
-    **For whom?** Developers who need a refresher on the conceptual underpinnings for their development work + protocol analysts doing research on or looking to integrate Polymer.
+- [**Learn the foundations of Polymer, IBC and virtual IBC**](./category/concepts/)
 
-- **[Build](./category/build)**
+    Go to [`Concepts`](./category/concepts/) to dive deep into the concepts making up the Polymer protocol. IBC, virtual IBC as well as the stack to build the Polymer L2 are reviewed.
 
-    **What?** This section explains how to build IBC-enabled Solidity smart contracts and how to find the vIBC core contracts deployed by Polymer that relayers listen to.
+- [**Learn how to build dApps that are compatible with Polymer**](./category/build/)
 
-    **For whom?** For cross-chain developers using Polymer as interop solution.
+    Go to [`Build`](./category/build) to find out how to build IBC-enabled Solidity smart contracts and how to find the vIBC core contracts deployed by Polymer that relayers listen to.
 
-- **[Run infra](./category/run-infrastructure)**
+- [**Run infrastructure**](./category/run-infrastructure/)
 
-    **What?** Section that outlines how to run (parts of) the infrastructure required, either for local development or in testnet or mainnet environments (when applicable).
-
-    **For whom?** Infrastructure operators or developers who want to spin up the stack locally to expedite their development.
+    Go to [`Run infrastructure`](./category/run-infrastructure/) to find runbooks on how to run (parts of) the infrastructure required, either in testnet or mainnet environments (when applicable).
 
 :::
+

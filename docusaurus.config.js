@@ -49,7 +49,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/polymerdao/developer-hub',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -66,8 +66,9 @@ const config = {
       navbar: {
         title: 'Developer Docs',
         logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.svg',
+          alt: 'Polymer Logo',
+          src: 'img/logo-png-black.png',
+          srcDark: 'img/logo-png-white.png',
         },
         items: [
           {
@@ -80,7 +81,7 @@ const config = {
           {to: '/docs/category/build', label : 'Build', position: 'left'},
           {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/polymerdao',
             label: 'GitHub',
             position: 'right',
           },
