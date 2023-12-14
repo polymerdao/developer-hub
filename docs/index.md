@@ -3,15 +3,15 @@ sidebar_position: 1
 sidebar_label: 'Welcome to Polymer'
 ---
 
-# Polymer: the interoperability hub rollup
+# Polymer: the Ethereum interoperability hub
 
-The Polymer rollup is Ethereum's interoperability hub, introducing the Ethereum community to [Inter-Blockchain Communication](https://ibcprotocol.dev).
+Polymer is Ethereum's interoperability hub, connecting Ethereum's Layer 2's using the [Inter-Blockchain Communication Protocol](https://ibcprotocol.dev).
 
-We welcome you to the developer hub for Polymer and are excited to see that you're willing to find out more or even to collaborate on building the future of interoperability together!
+Welcome to the developer hub for Polymer! We're excited to collaborate with you on building the future of interoperability together!
 
 <!-- Depending on what leads the reader here, we could add Polymer features. But there's a chance that info is duplicated on the developer hub homepage, i.e. polymerlabs.org/developers -->
 
-To make your journey through our documentation a pleasant one, let's give a quick overview of the different sections and who they're targeted at.
+Here's a quick overview of our documentation:
 
 :::note Navigate your way through the docs.
 

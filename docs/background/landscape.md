@@ -90,5 +90,5 @@ In the long term, we may see canonical bridges start moving over to more secure 
 
 ## What now?
 
-From the last two sections it should be clear now: the state of interoperability today suffers from two major issues (or opportunities). The proliferation of executions environment has created fragmentation and solutions have emerged that are deprioritising security and trust-minimization. Read on to see Polymer's solution.
+From the last two sections it should be clear now: the state of interoperability today suffers from two major issues (or opportunities). The proliferation of execution environments has created fragmentation and solutions have emerged that are deprioritising security and trust-minimization. Read on to see Polymer's solution.
 
