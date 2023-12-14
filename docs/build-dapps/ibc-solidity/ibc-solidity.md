@@ -249,4 +249,4 @@ Having implemented these methods, once you instantiate an instance of the contra
 
 ## Example?
 
-Practical examples can be found in the [tutorials section](../quickstart/tutorial1.md)
+Practical examples can be found in the [tutorials section](../../quickstart/tutorial1.md)
