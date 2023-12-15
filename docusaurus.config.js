@@ -44,13 +44,6 @@ const config = {
           editUrl:
             'https://github.com/polymerdao/developer-hub',
         },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/polymerdao/developer-hub',
-        },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
@@ -79,7 +72,6 @@ const config = {
           },
           {to: '/docs/category/concepts', label : 'Concepts', position: 'left'},
           {to: '/docs/category/build', label : 'Build', position: 'left'},
-          {to: '/blog', label: 'Blog', position: 'left'},
           {
             href: 'https://github.com/polymerdao',
             label: 'GitHub',
@@ -142,11 +134,11 @@ const config = {
             items: [
               {
                 label: 'Blog',
-                to: '/blog',
+                to: 'https://polymerlabs.org/blog',
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/polymerdao',
               },
             ],
           },

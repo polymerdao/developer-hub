@@ -1,12 +1,12 @@
 ---
 sidebar_position: 1
-sidebar_label: 'Interoperability'
+sidebar_label: 'Interoperability challenge'
 
 ---
 
 # Interoperability: why do we need it?
 
-The blockchain space is moving towards an ever growing number of execution shards appearing. L1s, alt-L1s, rollups, app chains and app rollups all fall under this category. Modular blockchains also further complicate the landscape by massively opening up the design space for blockchains.
+The blockchain space is moving towards an ever growing number of execution shards. L1s, alt-L1s, rollups, app chains and app rollups all fall under this category. Modular blockchains also further complicate the landscape by massively opening up the design space for blockchains.
 
 These advancements improve the overall throughput of web3 as a whole but **increase fragmentation**. What’s gained in scalability is lost due to lack of interoperability.
 
@@ -40,7 +40,7 @@ Below we'll refer to the _**I**nter**c**hain **S**tandards_ or ICS-x for short. 
 
 :::
 
-1. **The application layer** represents application logic that sits on top of the common transport layer. There are already a number of application protocol standards in IBC ranging from basic functionality like token transfers [ICS20](https://github.com/cosmos/ibc/tree/main/spec/app/ics-020-fungible-token-transfer) to advanced functionality like cross chain validation [ICS28](https://github.com/cosmos/ibc/tree/main/spec/app/ics-028-cross-chain-validation) (also known as interchain security). **As a developer of IBC-enabled smart contracts, you are challenged to further develop IBC on this layer**.
+1. **The application layer** represents application logic that sits on top of the common transport layer, which then only needs to handle packets of opaque bytes data, not concerned with the actual interpretation of these bytes. Application logic for interoperability often shares the execution environment for regular applications (e.g. EVM). There are already a number of application protocol standards in IBC ranging from basic functionality like token transfers [ICS20](https://github.com/cosmos/ibc/tree/main/spec/app/ics-020-fungible-token-transfer) to advanced functionality like cross chain validation [ICS28](https://github.com/cosmos/ibc/tree/main/spec/app/ics-028-cross-chain-validation) (also known as interchain security). **As a developer of IBC-enabled smart contracts, you are challenged to further develop IBC on this layer**.
 
 2. **The transport layer** of IBC encodes transport, authentication and ordering (TAO) logic. The transport logic in IBC is _heavily inspired by that of TCP and UDP_, the winner of the protocol wars of the early internet for networking standards due to its open and net-neutral nature. Most competing interoperability protocols have extremely simplistic transport layer implementations that lack TAO logic and do not have an accompanying specification.
 

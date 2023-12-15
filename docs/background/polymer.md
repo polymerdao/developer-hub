@@ -5,21 +5,23 @@ sidebar_label: 'Intro to Polymer'
 
 # Introducing Polymer
 
-The interoperability story for rollups on Ethereum today is both highly [fragmented](interop.md) and [insecure](landscape.md). The primary goal for Polymer is to bring the strong interoperability foundation set by [IBC](../concepts/ibc/ibc.md) to Ethereum and its ecosystem of rollups. Our [approach](../concepts/polymer/polymer-stack.md) to doing so is to put the Cosmos SDK on top of the OP stack and build **Ethereum’s first interoperability hub**. A secondary goal is to enable builders to build a network of natively interoperable rollups. 
+Interoperability for rollups on Ethereum today is both highly [fragmented](interop.md) and [insecure](landscape.md). Polymer solves this by bringing the strong interoperability foundation set by [IBC](../concepts/ibc/ibc.md) to Ethereum and its ecosystem of rollups. Our [approach](../concepts/polymer/polymer-stack.md) to doing so is to put the Cosmos SDK on top of the OP stack and build **Ethereum’s first interoperability hub**. 
+
+Polymer is built around these three technical pillars:
 
 :::info Polymer's 3 technical pillars
 
-1. Secured by Ethereum: an Ethereum rollup itself, Polymer shares security with the rollups it provides interoperability.
+1. **Ethereum Security**: an Ethereum rollup itself, Polymer shares security with the rollups it provides interoperability.
 
-2. IBC as the interoperability standard: having no _enshrined in-protocol_ interoperability standards, Polymer ports the IBC standard into the Ethereum ecosystem.
+2. **Native IBC interoperability**: having no _enshrined in-protocol_ interoperability standards, Polymer ports the IBC standard into the Ethereum ecosystem.
 
-3. An application-specific interoperability hub: as an _app rollup_ Polymer specializes to provide interoperability service to all Ethereum rollups
+3. **Scalable connectivity**: as an _app rollup_ Polymer specializes to provide interoperability service to all Ethereum rollups featuring low cost of connectivity and high scalability.
 
 :::
 
 Let's investigate these in more detail.
 
-## 1. Secured by Ethereum
+## 1. Ethereum security
 
 The rollup-centric roadmap has surfaced as the way forward for the Ethereum ecosystem to tackle its scalability challenges. However, this approach hasn’t been without tradeoffs. Sharding execution across rollups, while enabling scalability, has come at the expense of creating relatively siloed execution environments that fragment liquidity, confuse end users, and complicate the developer journey. Secure composability across Layer 2s has emerged as one of the most significant issues plaguing Ethereum.
 
@@ -29,15 +31,15 @@ Realizing the potential of introducing an interoperability standard to provide r
 
 ### Increased alignment with the Ethereum community
 
-While inter-ecosystem cross-pollination will likely become more prevalent (we consider ourselves pioneers here importing well-respected Cosmos tech into the Ethereum domain), it's undeniable that the Ethereum ecosystem boast a vibrant community of builders that have great conviction in the different tech stacks available within the Ethereum ecosystem. To ensure maximum alignment with these builders when providing them top-class interoperability services, what better way is there than to build on common open-source tech stacks (e.g. OP stack)?
+While inter-ecosystem cross-pollination will likely become more prevalent (we consider ourselves pioneers here importing well-respected Cosmos tech into the Ethereum domain), it's undeniable that the Ethereum ecosystem boasts a vibrant community of builders that have great conviction in the different tech stacks available within the Ethereum ecosystem. To ensure maximum alignment with these builders when providing them top-class interoperability services, what better way is there than to build on common open-source tech stacks (e.g. OP stack)?
 
-### Trust-minisation by sharing security
+### Trust-minimisation by sharing security
 
-Additionally, there's an important benefit gained with regards to security when an interoperability hub shares a settlement layer with the chains it serves. Consider [competing interoperability providers](landscape.md) that have an intermediate validator set or guardian set or oracles in between the source and destination chains. This introduces additional security assumptions that introduce an attack vector associated with potentially much less economic stake.
+Additionally, there's an important benefit gained with regards to security when an interoperability hub shares a settlement layer with the chains it serves. Consider [competing interoperability providers](landscape.md) that have an intermediate validator set, guardian set or oracles in between the source and destination chains. This introduces additional security assumptions that introduce an attack vector associated with potentially much less economic stake.
 
 Polymer's design as an Ethereum L2, [eliminates this additional trust assumption](../concepts/polymer/tx-flow.md/#security).
 
-## 2. IBC as the Interoperability Standard
+## 2. Native IBC interoperability
 
 IBC is best positioned to become the interoperability standard for Ethereum specifically and the entire web3 industry more broadly. It’s an open and neutral standard with no single entity controlling the direction of the technology. It’s the product of a [collaboration across a number of teams](https://www.ibcprotocol.dev/technical-resource-catalog) and exists as both a [formal specification](https://github.com/cosmos/ibc) and a number of implementations across a growing number of ecosystems.
 
@@ -53,20 +55,20 @@ IBC allows any channel to be updated (via a feature called _channel upgradabilit
 
 ### Transparent Upgrades
 
-Polymer’s architecture allows it to IBC enable connected chains and make them visible to the IBC network without the chains needing to implement IBC themselves, using a protocol called [_virtual IBC_](../concepts/vibc/overview.md). 
-However, chains connected via Polymer are not locked into using Polymer. If the chain ends up implementing IBC natively, a channel upgrade can be performed to update the underlying list of connections from using Polymer to another hub or direct connection.
+Polymer’s architecture allows it to enable IBC on connected chains and make them visible to the IBC network without the chains needing to implement IBC themselves, using a protocol called [_virtual IBC_](../concepts/vibc/overview.md). 
+However, chains connected via Polymer are **not locked into using Polymer**. If the chain ends up implementing IBC natively, a channel upgrade can be performed to update the underlying list of connections from using Polymer to another hub or direct connection.
 
 ### Open Client Marketplace
 
 The [IBC client design is flexible](../concepts/ibc/ibc-clients.md) enough to represent arbitrary verification logic. They are not restricted to verifying the consensus of a chain. In fact, **many interoperability protocols today could easily be represented as an [IBC solo machine client](https://medium.com/the-interchain-foundation/ibc-beyond-light-clients-solo-machine-5af93618ef63)** which can support one or more private keys. The IBC network itself is essentially client agnostic and allows client builders to compete with one another for business. 
 
-## 3. Polymer: the Interoperability Hub
+## 3. Scalable connectivity
 
-Polymer could be described as an _application-specific rollup_ or _app rollup_. This is a concept borrowed from early adopters like the Cosmos or Polkadot that implies a chain (or rollup) offers no general-purpose platform for developers to build applications on, but rather offers a specialized service, thus application specific.
+Polymer could be described as an _application-specific rollup_ or _app rollup_. This is a concept borrowed from early adopters like the Cosmos or Polkadot ecosystems. It introduces a chain (or rollup) that offers no general-purpose platform for developers to build applications on, but rather a specialized service, thus application specific.
 
 Ethereum itself has opted for protocol minimalism at the L1 level. This is a similar approach to the Cosmos Hub whose major function (this philosophy is called _hub minimalism_) is to provide security, where functionality is implemented by chains that are secured by the L1 (Cosmos Hub) through [interchain security (ICS)](https://interchainsecurity.dev/). For example, Ethereum is leaning on L2s for scalability and sharding whereas the Cosmos Hub is leaning on ICS chains for a smart contract chain ([Neutron](https://neutron.org/)) and liquid staking ([Stride](https://www.stride.zone/)) etc. 
 
-Polymer is being built as an L2 on Ethereum’s dedicated to one application, interoperability. In a sense, Polymer enshrines IBC interoperability into the Ethereum ecosystem. **Polymer provides native IBC interoperability with Ethereum security**.
+Polymer is being built as an L2 on Ethereum’s dedicated to one application, interoperability. In a sense, Polymer enshrines IBC interoperability into the Ethereum ecosystem. Its design as an application specific hub allows for scalable connectivity. Let's investigate the benefits.
 
 ### Evolution of Network Topologies
 

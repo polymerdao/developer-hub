@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-sidebar_label: 'Competitive landscape'
+sidebar_label: 'Current landscape'
 ---
 
 # The (state layer) interoperability landscape
