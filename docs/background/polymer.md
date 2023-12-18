@@ -1,11 +1,11 @@
 ---
-sidebar_position: 3
+sidebar_position: 2
 sidebar_label: 'Intro to Polymer'
 ---
 
 # Introducing Polymer
 
-Interoperability for rollups on Ethereum today is both highly [fragmented](interop.md) and [insecure](landscape.md). Polymer solves this by bringing the strong interoperability foundation set by [IBC](../concepts/ibc/ibc.md) to Ethereum and its ecosystem of rollups. Our [approach](../concepts/polymer/polymer-stack.md) to doing so is to put the Cosmos SDK on top of the OP stack and build **Ethereum’s first interoperability hub**. 
+Interoperability for rollups on Ethereum today is both highly [fragmented](interop.md) and insecure. Polymer solves this by bringing the strong interoperability foundation set by [IBC](../concepts/ibc/ibc.md) to Ethereum and its ecosystem of rollups. Our [approach](../concepts/polymer/polymer-stack.md) to doing so is to put the Cosmos SDK on top of the OP stack and build **Ethereum’s first interoperability hub**. 
 
 Polymer is built around these three technical pillars:
 
@@ -27,15 +27,11 @@ The rollup-centric roadmap has surfaced as the way forward for the Ethereum ecos
 
 There is currently no _enshrined_ interoperability protocol in the Ethereum ecosystem creating a lack of standardization. All of the existing arbitrary messaging bridges (AMBs) are implemented as smart contracts with diverging implementations causing [fragmented composability](interop.md). These problems are expected to get worse as we enter a period of exponential growth of L2 launches.
 
-Realizing the potential of introducing an interoperability standard to provide rollup-to-rollup communication (arbitrary message passing) for the Ethereum rollups, Polymer has decided to build as a rollup settling on Ethereum. We examine the major benefits below.
-
-### Increased alignment with the Ethereum community
-
-While inter-ecosystem cross-pollination will likely become more prevalent (we consider ourselves pioneers here importing well-respected Cosmos tech into the Ethereum domain), it's undeniable that the Ethereum ecosystem boasts a vibrant community of builders that have great conviction in the different tech stacks available within the Ethereum ecosystem. To ensure maximum alignment with these builders when providing them top-class interoperability services, what better way is there than to build on common open-source tech stacks (e.g. OP stack)?
+Realizing the potential of introducing an interoperability standard to provide rollup-to-rollup communication (arbitrary message passing) for the Ethereum rollups, Polymer has decided to build as a rollup settling on Ethereum. We examine the major benefit below.
 
 ### Trust-minimisation by sharing security
 
-Additionally, there's an important benefit gained with regards to security when an interoperability hub shares a settlement layer with the chains it serves. Consider [competing interoperability providers](landscape.md) that have an intermediate validator set, guardian set or oracles in between the source and destination chains. This introduces additional security assumptions that introduce an attack vector associated with potentially much less economic stake.
+Additionally, there's an important benefit gained with regards to security when an interoperability hub shares a settlement layer with the chains it serves. Consider competing interoperability providers that have an intermediate validator set, guardian set or oracles in between the source and destination chains. This introduces additional security assumptions that introduce an attack vector associated with potentially much less economic stake.
 
 Polymer's design as an Ethereum L2, [eliminates this additional trust assumption](../concepts/polymer/tx-flow.md/#security).
 
