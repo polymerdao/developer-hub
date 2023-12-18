@@ -31,9 +31,11 @@ Realizing the potential of introducing an interoperability standard to provide r
 
 ### Trust-minimisation by sharing security
 
-Additionally, there's an important benefit gained with regards to security when an interoperability hub shares a settlement layer with the chains it serves. Consider competing interoperability providers that have an intermediate validator set, guardian set or oracles in between the source and destination chains. This introduces additional security assumptions that introduce an attack vector associated with potentially much less economic stake.
+Settling on Ethereum means benefitting from its high security. That's not all though. Additionally, there's an important benefit gained with regards to security _when an interoperability hub shares a settlement layer with the chains it's providing connectivity for_. 
 
-Polymer's design as an Ethereum L2, [eliminates this additional trust assumption](../concepts/polymer/tx-flow.md/#security).
+Consider competing interoperability providers that have an intermediate validator set, guardian set or oracles in between the source and destination chains. This introduces additional security assumptions that introduce an attack vector associated with potentially much less economic stake.
+
+Polymer's design as an Ethereum L2 providing connectivity to other Ethereum secured L2s, [eliminates this additional trust assumption](../concepts/polymer/tx-flow.md/#security).
 
 ## 2. Native IBC interoperability
 
