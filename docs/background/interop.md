@@ -20,17 +20,13 @@ The glaring need for interoperability has incentivized a fierce competition amon
 
 ## The interoperability model
 
-To solve the interoperability problem, numerous projects have tried [different approaches ranging from highly centralized solutions using a permissioned relayer and oracle pair to computing zero knowledge consensus proofs](https://longhashvc.medium.com/navigating-the-web-of-interoperability-a-deep-dive-into-arbitrary-message-passing-protocols-43a469b9e7d). Many of these approaches are merely innovating on _how to move the state from one blockchain to another_. This indeed is a critical part of the interoperability problem but is far from the complete picture as the state component only addresses a single layer of the interoperability model.
-
-![the interoperability landscape](../../static/img/background/interop-landscape.png)
-
-[Source](https://longhashvc.medium.com/navigating-the-web-of-interoperability-a-deep-dive-into-arbitrary-message-passing-protocols-43a469b9e7d)
+To solve the interoperability problem, numerous projects have tried different approaches ranging from highly centralized solutions using a permissioned relayer and oracle pair to computing zero knowledge consensus proofs. Many of these approaches are merely innovating on _how to move the state from one blockchain to another_. This indeed is a critical part of the interoperability problem but is far from the complete picture as the state component only addresses a single layer of the interoperability model.
 
 ### A layered interoperability model
 
 A **complete interoperability model consists of 3 layers with clear separation between each layer**.
 
-The layers in the interoperability model mirror familiar ones in the Open Systems Interconnection model (OSI model) for network communication.
+The layers in the interoperability model mirror familiar ones from the Open Systems Interconnection model (OSI model) for network communication.
 
 ![OSI model comparison of interoperability model](../../static/img/background/OSI-comp.png)
 
@@ -42,23 +38,23 @@ Below we'll refer to the _**I**nter**c**hain **S**tandards_ or ICS-x for short. 
 
 1. **The application layer** represents application logic that sits on top of the common transport layer, which then only needs to handle packets of opaque bytes data, not concerned with the actual interpretation of these bytes. Application logic for interoperability often shares the execution environment for regular applications (e.g. EVM). There are already a number of application protocol standards in IBC ranging from basic functionality like token transfers [ICS20](https://github.com/cosmos/ibc/tree/main/spec/app/ics-020-fungible-token-transfer) to advanced functionality like cross chain validation [ICS28](https://github.com/cosmos/ibc/tree/main/spec/app/ics-028-cross-chain-validation) (also known as interchain security). **As a developer of IBC-enabled smart contracts, you are challenged to further develop IBC on this layer**.
 
-2. **The transport layer** of IBC encodes transport, authentication and ordering (TAO) logic. The transport logic in IBC is _heavily inspired by that of TCP and UDP_, the winner of the protocol wars of the early internet for networking standards due to its open and net-neutral nature. Most competing interoperability protocols have extremely simplistic transport layer implementations that lack TAO logic and do not have an accompanying specification.
+2. **The transport layer** of IBC encodes **t**ransport, **a**uthentication and **o**rdering (TAO) logic. The transport logic in IBC is _heavily inspired by that of TCP and UDP_, the winner of the protocol wars of the early internet for networking standards due to its open and net-neutral nature. Most competing interoperability protocols have extremely simplistic transport layer implementations that lack TAO logic and do not have an accompanying specification.
 
 3. Most of the innovation in this space has been happening at **the state layer**, which looks at how to move state (proofs) from one chain to another. All of the trust mechanisms below are encoded as clients in the IBC model. The [ICS02 client specification](https://github.com/cosmos/ibc/tree/main/spec/core/ics-002-client-semantics) allows for the definition of a variety of client types inclusive of most if not all trust mechanisms used in the space.
 
 ## Tackling interoperability fragmentation
 
-Increasing interoperability fragmentation is a mostly ignored fact since all of the focus of builders and investors has been on the _state layer_ of interoperability as depicted above.
-
-:::caution Interoperability can fragment the landscape too
-
-Focusing on the speed to go to market, most new interoperability protocols exacerbate the issues by introducing **incompatible transport layers further fragmenting web3**.
-
-:::
-
 Counter intuitively perhaps, the _transport layer_ is arguably the most important layer in the interoperability model. The transport layer produces a commitment to all of the messages sent and received from a chain while also enforcing TAO logic. This commitment is called a [_transport commitment_](../concepts/vibc/clients.md/#fork-handling-and-virtual-roots).
 
 Currently, transport commitments produced by one interoperability protocol are not understood by another, requiring translation layers between protocols. This is anti-competitive and promotes vendor lock-in at the protocol level.
+
+:::caution Interoperability can fragment the landscape too
+
+While interoperability can be the solution to fragmentation in execution shards, it also potentially contributes to an extra source. Focused on conquering market share, most new interoperability protocols exacerbate the issues by introducing **incompatible transport layers further fragmenting web3**.
+
+:::
+
+Failing to realize the opportunity to create a separation between layers in the interoperability model, increasing interoperability fragmentation remains a mostly ignored fact since all of the focus of builders and investors has been on the _state layer_ of interoperability as depicted above. When separating the state layer diversity in verifiying state, from the transport layer (which is ideally a unified API) one can achieve the best of both worlds without the resulting fragmentation.
 
 :::tip Developer first
 
@@ -82,7 +78,7 @@ With some of the IBC innovations that the Polymer Labs team is working on, clien
 
 Instead of building yet another incompatible transport layer, the Polymer Labs team has been working on **firmly establishing the open-source IBC (inter-blockchain communication) protocol as the universal interop standard**. Put in a different way, we advocate the transport commitments produced by every interoperability follow the IBC standard.
 
-While it’s normally quite difficult to integrate and maintain IBC compatibility natively in a chain, Polymer, Ethereum's IBC interoperability hub, makes it possible to **integrate and add IBC transport to any chain in a minimally intrusive manner**. The different interoperability protocols of today can opt in to become IBC clients in the IBC network of tomorrow.
+While it’s normally quite difficult to integrate and maintain IBC compatibility natively in a chain, Polymer, Ethereum's IBC interoperability hub, makes it possible to **integrate and add IBC transport to any chain in a minimally intrusive manner**. The different interoperability protocols of today can opt in to [become IBC clients in the IBC network of tomorrow](../concepts/ibc/ibc-clients.md).
 
 
 ## Why should you care?
