@@ -1,13 +1,13 @@
 ---
 sidebar_position: 2
-sidebar_label: 'Tutorial 2'
+sidebar_label: 'Cross-chain Proof of Vote NFT - Part 2'
 ---
 
-# Tutorial 2
+# Cross-chain Proof of Vote NFT - Part 1
 
-:::info Content
+:::caution 🚧 
 
-Practical example, with developer environment: Hardhat, Foundry
+A second part of the cross-chain voting / NFT app will follow soon, this time using universal channels.
 :::
 
-TODO
+Can't wait to try univerdal channels? Check out the instructions [here](https://github.com/open-ibc/vibc-core-smart-contracts/blob/ww/universal-channel/docs/universal-channel-middleware.md).
