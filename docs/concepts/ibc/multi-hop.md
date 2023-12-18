@@ -5,9 +5,8 @@ sidebar_label: 'Multi-hop IBC'
 
 # Multi-hop IBC
 
-:::caution Content
+:::caution 🚧
 
-Nice-to-have but not a strict requirement for POC/Testnet
+Work in progress, will follow soon. In the meantime, check out the [official specification](https://github.com/cosmos/ibc/tree/main/spec/core/ics-033-multi-hop) if you want to find out more.
+
 :::
-
-TODO
