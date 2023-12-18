@@ -33,9 +33,9 @@ Here's a quick overview of our documentation, depending on what your goals are:
 
     Go to [`Build`](./category/build) to find out how to build IBC-enabled Solidity smart contracts and how to find the vIBC core contracts deployed by Polymer that relayers listen to.
 
-- [**Run infrastructure**](./category/run-infrastructure/)
+<!-- - [**Run infrastructure**](./category/run-infrastructure/)
 
-    Go to [`Run infrastructure`](./category/run-infrastructure/) to find runbooks on how to run (parts of) the infrastructure required, either in testnet or mainnet environments (when applicable).
+    Go to [`Run infrastructure`](./category/run-infrastructure/) to find runbooks on how to run (parts of) the infrastructure required, either in testnet or mainnet environments (when applicable). -->
 
 :::
 

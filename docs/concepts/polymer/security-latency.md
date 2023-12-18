@@ -1,9 +1,9 @@
 ---
 sidebar_position: 2
-sidebar_label : 'Sending a packet'
+sidebar_label : 'Security vs latency'
 ---
 
-# Sending a packet through Polymer: the packet flow
+# Security vs latency trade-off
 
 Consider the following diagram to study the archictecture of Polymer, the interoperability hub connecting Ethereum rollups.
 
@@ -23,4 +23,12 @@ In this section we will consider what this means for the clients we use and the 
 
 ## Security
 
+:::caution 🚧
+Work in progress, will follow soon.
+:::
+
 ## Latency
+
+:::caution 🚧
+Work in progress, will follow soon.
+:::

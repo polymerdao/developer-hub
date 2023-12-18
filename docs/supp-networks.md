@@ -9,10 +9,10 @@ Here you'll find an overview of the networks Polymer currently supports and wher
 
 ## Supported networks (testnet)
 
-| Network                  | General Info & Resources | vIBC dispatcher |
-| ------------------------ | ------------------------ | ------------------------ | 
-| OP Sepolia testnet | [Link](https://docs.optimism.io/chain/networks#op-sepolia)    | [0x7a1d713f80BFE692D7b4Baa4081204C49735441E](https://optimism-sepolia.blockscout.com/address/0x7a1d713f80BFE692D7b4Baa4081204C49735441E) |
-| Base Sepolia testnet            | [Link](https://docs.base.org/network-information#base-testnet-sepolia)      | [0x749053bBFe3f607382Ac6909556c4d0e03D6eAF0](https://base-sepolia.blockscout.com/address/0x749053bBFe3f607382Ac6909556c4d0e03D6eAF0)              |
+| Network                  | General Info & Resources | vIBC dispatcher | UC middleware |
+| ------------------------ | ------------------------ | ------------------------ | ------------------------ | 
+| OP Sepolia testnet | [Link](https://docs.optimism.io/chain/networks#op-sepolia)    | [0xD92B86315CBcf9cC612F0b0542E0bE5871bCa146](https://optimism-sepolia.blockscout.com/address/0xD92B86315CBcf9cC612F0b0542E0bE5871bCa146) | [0x3001b73254EB715799EB93E8413EdCE4721090Ab](https://optimism-sepolia.blockscout.com/address/0x3001b73254EB715799EB93E8413EdCE4721090Ab) |
+| Base Sepolia testnet            | [Link](https://docs.base.org/network-information#base-testnet-sepolia)      | [0xab6AEF0311954C40AcD4D1DED56CAAE9cc074975](https://base-sepolia.blockscout.com/address/0xab6AEF0311954C40AcD4D1DED56CAAE9cc074975)              | [0xfcef85E0F0Afd1Acd73fAF1648266DF923d4521d](https://base-sepolia.blockscout.com/address/0xfcef85E0F0Afd1Acd73fAF1648266DF923d4521d) |
 
 
 ## Network information

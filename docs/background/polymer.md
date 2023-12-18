@@ -35,7 +35,7 @@ Settling on Ethereum means benefitting from its high security. That's not all th
 
 Consider competing interoperability providers that have an intermediate validator set, guardian set or oracles in between the source and destination chains. This introduces additional security assumptions that introduce an attack vector associated with potentially much less economic stake.
 
-Polymer's design as an Ethereum L2 providing connectivity to other Ethereum secured L2s, [eliminates this additional trust assumption](../concepts/polymer/tx-flow.md/#security).
+Polymer's design as an Ethereum L2 providing connectivity to other Ethereum secured L2s, [eliminates this additional trust assumption](../concepts/polymer/security-latency.md/#security).
 
 ## 2. Native IBC interoperability
 
