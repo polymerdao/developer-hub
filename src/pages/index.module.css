@@ -5,9 +5,13 @@
 
 .heroBanner {
   padding: 4rem 0;
-  text-align: center;
+  text-align: left;
   position: relative;
   overflow: hidden;
+  min-height: 60vh;
+  background-size: cover;
+  background-image: url('../../static/img/hero_old.png');
+  color: #000;
 }
 
 @media screen and (max-width: 996px) {
@@ -19,5 +23,9 @@
 .buttons {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
+}
+
+.button{
+  color: #111;
 }

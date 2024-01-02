@@ -1,8 +1,8 @@
 {
-  "label": "The interoperability problem",
-  "position": 2,
+  "label": "Why Polymer",
+  "position": 4,
   "link": {
     "type": "generated-index",
-    "description": "Why interoperability is crucial and why Polymer brings the best solution."
+    "description": "Why interoperability is crucial and why Polymer provides the best solution."
   }
 }

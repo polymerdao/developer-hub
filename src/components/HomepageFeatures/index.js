@@ -3,36 +3,34 @@ import clsx from 'clsx';
 import styles from './styles.module.css';
 
 const FeatureList = [
+
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
-    description: (
-      <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
-      </>
-    ),
-  },
-  {
-    title: 'Focus on What Matters',
+    title: 'Ethereum security',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Polymer is the first interoperability hub secured by Ethereum. It is a Cosmos SDK app chain that uses the OP stack for settlement onto Ethereum.
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Scalable connectivity',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        As a rollup, Polymer offers low cost of connectivity and a reduced number of connections for rollups. It also enables a scalable mesh network topology using multi-hop IBC channels.
       </>
     ),
   },
+  {
+    title: 'Native IBC interoperability',
+    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    description: (
+      <>
+        IBC is the most robust messaging standard for asynchronously composable applications across chains. Polymer also enables IBC connectivity from Ethereum rollups to the rest of the IBC network.
+      </>
+    ),
+  },  
 ];
 
 function Feature({Svg, title, description}) {
