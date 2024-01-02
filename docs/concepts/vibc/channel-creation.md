@@ -5,6 +5,8 @@ sidebar_label : 'Onto channel creation'
 
 # Creating IBC abstractions: clients, connections and channels
 
+<!-- TODO: add diagrams -->
+
 Now that you're familiar with all of the vIBC components, let's take a look at the steps that are needed to start sending packets between chains.
 
 As is the case with [regular IBC](../ibc/ibc.md), to send packets we first need to ensure that clients, connection and a channel have been created.
@@ -13,7 +15,7 @@ As is the case with [regular IBC](../ibc/ibc.md), to send packets we first need 
 
 Remember that in order to create connections and channels, a handshake is protocol followed with steps on either ends of the connecting chains. In the case of virtual IBC with Polymer acting as interoperability hub, 3 chains (at least) will be involved in the creation of a multi-hop channel.
 
-To manage the flow of information between the different components on different chains, relayers (both the regular and vIBC kind) will be heavily involved in the process.
+To manage the flow of information between the different components on different chains, relayers (both the regular and vIBC kind) will be heavily involved in the process. Remember that these are generally third-party off-chain agents, but _self relaying_ is also possible.
 
 :::
 

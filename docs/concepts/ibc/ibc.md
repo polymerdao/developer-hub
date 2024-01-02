@@ -25,7 +25,7 @@ The section here will give a quick high-level overview that will discuss the mos
 
 IBC is the first open and permissionless interoperability protocol to launch that allows for open participation. It is a [complete interoperability model](../../background/interop.md/#the-interoperability-model) consisting of an application, transport and state layer with a clean separation between each layer.
 
-There's a complete [IBC specification](https://github.com/cosmos/ibc/) that allows for open source improvements and for teams to implmenent the protocol in existing or new blockchain architectures.
+There's a complete [IBC specification](https://github.com/cosmos/ibc/) that allows for open source improvements and for teams to implement the protocol in existing or new blockchain architectures.
 
 ![IBC overview](../../../static/img/ibc/IBC1.png)
 
@@ -49,7 +49,7 @@ There's three major interfaces of importance to clients:
 - ClientState: represents the full state of the connected blockchain, including ConsensusState, some client parameters and proof specs
 - ClientMessage: represents the messages that will be submitted to interact with the client
 
-Through ClientMessages submitted by the relayer, one can interact with the relayer. Headers or batches of headers can be submitted to update the ConsensusState, or a proof of misbehaviour (defined particular to its consensus rules) can be submitted to freeze the client. Additonally there are methods to update the client when the remote chain it represents has ugpraded.
+Through ClientMessages submitted by the relayer, one can interact with the client. Headers or batches of headers can be submitted to update the ConsensusState, or a proof of misbehaviour (defined particular to its consensus rules) can be submitted to freeze the client. Additionally there are methods to update the client when the remote chain it represents has ugpraded.
 
 One more way of interacting with the client is when it `VerifyMembership` or `VerifyNonMembership` methods are called during the [packet lifecycle](#ibc-application-packet-flow) to verify if some state was committed or absent respectively.
 
@@ -96,7 +96,7 @@ The four handshake steps are (triggered by chain A, to connect to chain B):
 
 :::info
 
-The connection handshake, next to establishing the communication channels between chains (to be precise, IBC clients💡), also provide _double identify verfication_ on the handshake!
+The connection handshake, next to establishing the communication channels between chains (to be precise, IBC clients💡), also provide _double identity verfication_ on the handshake!
 
 :::
 
@@ -183,7 +183,7 @@ There are currently two different types of channels in terms of ordering, implem
 - An **ordered channel** is _a channel where packets are delivered exactly in the order in which they were sent_. Modeled after TCP.
 - An **unordered channel** is _a channel where packets can be delivered in any order_, which may differ from the order in which they were sent. Modeled after UDP.
 
-:::info Standar key/value format for channel and packet data
+:::info Standard key/value format for channel and packet data
 ```typescript
 /channelEnds/ports/{portID}/channels/{channelID}: channel info
 /nextSequenceSend/ports/{portID}/channels/{channelID}: next sequence number for sending
@@ -286,8 +286,8 @@ The packet flow for IBC applications is covered in detail [here](https://tutoria
 Consider the diagram below and see the different messages involved in the packet flow:
 
 1. `SendPacket`: triggered by a user (could be another module) and has the application (developer) encode a packet to be sent.
-2. `RecvPacket`: a relayer will submit a message on the destination with the packet as well as a proof of commimtment (at certain height) on the source.
-3. `AcknowledgePacket`: a relayer will submit an acknowlegment back on the source with either a success ack or error ack depending on whether the `RecvPacket` succeeded or errored.
+2. `RecvPacket`: a relayer will submit a message on the destination with the packet as well as a proof of commitment (at certain height) on the source.
+3. `AcknowledgePacket`: a relayer will submit an acknowledgment back on the source with either a success ack or error ack depending on whether the `RecvPacket` succeeded or errored.
 4. `Timeout`: after the timeout period has passed, a relayer will submit a proof of non-receipt (enabled by how the IBC data is stored at specific keys) along with the packet to revert application logic that may have anticipated successful receipt.
 
 ![packet flow](../../../static/img/ibc/IBC3.png)

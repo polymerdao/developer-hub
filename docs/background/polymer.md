@@ -92,6 +92,8 @@ Same goes for other ecosystems as IBC expansion grows.
 
 ### Cost of Connectivity
 
+<!-- TODO: Add reference to comparison table when present -->
+
 Polymer's design aims to lower the cost of connectivity as much as possible. The cost of connectivity is the sum of the cost of client updates, packets, infrastructure and security. Existing interoperability hubs are built as sovereign chains or guardian sets. The cost of infrastructure for these protocols scales with the number of connected chains and validators. These protocols also generally utilize the protocol token for security which results in either low security or a high security budget if they decide to utilize security solutions such as ICS or restaking. 
 
 :::tip Minimizing Cost of connectivity
@@ -109,5 +111,7 @@ Combining Cosmos SDK and OP stack technologies, Polymer envisions a new framewor
 - Cosmos SDK complements currently lacking developer UX problem in OP stack 
 
 - OP stack for settlement increases the distribution problem for Cosmos tech
+
+More information to follow...
 
 :::

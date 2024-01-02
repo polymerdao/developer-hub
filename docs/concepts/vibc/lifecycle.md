@@ -79,7 +79,6 @@ The below overview is high-level and is mainly concerned with understanding the 
   :::
 
 - **Step 3**: The vIBC relayer submits a tx that calls the dispatcher contract's `recvPacket` method (an inclusion proof is submitted for the receipt `packetRecvCommitment` on Polymer).
-<!-- Why not RecvPacketCommitment?? -->
 
 - **Step 4**: The dispatcher contract will emit a `VirtualRecvPacketResp` event (mainly for debugging purposes).
 

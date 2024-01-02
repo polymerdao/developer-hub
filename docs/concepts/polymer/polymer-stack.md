@@ -15,8 +15,6 @@ When building out the interoperability hub for Ethereum, these design principles
 - we are committed to open-source contributions and aim to build our technology as much as possible by using and extending open-source technology stacks
 - we value the highest level of engineering standards, and build to scale for the explosive future of the industry
 
-<!-- add a point about Ethereum aligment? -->
-
 :::
 
 With those principles in mind and after considerable research on different technology stack, we landed on the following architecture:
@@ -74,7 +72,6 @@ When ran **in sequening mode, the rollup node will create new L2 blocks**.
 
 As shared sequencer solutions are still being investigated, Polymer initially will be running a single sequencer node and consider updating to a shared sequencing model when it is sufficiently mature.
 
-<!-- Not sure if we should include this right now? -->
 :::
 
 ### Batcher & proposer

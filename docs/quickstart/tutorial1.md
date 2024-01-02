@@ -96,6 +96,12 @@ BASE_WALLET_KEY_2 = '0x123456...'
 BASE_WALLET_KEY_3 = '0x123456...'
 ```
 
+:::danger Don't share private keys
+
+Make sure to ignore the file with your private keys when pushing your project to publicly available repositories.
+
+:::
+
 ## Implement `IbcReceiver` interface
 
 In the `/contracts` folder, you'll find the `Ballot.sol` and `NFT.sol` contracts that correspond to the [ballot contract from the Solidity docs](https://docs.soliditylang.org/en/v0.8.23/solidity-by-example.html#voting) and the [NFT contract from the Base intro to smart contract developement](https://docs.base.org/guides/deploy-smart-contracts) respectively.

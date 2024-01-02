@@ -17,7 +17,7 @@ The increasing fragmentation resulting from approaches to tackle scalability cle
 
 :::
 
-The glaring need for interoperability has incentivized fierce competition among both novel and existing interoperability protocols. Before outlining Polymer's proposed solution, let's review what an ideal model for interoperability looks like.
+The glaring need for interoperability has incentivized fierce competition among both novel and existing interoperability protocols. Before outlining [Polymer's proposed solution](polymer.md), let's review what an ideal model for interoperability looks like.
 
 ## The Interoperability Model
 

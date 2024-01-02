@@ -57,6 +57,7 @@ You can then import for example the `IbcReceiver` interface to extend your IBC e
 
 ```solidity
 ...
+// replace $ROOT_DIR by the root directory of your project or store it as the $ROOT_DIR environment variable
 import '$ROOT_DIR/node_modules/@open-ibc/vibc-core-smart-contracts/contracts/IbcReceiver.sol'
 ...
 // have your application contract implement the interface
