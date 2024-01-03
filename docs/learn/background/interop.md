@@ -45,7 +45,7 @@ Below, we'll refer to the _**I**nter**c**hain **S**tandards_, or ICS-x for short
 
 ## Tackling Interoperability Fragmentation
 
-Counterintuitively, the _transport layer_ is arguably the most crucial layer in the interoperability model. This layer creates a commitment to all messages sent and received from a chain, while also enforcing TAO logic. This commitment is known as a [_transport commitment_](../learn/vibc/clients.md/#fork-handling-and-virtual-roots).
+Counterintuitively, the _transport layer_ is arguably the most crucial layer in the interoperability model. This layer creates a commitment to all messages sent and received from a chain, while also enforcing TAO logic. This commitment is known as a [_transport commitment_](../concepts/vibc/clients.md/#fork-handling-and-virtual-roots).
 
 Currently, transport commitments produced by one interoperability protocol are not understood by another, necessitating translation layers between protocols. This situation is anti-competitive and promotes vendor lock-in at the protocol level.
 
@@ -81,7 +81,7 @@ With some of the IBC innovations that the Polymer Labs team is working on, clien
 
 Rather than creating another incompatible transport layer, the Polymer Labs team is dedicated to **firmly establishing the open-source IBC (Inter-Blockchain Communication) protocol as the universal interoperability standard**. In other words, we advocate for transport commitments produced by every interoperability protocol to follow the IBC standard.
 
-Although integrating and maintaining native IBC compatibility in a chain is normally quite challenging, Polymer, Ethereum's IBC interoperability hub, enables **integrating and adding IBC transport to any chain in a minimally intrusive manner**. The different interoperability protocols of today can opt to [become IBC clients in the network of tomorrow](../learn/ibc/ibc-clients.md).
+Although integrating and maintaining native IBC compatibility in a chain is normally quite challenging, Polymer, Ethereum's IBC interoperability hub, enables **integrating and adding IBC transport to any chain in a minimally intrusive manner**. The different interoperability protocols of today can opt to [become IBC clients in the network of tomorrow](../concepts/ibc/ibc-clients.md).
 
 
 ## Why Should You Care?
@@ -90,9 +90,9 @@ Through its efforts, Polymer plays a pivotal role in the widespread adoption of 
 
 You, **the developers of IBC applications, are the prime beneficiaries** of this push towards standardization because of the following benefits:
 
-- [Flexibility in terms of state layer solutions encapsulated in the IBC client interface](../learn/ibc/ibc-clients.md), ensuring they don't interfere with the standardization of transport commitments. This leads to a similar developer experience when developing cross-chain applications, regardless of the chains and ecosystems involved.
+- [Flexibility in terms of state layer solutions encapsulated in the IBC client interface](../concepts/ibc/ibc-clients.md), ensuring they don't interfere with the standardization of transport commitments. This leads to a similar developer experience when developing cross-chain applications, regardless of the chains and ecosystems involved.
 - No vendor lock-in, but open-source contributions and freedom of choice at the protocol level
-- With [IBC as the transport layer standard](../learn/ibc/ibc.md), efforts towards developer tooling, education, and support with respect to interoperability will grow much faster without fragmentation holding the space back.
+- With [IBC as the transport layer standard](../concepts/ibc/ibc.md), efforts towards developer tooling, education, and support with respect to interoperability will grow much faster without fragmentation holding the space back.
 
 
 

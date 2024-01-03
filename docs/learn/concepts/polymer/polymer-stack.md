@@ -11,7 +11,7 @@ The vision and product positioning for Polymer as the interoperability hub for E
 
 When building out the interoperability hub for Ethereum, these design principles were guiding us:
 
-- we believe [IBC](../../learn/ibc/ibc.md) is the best positioned candidate to provide a universal transport protocol for all chains, so Polymer aims to facilitate and accelerate IBC adoption
+- we believe [IBC](../ibc/ibc.md) is the best positioned candidate to provide a universal transport protocol for all chains, so Polymer aims to facilitate and accelerate IBC adoption
 - we are committed to open-source contributions and aim to build our technology as much as possible by using and extending open-source technology stacks
 - we value the highest level of engineering standards, and build to scale for the explosive future of the industry
 

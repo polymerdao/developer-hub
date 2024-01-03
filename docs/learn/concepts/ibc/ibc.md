@@ -328,7 +328,7 @@ interface ModuleCallbacks {
 }
 ```
 
-A more detailed description on how to implement that in a Solidity smart contract, can be found in [the section on IBC apps in Solidity](../../build-dapps/ibc-solidity/ibc-solidity.md).
+A more detailed description on how to implement that in a Solidity smart contract, can be found in [the section on IBC apps in Solidity](../../../build/ibc-solidity/ibc-solidity.md).
 
 ## Putting it all together
 

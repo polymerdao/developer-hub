@@ -11,7 +11,7 @@ This tutorial focuses on making existing Solidity contracts IBC compatible, so s
 
 - General EVM / Solidity knowledge
 - Hardhat basics
-- IBC and vIBC fundamentals, see [concepts](../category/learn/) section 
+- IBC and vIBC fundamentals, see [concepts](../category/concepts-1) section 
 
 Additionally you'll need the following software installed:
 - [node](https://nodejs.org) (v18+) installed
