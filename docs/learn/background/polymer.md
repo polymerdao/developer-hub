@@ -80,7 +80,7 @@ By combining its native IBC implementation along with sharing Ethereum as settle
 
 Additionally, Polymer acts a port city (reference to similar [Cosmos Hub metaphor](https://blog.cosmos.network/the-cosmos-hub-is-a-port-city-5b7f2d28debf)) connecting rollups on Ethereum with the growing IBC network effectively making the Ethereum ecosystem a part of the interchain (i.e. the network of IBC connected chains).
 
-![Ethereum's IBC interoperability Hub](../../static/img/background/ethereum-ibc.png)
+![Ethereum's IBC interoperability Hub](../../../static/img/background/ethereum-ibc.png)
 
 :::note How does a Cosmos chain connect with Ethereum rollups via Polymer?
 

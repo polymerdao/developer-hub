@@ -23,17 +23,17 @@ How can we reason about the implications of outsourcing the transport layer to P
 
 Let's consider this diagram for **native  IBC chains**.
 
-![native IBC](../../../static/img/ibc/ibc-native.png)
+![native IBC](../../../../static/img/ibc/ibc-native.png)
 
 IBC applications interact with the core IBC implementation that implements the client, connection and channel abstractions through the IBC handler and router submodule. In native IBC, these are all part of the same chain environment.
 
 Consider now the following diagram where **vIBC is introduced to enable IBC on a virtual chain**, through outsourcing its interopeability workload onto Polymer.
 
-![virtual IBC](../../../static/img/ibc/virtual-ibc.png)
+![virtual IBC](../../../../static/img/ibc/virtual-ibc.png)
 
-- **IBC applications**: IBC application modules can be developed on the virtual chain as if it were a native IBC chain. Refer to the [IBC in Solidity section](../../build-dapps/ibc-solidity/ibc-solidity.md) to learn how to build IBC enabled smart contracts on virtual chains.
+- **IBC applications**: IBC application modules can be developed on the virtual chain as if it were a native IBC chain. Refer to the [IBC in Solidity section](../../../build/ibc-solidity/ibc-solidity.md) to learn how to build IBC enabled smart contracts on virtual chains.
 
-- **vIBC core smart contracts**: These contracts, deployed on the virtual chain, facilitate the IBC apps on the virtual chain to communicate with the transport layer on the remote Polymer hub by binding to it asynchronously. Refer to the [vIBC core contracts section](../../build-dapps/ibc-solidity/vibc-core.md) to find out more.
+- **vIBC core smart contracts**: These contracts, deployed on the virtual chain, facilitate the IBC apps on the virtual chain to communicate with the transport layer on the remote Polymer hub by binding to it asynchronously. Refer to the [vIBC core contracts section](../../../build/ibc-solidity/vibc-core.md) to find out more.
 
 - **vIBC relayer**: A relayer that listens to events related to the IBC lifecycle, emitted by vIBC core smart contracts, it then relays these events to the vIBC module on Polymer.
 
@@ -83,7 +83,7 @@ You can think of the vIBC module as the "translation layer" between everything t
 
 <!-- TODO: update diagram -->
 
-![vIBC component interaction](../../../static/img/concepts/comp-interaction.png)
+![vIBC component interaction](../../../../static/img/learn/comp-interaction.png)
 
 We look at the implications for clients and the computation of the virtual root or transport commitment in more detail next.
 

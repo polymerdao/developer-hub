@@ -35,9 +35,9 @@ As the need for scalability incentivizes more and more rollups or applications t
 
 ### Polymer support
 
-Polymer enables Ethereum rollups to use [IBC](../concepts/ibc/ibc.md) through the virtual IBC protcol. This implies deploying a set of [vIBC core smart contracts](./ibc-solidity/vibc-core.md) on the target chain and providing relayer support between that rollup and Polymer.
+Polymer enables Ethereum rollups to use [IBC](../learn/concepts/ibc/ibc.md) through the virtual IBC protcol. This implies deploying a set of [vIBC core smart contracts](./ibc-solidity/vibc-core.md) on the target chain and providing relayer support between that rollup and Polymer.
 
-Polymer ensures support for a number of networks, to be found in the [supported networks page](../supp-networks.md).
+Polymer ensures support for a number of networks, to be found in the [supported networks page](./supp-networks.md).
 
 However, the vIBC protocol allows for permissionless integration so even if the rollup you're interested in is not on the supported networks list, rollup integration is still possible. Refer to the documentation on [integration](./integration.md) for more information.
 
@@ -61,7 +61,7 @@ We strive to make building cross-chain with Polymer as seamless as possible, mea
 
 Once your contracts have been updated with IBC related logic and have been tested locally, you can move on to deploying them to testnet and connect them to Polymer's dispatcher contract on chain.
 
-Find the dispatcher contract address in the [supported networks page](../supp-networks.md).
+Find the dispatcher contract address in the [supported networks page](./supp-networks.md).
 
 :::info How to connect your contract with Polymer dispatcher?
 
@@ -71,7 +71,7 @@ If you have the address for the dispatcher contract, how do you _connect_ it? Th
 
 - pass it as an argument when calling the dispatcher (e.g. to create a channel or send a packet)
 
-For more details, check out the [tutorials](../category/tutorials/).
+For more details, check out the [tutorials](../category/quickstart/).
 
 :::
 

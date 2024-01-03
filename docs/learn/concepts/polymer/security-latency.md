@@ -7,7 +7,7 @@ sidebar_label : 'Security vs latency'
 
 Consider the following diagram to study the archictecture of Polymer, the interoperability hub connecting Ethereum rollups.
 
-![Polymer rollup architecture](../../../static/img/concepts/polymer-stack.png)
+![Polymer rollup architecture](../../../../static/img/learn/polymer-stack.png)
 
 In the previous section, all of the different components making up the Polymer chain were explained. But how does this translate when we send a packet? (This assumes that clients, connections and channels have been created.)
 

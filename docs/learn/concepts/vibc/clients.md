@@ -7,7 +7,7 @@ sidebar_label : 'Clients in vIBC'
 
 As discussed in the previous sections, one of the functions of the vIBC module is to allow for extending the IBC network by enbaling a more diverse set of chains to adopt IBC. Managing clients and transport commitments is a big part of this feature.
 
-![native and virtual light clients](../../../static/img/concepts/native-virtual.png)
+![native and virtual light clients](../../../../static/img/learn/native-virtual.png)
 
 ## Native clients
 
@@ -58,7 +58,7 @@ A number of virtual root commitment strategies were considered. Key value data f
 - ❌ a shared namespace for different forks could be used for per single virtual client: `../virtual/<chain>/clientId` 
 - ✅ a more granular approach using a namespace per fork: `../virtual/<chain>/<fork>/`
 
-![virtual root compute](../../../static/img/concepts/fork-root.png)
+![virtual root compute](../../../../static/img/learn/fork-root.png)
 
 The main challenge when deciding if and how to namespace were around issues such as **pruning complexity**. Reference counting the  number of times a commitment appears in active forks would be required to inform a pruning mechanism.
 

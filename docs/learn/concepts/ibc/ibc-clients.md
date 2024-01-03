@@ -41,7 +41,7 @@ It's important to realize the difference between client types and client instanc
 
 Client are then denominated as follows : `<ICS spec number>-<name string>-<iterator>`. For example: `07-tendermint-123` for Tendermint chains or `10-grandpa-345` for a Polkadot/Substrate chain.
 
-![client type vs instance](../../../static/img/ibc/client1.png)
+![client type vs instance](../../../../static/img/ibc/client1.png)
 
 ## IBC clients: beyond consensus proof verification 
 

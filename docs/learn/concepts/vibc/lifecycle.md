@@ -10,7 +10,7 @@ The previous sections explained the architecture and different components that m
 :::tip Remember IBC packet flow
 
 When both the source and destination chain of the data to be sent cross-chain are native IBC chains, the resulting packet flow is as follows:
-![IBC packet flow](../../../static/img/ibc/IBC3.png)
+![IBC packet flow](../../../../static/img/ibc/IBC3.png)
 :::
 
 Aided by relayers querying events and relaying packet data, the IBC packet flow is a feedback loop that begins with sending a packet on a source chain, receives the packet on the destination and ends when there's an acknowledgement back on the source. 
@@ -38,7 +38,7 @@ The below overview is high-level and is mainly concerned with understanding the 
 
 ## `SendPacket` cycle
 
-![SendPacket cycle](../../../static/img/concepts/vibc-sendpacket.png)
+![SendPacket cycle](../../../../static/img/learn/vibc-sendpacket.png)
 
 - **Step 1**: The IBC enabled smart contract calls the dispatcher's `SendPacket` method to send a custom defined IBC packet.
 
@@ -58,7 +58,7 @@ The below overview is high-level and is mainly concerned with understanding the 
 
 ## `RecvPacket` cycle
 
-![RecvPacket cycle](../../../static/img/concepts/vibc-recvpacket.png)
+![RecvPacket cycle](../../../../static/img/learn/vibc-recvpacket.png)
 
 - **Step 1**: An IBC relayer picks ups  an `EventSendPacket` event and submits a `MsgRecvPacket` to Polymer's IBC module, along with the proof of inclusion.
 
@@ -86,7 +86,7 @@ The below overview is high-level and is mainly concerned with understanding the 
 
 ## The `WriteAcknowledgement` cycle
 
-![WriteAck cycle](../../../static/img/concepts/vibc-writeack.png)
+![WriteAck cycle](../../../../static/img/learn/vibc-writeack.png)
 
 - **Step 1**: During the dispatcher's `recvPacket` call, the application will provide an acknowledgement (`AckPacket`) and this will be set to local state, as well as emit a `VirtualWriteAck` event, that can be picked up by a vIBC relayer.
 
@@ -96,7 +96,7 @@ The below overview is high-level and is mainly concerned with understanding the 
 
 ## The `Acknowledgement` cycle
 
-![AckPacket cycle](../../../static/img/concepts/vibc-ackpacket.png)
+![AckPacket cycle](../../../../static/img/learn/vibc-ackpacket.png)
 
 - **Step 1**: A regular IBC relayer has picked up an `EventWriteAck` event and will submit a `MsgAcknowledgement` to Polymer's IBC module. 
 

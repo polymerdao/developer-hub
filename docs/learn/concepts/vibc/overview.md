@@ -21,7 +21,7 @@ The architecture of Polymer is an answer to all of these questions. So then, **w
 
 As outlined [in the interoperability intro](../../background/interop.md), we consider a complete interoperability protocol one that has clear separation between application, transport and state layers. A **modular interop protocol, is one that fully outsources the transport layer** to a dedicated transport hub, like Polymer.
 
-![outsourcing the transport layer](../../../static/img/poly-arch/19.jpg)
+![outsourcing the transport layer](../../../../static/img/poly-arch/19.jpg)
 
 :::info Modular interoperability
 

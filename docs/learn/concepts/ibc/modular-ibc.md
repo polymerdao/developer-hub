@@ -31,7 +31,7 @@ An IBC connection counterparty needs to be convinced of a few things to validate
 
 We’re considering settlement to be included in the execution layer and the canonical fork choice rule to be encoded in the sequencing layer. 
 
-![modular IBC](../../../static/img/ibc/ibc-modular.png)
+![modular IBC](../../../../static/img/ibc/ibc-modular.png)
 
 For monolithic chains a single client supplies proof of execution, sequencing and data availability. Modular chains need to source these proofs from different clients as visualized in the diagram above, representing the changes at the state layer of IBC when moving from a monolitchic to modular design. 
 
@@ -57,7 +57,7 @@ Celestia is the originator of the modular blockchain concept and paradigm. In th
 - **Step 1**: Polymer first establishes a connection to Celestia for proof of data availability and sequencing. (This is a regular IBC connection, as both Polymer and Celestia are IBC enabled)
 - **Step 2**: Polymer then connects to the various rollups using different IBC connection types depending on the type of rollup. These rollup clients all share a dependency on the Celestia client and supply proof of execution. 
 
-![IBC for Celestia example](../../../static/img/ibc/ibc-celestia.png)
+![IBC for Celestia example](../../../../static/img/ibc/ibc-celestia.png)
 
 An IBC enabled chain may connect directly to a rollup but this can become complicated due to integration overhead. The integration overhead differs based on the IBC connection type. 
 
