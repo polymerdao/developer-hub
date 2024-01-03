@@ -1,6 +1,6 @@
 ---
-sidebar_position: 2
-sidebar_label: 'Supported Networks'
+sidebar_position: 0
+sidebar_label: 'Network Information'
 ---
 
 # Supported networks & dispatcher contracts

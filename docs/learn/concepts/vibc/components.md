@@ -23,13 +23,13 @@ How can we reason about the implications of outsourcing the transport layer to P
 
 Let's consider this diagram for **native  IBC chains**.
 
-![native IBC](../../../static/img/ibc/ibc-native.png)
+![native IBC](../../../../static/img/ibc/ibc-native.png)
 
 IBC applications interact with the core IBC implementation that implements the client, connection and channel abstractions through the IBC handler and router submodule. In native IBC, these are all part of the same chain environment.
 
 Consider now the following diagram where **vIBC is introduced to enable IBC on a virtual chain**, through outsourcing its interopeability workload onto Polymer.
 
-![virtual IBC](../../../static/img/ibc/virtual-ibc.png)
+![virtual IBC](../../../../static/img/ibc/virtual-ibc.png)
 
 - **IBC applications**: IBC application modules can be developed on the virtual chain as if it were a native IBC chain. Refer to the [IBC in Solidity section](../../build-dapps/ibc-solidity/ibc-solidity.md) to learn how to build IBC enabled smart contracts on virtual chains.
 
@@ -83,7 +83,7 @@ You can think of the vIBC module as the "translation layer" between everything t
 
 <!-- TODO: update diagram -->
 
-![vIBC component interaction](../../../static/img/concepts/comp-interaction.png)
+![vIBC component interaction](../../../../static/img/learn/comp-interaction.png)
 
 We look at the implications for clients and the computation of the virtual root or transport commitment in more detail next.
 

@@ -34,7 +34,7 @@ From the [IBC documentation on IBC apps](https://ibc.cosmos.network/main/ibc/app
 - Bind to a port(s): This will be performed automatically by Polymer so you as dapp developer do not need to be concerned with the port binding. The port ID is simply be the contract address with a prefix; `IBC_PortID` =` portPrefix` + `IBC_ContractAddress `. E.g. polyibc.base.398461594ff79A12FC2FA6820Bf867b0d95DE955 is the port address for an IBC enabled smart contract on the Base (testnet) L2.
   :::note
 
-  Remember from the [IBC overview](../../concepts/ibc/ibc.md) that ports facilitate module authentication? And that only a port owner (module or contract) can operate on all channels created with the port
+  Remember from the [IBC overview](../../learn/ibc/ibc.md) that ports facilitate module authentication? And that only a port owner (module or contract) can operate on all channels created with the port
 
   :::
 
@@ -171,7 +171,7 @@ struct IbcPacket {
 }
 ```
 
-Please refer to the [IBC overview in the docs](../../concepts/ibc/ibc.md/#the-ibc-application-module-callbacks) for additional background info.
+Please refer to the [IBC overview in the docs](../../learn/ibc/ibc.md/#the-ibc-application-module-callbacks) for additional background info.
 
 ### `onRecvPacket` workflow
 

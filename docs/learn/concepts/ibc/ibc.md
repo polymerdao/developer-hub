@@ -27,7 +27,7 @@ IBC is the first open and permissionless interoperability protocol to launch tha
 
 There's a complete [IBC specification](https://github.com/cosmos/ibc/) that allows for open source improvements and for teams to implement the protocol in existing or new blockchain architectures.
 
-![IBC overview](../../../static/img/ibc/IBC1.png)
+![IBC overview](../../../../static/img/ibc/IBC1.png)
 
 :::note
 
@@ -53,7 +53,7 @@ Through ClientMessages submitted by the relayer, one can interact with the clien
 
 One more way of interacting with the client is when it `VerifyMembership` or `VerifyNonMembership` methods are called during the [packet lifecycle](#ibc-application-packet-flow) to verify if some state was committed or absent respectively.
 
-![Client interactions](../../../static/img/ibc/IBC2.png)
+![Client interactions](../../../../static/img/ibc/IBC2.png)
 
 :::tip How to think about clients
 
@@ -290,7 +290,7 @@ Consider the diagram below and see the different messages involved in the packet
 3. `AcknowledgePacket`: a relayer will submit an acknowledgment back on the source with either a success ack or error ack depending on whether the `RecvPacket` succeeded or errored.
 4. `Timeout`: after the timeout period has passed, a relayer will submit a proof of non-receipt (enabled by how the IBC data is stored at specific keys) along with the packet to revert application logic that may have anticipated successful receipt.
 
-![packet flow](../../../static/img/ibc/IBC3.png)
+![packet flow](../../../../static/img/ibc/IBC3.png)
 
 Does the diagram start to make sense? One element we have not yet discussed, the packet callbacks.
 
@@ -338,7 +338,7 @@ The application layer of IBC is separated from the transport layer of IBC by the
 
 The configuration of ibc-go, the IBC implementation native to Cosmos SDK chains, generally looks as follows.
 
-![Chain with native IBC implementation](../../../static/img/ibc/ibc-native.png)
+![Chain with native IBC implementation](../../../../static/img/ibc/ibc-native.png)
 
 ICS-2, ICS-3, ICS-4 and ICS-5 are implemented in the "core IBC" SDK module, as are ICS-25 and ICS-26. The IBC application modules are defined as separate modules that communicate with the transport layer through the IBC handler and router interfaces. 
 :::tip

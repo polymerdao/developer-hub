@@ -6,13 +6,13 @@ sidebar_label: 'vIBC core contracts'
 # The vIBC core smart contracts
 
 
-One of the differentiating features of the Polymer chain, is its ability to enable IBC for chains (rollups) that don't have a native implementation and/or compatibility. We call these chains _virtual chains_ in the language of [vIBC](../../concepts/vibc/overview.md).
+One of the differentiating features of the Polymer chain, is its ability to enable IBC for chains (rollups) that don't have a native implementation and/or compatibility. We call these chains _virtual chains_ in the language of [vIBC](../../learn/vibc/overview.md).
 
 To ensure that these chains have access to the IBC transport layer, Polymer enables to run the IBC transport layer on their behalf.
 
 ## Theory
 
-From the [concepts section on vIBC](../../concepts/vibc/components.md), we get the following takeaway:
+From the [concepts section on vIBC](../../learn/vibc/components.md), we get the following takeaway:
 
 
 > vIBC is essentially the answer to the question how to adapt IBC when it is modular, i.e. the transport layer lives on another chain than the applications using it.
