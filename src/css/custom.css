@@ -36,3 +36,15 @@ img {
 .footer{
   background-color: #000;
 }
+
+.navbar__item:nth-child(6) {
+  background-color: #4fddbf !important;
+  color : black;
+  border-radius: 2em;
+}
+
+.navbar__item:nth-child(6).navbar__link--active {
+  color: #074436 !important;
+  background-color: #21af90 !important;
+}
+
