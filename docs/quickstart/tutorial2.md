@@ -1,9 +1,9 @@
 ---
 sidebar_position: 2
-sidebar_label: 'Cross-chain Proof of Vote NFT - Part 2'
+sidebar_label: 'Proof-of-Vote NFT - Part 2'
 ---
 
-# Cross-chain Proof of Vote NFT - Part 1
+# Cross-chain Proof-of-Vote NFT - Universal channel
 
 :::caution 🚧 
 

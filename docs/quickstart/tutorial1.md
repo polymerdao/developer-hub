@@ -1,9 +1,19 @@
 ---
 sidebar_position: 1
-sidebar_label: 'Cross-chain Proof of Vote NFT - Part 1'
+sidebar_label: 'Proof-of-Vote NFT - Part 1'
 ---
 
-# Cross-chain Proof of Vote NFT - Part 1
+# Cross-chain Proof-of-Vote NFT - Custom IBC channel
+
+:::tip Goals
+
+After going through this tutorial, developers will be able to:
+
+- develop IBC enabled Solidity contracts or refactor existing ones
+- write code to create custom IBC channels for their application
+- write code to send or receive IBC packets
+
+:::
 
 :::info Prerequisites
 
@@ -40,9 +50,15 @@ Another tutorial for the same project that uses universal channels can be found 
 To start the tutorial, clone the following repo and check out the correct branch:
 ```bash
 git clone git@github.com:polymerdao/demo-dapps.git && \
-    cd demo-dapps/x-ballot-nft && \
-    git switch start/x-ballot-nft
+    cd demo-dapps/x-ballot-nft_STARTER
 ```
+
+:::note Starter code vs finished code
+
+To follow along with the tutorial you should use the starter files, as referenced above. If you want to check out the finished project, go to the `/x-ballot-nft` folder instead.
+
+:::
+
 Then, install the dependencies:
 ```bash
 npm install
@@ -51,50 +67,7 @@ npm install
 
 In the `hardhat.config.js` file in the root directory, you'll see that you need to define 3 private keys (can be the same for OP and Base), in an `.env` file to load them as an environment variable to sign transactions.
 
-```javascript title="$ROOT_DIR/hardhat.config.js"
-require("@nomicfoundation/hardhat-toolbox");
-
-require('dotenv').config();
-
-/** @type import('hardhat/config').HardhatUserConfig */
-module.exports = {
-  solidity: {
-    version: '0.8.20',
-  },
-  networks: {
-    // for Base testnet
-    'base-sepolia': {
-      url: 'https://sepolia.base.org',
-      accounts: [
-        process.env.BASE_WALLET_KEY_1,
-        process.env.BASE_WALLET_KEY_2,
-        process.env.BASE_WALLET_KEY_3,
-      ],
-    },
-    // for OP testnet
-    'op-sepolia': {
-      url: 'https://sepolia.optimism.io',
-      accounts: [
-        process.env.OP_WALLET_KEY_1, 
-        process.env.OP_WALLET_KEY_2, 
-        process.env.OP_WALLET_KEY_3,
-      ],
-    },    
-  },
-  defaultNetwork: 'hardhat',
-};
-```
-
-```javascript title="$ROOT_DIR/.env"
-// You can use the same private key for OP and Base Sepolia testnets
-OP_WALLET_KEY_1 = '0x123456...'
-OP_WALLET_KEY_2 = '0x123456...'
-OP_WALLET_KEY_3 = '0x123456...'
-
-BASE_WALLET_KEY_1 = '0x123456...'
-BASE_WALLET_KEY_2 = '0x123456...'
-BASE_WALLET_KEY_3 = '0x123456...'
-```
+Refer to [the quickstart tutorial](index.md) in case you need more information on how to do this.
 
 :::danger Don't share private keys
 
@@ -130,7 +103,7 @@ contract IbcBallot is IbcReceiverBase, IbcReceiver {
 }
 ```
 
-Same goes for `NFT.sol` that becomes `IbcProofOfVoteNFT.sol`.
+Same goes for `NFT.sol` which becomes `IbcProofOfVoteNFT.sol`.
 
 Additonally you add storage variables to track received or timed out packets, acknowledged packets and connected channels.
 
