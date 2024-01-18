@@ -113,7 +113,7 @@ The detailed analysis of the application used for this quickstart, is provided i
     <li>It gets the accounts from your Hardhat configuration (which you've just set up by adding your private keys).</li>
     <li>It uses the first account provided to vote on a ballot. </li>
     <li>After having voted, it uses the same account to send an IBC packet with information about the vote to mint an NFT on the counterparty.</li>
-    <li></li>
+    <li>It queries the contract for params that monitor packet acks.</li>
 </ul>
 </details>
 
