@@ -66,11 +66,6 @@ const config = {
         },
         items: [
           {
-            type: 'doc',
-            docId: 'home',
-            label: 'Home',
-          },
-          {
             type: "docSidebar",
             sidebarId: "learnSidebar",
             label : 'Learn', 
@@ -106,28 +101,24 @@ const config = {
             title: 'Documentation',
             items: [
               {
-                label: 'Polymer',
-                to: '/docs/',
-              },
-              {
                 label: 'IBC specs',
-                to: 'https://github.com/cosmos/ibc',
+                href: 'https://github.com/cosmos/ibc',
               },
               {
                 label: 'ibc-go',
-                to: 'https://github.com/cosmos/ibc-go',
+                href: 'https://github.com/cosmos/ibc-go',
               },
               {
                 label: 'ibcx-go',
-                to: 'https://github.com/open-ibc/ibcx-go',
+                href: 'https://github.com/open-ibc/ibcx-go',
               },
               {
                 label: 'Ethereum',
-                to: 'https://ethereum.org/en/developers/docs/'
+                href: 'https://ethereum.org/en/developers/docs/'
               },
               {
                 label: 'OP Stack',
-                to: 'https://stack.optimism.io/'
+                href: 'https://stack.optimism.io/'
               }
             ],
           },
@@ -136,16 +127,16 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                label: 'Developer Forupm',
+                href: 'https://forum.polymerlabs.org',
               },
               {
                 label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                href: 'https://discord.gg/hvMQp4qcM6',
               },
               {
                 label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                href: 'https://twitter.com/Polymer_Labs',
               },
             ],
           },
@@ -154,7 +145,7 @@ const config = {
             items: [
               {
                 label: 'Blog',
-                to: 'https://polymerlabs.org/blog',
+                href: 'https://polymerlabs.org/blog',
               },
               {
                 label: 'GitHub',
