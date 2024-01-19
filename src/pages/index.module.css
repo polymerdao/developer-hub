@@ -8,7 +8,7 @@
   text-align: left;
   position: relative;
   overflow: hidden;
-  min-height: 60vh;
+  min-height: 50vh;
   background-size: cover;
   background-image: url('../../static/img/hero_old.png');
   color: #000;
