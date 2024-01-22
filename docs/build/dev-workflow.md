@@ -5,6 +5,12 @@ sidebar_label: 'Developer workflow'
 
 # Developer workflow
 
+:::caution Disclaimer
+
+The Polymer testnet is currently in a private testing phase. Please be aware that during this phase, the network may be subject to instability, downtime, and data resets. Read the full disclaimer [here](disclaimer.md).
+
+:::
+
 :::info Who's this section for?
 
 A number of different actors might be interested in interacting with Polymer, and different sections of the documentation apply to each.

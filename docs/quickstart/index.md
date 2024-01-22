@@ -5,6 +5,12 @@ sidebar_label: 'Send a packet <5 mins'
 
 # Quickstart: send a packet in under 5 mins
 
+:::caution Disclaimer
+
+The Polymer testnet is currently in a private testing phase. Please be aware that during this phase, the network may be subject to instability, downtime, and data resets. Read the full disclaimer [here](disclaimer.md).
+
+:::
+
 :::tip Goals
 
 This quickstart tutorial aims to have you send an IBC packet from OP Sepolia to Base Sepolia with a minimal setup. This way you'll get a feel for the IBC packet lifecycle when using Polymer.

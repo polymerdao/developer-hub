@@ -5,6 +5,12 @@ sidebar_label: 'Proof-of-Vote NFT - Part 1'
 
 # Cross-chain Proof-of-Vote NFT - Custom IBC channel
 
+:::caution Disclaimer
+
+The Polymer testnet is currently in a private testing phase. Please be aware that during this phase, the network may be subject to instability, downtime, and data resets. Read the full disclaimer [here](disclaimer.md).
+
+:::
+
 :::tip Goals
 
 After going through this tutorial, developers will be able to:
