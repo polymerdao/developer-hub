@@ -321,7 +321,7 @@ Consider the application in this tutorial: it only sends packets from the IbcBal
 
 - **onRecvPacket in IbcProofOfVoteNFT.sol**
 
-When the dispatcher on Base (destination) call into the application, it needs to decode the packet data, implement some logic and return an the data for an acknowledgement.
+When the dispatcher on Base (destination) calls into the application, it needs to decode the packet data, implement some logic and return an the data for an acknowledgement.
 
 ```solidity title="onRecvPacket callback"
     function onRecvPacket(IbcPacket calldata packet) external returns (AckPacket memory ackPacket) {
@@ -446,7 +446,7 @@ npx hardhat run scripts/vote-and-send.js --network op-sepolia
 
 Now you've sent the packet and the script tells you if the packet was sent successfully, but how do you check? There's many options to debug using block explorers for OP and Base Sepolia.
 
-For example, check the block explorer for the Dispatcher to start verifying on [OP](https://optimism-sepolia.blockscout.com/address/0x7a1d713f80BFE692D7b4Baa4081204C49735441E) and [Base](https://base-sepolia.blockscout.com/address/0x749053bBFe3f607382Ac6909556c4d0e03D6eAF0).
+For example, check the block explorer for the Dispatcher to start verifying on [OP](https://optimism-sepolia.blockscout.com/address/0xD92B86315CBcf9cC612F0b0542E0bE5871bCa146) and [Base](https://base-sepolia.blockscout.com/address/0xab6AEF0311954C40AcD4D1DED56CAAE9cc074975).
 
 
 
