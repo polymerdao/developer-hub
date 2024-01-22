@@ -62,7 +62,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
-      image: 'img/logo-svg-black.svg',
+      image: 'img/poly-socialcard.jpg',
       navbar: {
         title: 'Developer Docs',
         hideOnScroll: false,
