@@ -5,6 +5,12 @@ sidebar_label: 'Network Information'
 
 # Supported networks & dispatcher contracts
 
+:::caution Disclaimer
+
+The Polymer testnet is currently in a private testing phase. Please be aware that during this phase, the network may be subject to instability, downtime, and data resets. Read the full disclaimer [here](disclaimer.md).
+
+:::
+
 Here you'll find an overview of the networks Polymer currently supports and where to find the address of the Dispatcher contract.
 
 ## Supported networks (testnet)
