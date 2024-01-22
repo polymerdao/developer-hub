@@ -47,6 +47,13 @@ const config = {
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
+        gtag: {
+          trackingID: 'G-JQRLRMLBW3', // Your GA4 Measurement ID
+          anonymizeIP: true, // Optional: Anonymizes the IP addresses of your visitors
+        },
+        googleTagManager: {
+          containerId: 'GT-MR4MVJ8',
+        },
       }),
     ],
   ],
