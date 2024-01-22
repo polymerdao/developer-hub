@@ -5,6 +5,12 @@ sidebar_label: 'Debug packet cycle'
 
 # Events overview for vIBC
 
+:::caution Disclaimer
+
+The Polymer testnet is currently in a private testing phase. Please be aware that during this phase, the network may be subject to instability, downtime, and data resets. Read the full disclaimer [here](disclaimer.md).
+
+:::
+
 When debugging the IBC packet lifecycle, the first step to take is to track down the packet during its lifecyle and where any potential issue arises.
 
 As an application developer, you'll be mostly looking at the events on the chains your application(s) live on, not Polymer itself in the middle. 
