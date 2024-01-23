@@ -33,7 +33,7 @@ Additionally you'll need the following software installed:
 
 This dApp combines the [ballot contract from the Solidity docs](https://docs.soliditylang.org/en/v0.8.23/solidity-by-example.html#voting) and the [NFT contract from the Base intro to smart contract developement](https://docs.base.org/guides/deploy-smart-contracts).
 
-The aim is to enable cross-chain minting of the NFT contract corresponding to a vote cast on the ballot contract on the counterparty. Therefore we **make the contracts IBC enabled** by implementing the [`IbcReceiver` interface](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/IbcReceiver.sol) as specified by the vIBC protocol.
+The aim is to enable cross-chain minting of the NFT contract corresponding to a vote cast on the ballot contract on the counterparty. Therefore we **make the contracts IBC enabled** by implementing the [`IbcUniversalPacketReceiver` interface](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/IbcMiddleware.sol#L73-L82) as specified by the [vIBC protocol](../learn/concepts/vibc/overview.md).
 
 :::caution Universal or custom channel?
 
@@ -81,9 +81,9 @@ In the `/contracts` folder, you'll find the `Ballot.sol` and `NFT.sol` contracts
 
 These are currently standalone contracts with the logic to vote on a proposal on the one hand and minting an NFT on the other hand. As part of this tutorial we'll **implement cross-chain logic** that allows a user to mint an NFT on Base Sepolia corresponding to a vote cast on OP Sepolia.
 
-To upgrade the contracts to be IBC enabled contracts, you'll have to implement the [`IbcUniversalPacketReceiver` interface](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/IbcMiddleware.sol#L73-L82). For example, `Ballot.sol` becomes `IbcBallot.sol`:
+To ensure the contracts can send IBC packets over a universal channel, you'll have to implement the [`IbcUniversalPacketReceiver` interface](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/IbcMiddleware.sol#L73-L82). For example, `Ballot.sol` becomes `IbcBallot.sol`:
 
-```solidity
+```solidity title="Define interface(s) and add some variables to Ballot.sol"
 ...
 import "../node_modules/@open-ibc/vibc-core-smart-contracts/contracts/Ibc.sol";
 import "../node_modules/@open-ibc/vibc-core-smart-contracts/contracts/IbcMiddleware.sol";
@@ -115,23 +115,23 @@ contract IbcBallot is IbcMwUser, IbcUniversalPacketReceiver {
 }
 ```
 
-Same goes for `NFT.sol` which becomes `IbcProofOfVoteNFT.sol`.
+Same goes for `NFT.sol` which becomes `IbcProofOfVoteNFT.sol` (similarly defining the interfaces and adding storage variables as above).
 
 Additonally you add storage variables to track received, acknowledged or timed out packets.
 
 :::note Who owns the channel?
 
-Unlike the case in which the app creates a custom channel and owns the port, here it's the uinversal channel middleware that owns the universal channel. Therefore instead of storing connected channels in the contract, we add some helper types `UcPacketWithChannel` and `UcAckWithChannel` that adds the channelId to the universal packet. 
+Unlike the case in which the app creates a custom channel and owns the port, here it's **the uinversal channel middleware that owns the universal channel**. Therefore instead of storing connected channels in the contract, we add some helper types `UcPacketWithChannel` and `UcAckWithChannel` that adds the channelId to the universal packet. 
 
 :::
 
 ### Add callbacks
 
-To implement the interface, you need to add callbacks. Refer to [Earth.sol](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/Mars.sol) to find the most basic implementation available and copy the callbacks into `IbcBallot.sol`.
+To implement the interface defined above, you need to add callbacks. Refer to [Earth.sol](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/Mars.sol) to find the most basic implementation available and copy the callbacks into `IbcBallot.sol`.
 
 The packet callbacks:
 
-```solidity title="IbcBallot.sol"
+```solidity title="Add packet lifecycle callbacks to IbcBallot.sol"
     function onRecvUniversalPacket(bytes32 channelId, UniversalPacket calldata packet)
         external
         onlyIbcMw
@@ -157,7 +157,7 @@ The packet callbacks:
     }
 ```
 
-Note that these are all slight variations of the _standard_ packet callbacks that implement ICS-26.
+Note that these are all slight variations of the _standard_ packet callbacks that implement ICS-26, see [part 1 of the tutorial](tutorial1.md).
 
 :::tip No channel callbacks
 
@@ -184,7 +184,7 @@ On the sender side, a universal packet is packed into a regular IBC packet by th
 
 On the receiver side, the Universal Channel middleware contract unpacks the regular IBC packet, extracts the universal packet, and passes it to the next middleware, if any, in the middleware stack, until it reaches the final destination specified in `UniversalPacket.destPortAddress` field.
 
-```solidity title='IBC vs Universal packets'
+```solidity title='IBC vs Universal packets (informational)'
 /// IbcPacket represents the packet data structure received from a remote chain
 /// over an IBC channel.
 struct IbcPacket {
@@ -221,7 +221,7 @@ In this example, the application only has the universal channel middleware in it
 
 Additionally, you'll again have to decide upon what information to encode in the packet data. For this application, we'll send the address of the voter, a recipient address on the destination chain and the index of the voted proposal, voteId.
 
-```solidity title="sendPacket"
+```solidity title="Add sendMintNFTMsg to IbcBallot.sol"
     ...
     function sendMintNFTMsg(
         address voterAddress,
@@ -257,11 +257,9 @@ Consider the application in this tutorial: it only sends packets from the IbcBal
 
 - **onRecvUniversalPacket in IbcProofOfVoteNFT.sol**
 
-<!-- stopped here -->
-
 When the dispatcher on Base (destination) calls into the application by passing down the middleware stack, it needs to decode the packet data (IBC and universal), implement some logic and return the data for an acknowledgement.
 
-```solidity title="onRecvPacket callback (IbcProofOfVoteNFT)"
+```solidity title="Add onRecvUniversalPacket callback to IbcProofOfVoteNFT.sol"
     function onRecvUniversalPacket(bytes32 channelId, UniversalPacket calldata packet) external onlyIbcMw returns (AckPacket memory ackPacket) {
         recvedPackets.push(UcPacketWithChannel(channelId, packet));
 
@@ -295,7 +293,7 @@ Define the boolean,
 ```
 
 and use it to indicate that the packet has been acknowledged.
-```solidity
+```solidity title="Add onUiversalAcknowledgement to IbcBallot.sol"
     function onUniversalAcknowledgement(bytes32 channelId, UniversalPacket calldata packet, AckPacket calldata ack) external onlyIbcMw {
         ackPackets.push(UcAckWithChannel(channelId, packet, ack));
 
@@ -304,7 +302,7 @@ and use it to indicate that the packet has been acknowledged.
         voters[voterAddress].ibcNFTMinted = true;
     }
 ```
-This will then prevent user from sending additional packets when the NFT has already been minted.
+The boolean will then prevent the voter from sending additional packets when the NFT has already been minted (to not waste gas).
 
 ## Deploy and test
 
@@ -316,7 +314,7 @@ npx hardhat compile
 
 ### Deploy scripts
 
-The Dispatcher address deployed by Polymer has been hard coded into the script, so all you need to do is run it with Hardhat:
+The [Dispatcher address](../build/supp-networks.md) deployed by Polymer has been hard coded into the script, so all you need to do is run it with Hardhat:
 ```bash
 # Deploy IbcBallot to OP Sepolia
 npx hardhat run scripts/deploy-ballot.js --network op-sepolia

@@ -39,7 +39,7 @@ Additionally you'll need the following software installed:
 
 This dApp combines the [ballot contract from the Solidity docs](https://docs.soliditylang.org/en/v0.8.23/solidity-by-example.html#voting) and the [NFT contract from the Base intro to smart contract developement](https://docs.base.org/guides/deploy-smart-contracts).
 
-The aim is to enable cross-chain minting of the NFT contract corresponding to a vote cast on the ballot contract on the counterparty. Therefore we **make the contracts IBC enabled** by implementing the [`IbcReceiver` interface](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/IbcReceiver.sol) as specified by the vIBC protocol.
+The aim is to enable cross-chain minting of the NFT contract corresponding to a vote cast on the ballot contract on the counterparty. Therefore we **make the contracts IBC enabled** by implementing the [`IbcReceiver` interface](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/IbcReceiver.sol) as specified by the [vIBC protocol](../learn/concepts/vibc/overview.md).
 
 :::caution Universal or custom channel?
 
@@ -89,7 +89,7 @@ These are currently standalone contracts with the logic to vote on a proposal on
 
 To upgrade the contracts to be IBC enabled contracts, you'll have to implement the `IbcReceiver` interface. For example, `Ballot.sol` becomes `IbcBallot.sol`:
 
-```solidity
+```solidity title="Define interface(s) and add some variables to Ballot.sol"
 ...
 import "../node_modules/@open-ibc/vibc-core-smart-contracts/contracts/Ibc.sol";
 import "../node_modules/@open-ibc/vibc-core-smart-contracts/contracts/IbcReceiver.sol";
@@ -109,7 +109,7 @@ contract IbcBallot is IbcReceiverBase, IbcReceiver {
 }
 ```
 
-Same goes for `NFT.sol` which becomes `IbcProofOfVoteNFT.sol`.
+Same goes for `NFT.sol` which becomes `IbcProofOfVoteNFT.sol` (similarly defining the interfaces and adding storage variables as above).
 
 Additonally you add storage variables to track received or timed out packets, acknowledged packets and connected channels.
 
@@ -125,7 +125,7 @@ To implement the interface, you need to add callbacks. Refer to [Mars.sol](https
 
 The packet callbacks:
 
-```solidity title="IbcBallot.sol"
+```solidity title="Add the packet lifecycle callbacks to IbcBallot.sol"
     ...
     function onRecvPacket(IbcPacket calldata packet) external returns (AckPacket memory ackPacket) {
         recvedPackets.push(packet);
@@ -145,7 +145,7 @@ The packet callbacks:
 <!-- TODO: when vibc-core repo is stable for v0.1.0, just link there -->
 and the channel callbacks:
 
-```solidity title="IbcBallot.sol"
+```solidity title="Add the channel lifecycle callbacks to IbcBallot.sol"
     ...
     function onOpenIbcChannel(
         string calldata version,
@@ -219,9 +219,9 @@ and the channel callbacks:
     }
     ...
 ```
-:::info Add callback logic
+:::info Add custom channel handshake logic
 
-You as developer can add custom logic on all of the callbacks defined above. Often though, developers will simply use the default channel callbacks with version negotiation without custom logic.
+You as developer can add custom logic on all of the channel handshake callbacks defined above. Often though, developers will simply use the default channel callbacks with version negotiation without custom logic.
 
 :::
 
@@ -229,7 +229,7 @@ You as developer can add custom logic on all of the callbacks defined above. Oft
 
 To send packets, first a channel needs to be created on top of an existing connection. To do so, you'll add a function that will call the dispatcher contract. First we need to store the dispatcher address. We'll do it on the constructor.
 
-```solidity
+```solidity title="Add the dispatcher address in the constructor in IbcBallot.sol"
     ...
     /** 
      * @dev Create a new ballot to choose one of 'proposalNames'.
@@ -255,7 +255,7 @@ To send packets, first a channel needs to be created on top of an existing conne
 
 And then provide a function to trigger channel creation by calling into the dispatcher's OpenIbcChannel` method:
 
-```solidity
+```solidity title="Add function to create a channel from IbcBallot.sol"
     /**
      * 
      * @param feeEnabled in production, you'll want to enable this to avoid spamming create channel calls (costly for relayers)
@@ -293,7 +293,7 @@ Once more you'll have to call into the dispatcher to send a packet of data over 
 
 Here you'll have to decide upon what information to encode in the packet data. For this application, we'll send the address of the voter, a recipient address on the destination chain and the index of the voted proposal, voteId.
 
-```solidity
+```solidity title="Add sendMintNFTMsg to IbcBallot.sol"
     function sendMintNFTMsg(
         address voterAddress,
         address recipient,
@@ -329,7 +329,7 @@ Consider the application in this tutorial: it only sends packets from the IbcBal
 
 When the dispatcher on Base (destination) calls into the application, it needs to decode the packet data, implement some logic and return an the data for an acknowledgement.
 
-```solidity title="onRecvPacket callback"
+```solidity title="Add onRecvPacket callback to IbcProofOfVoteNFT.sol"
     function onRecvPacket(IbcPacket calldata packet) external returns (AckPacket memory ackPacket) {
         recvedPackets.push(packet);
 
@@ -363,7 +363,7 @@ Define the boolean,
 ```
 
 and use it to indicate that the packet has been acknowledged.
-```solidity
+```solidity title="Add onAcknowledgementPacket to IbcBallot.sol"
     function onAcknowledgementPacket(IbcPacket calldata packet, AckPacket calldata ack) external {
         ackPackets.push(ack);
 
@@ -384,7 +384,7 @@ npx hardhat compile
 
 ### Deploy scripts
 
-The Dispatcher address deployed by Polymer has been hard coded into the script, so all you need to do is run it with Hardhat:
+The [Dispatcher address](../build/supp-networks.md) deployed by Polymer has been hard coded into the script, so all you need to do is run it with Hardhat:
 ```bash
 # Deploy IbcBallot to OP Sepolia
 npx hardhat run scripts/deploy-ballot.js --network op-sepolia
@@ -444,7 +444,7 @@ const ibcBallotAddress = '' // add when IbcBallot contract is deployed
 ...
 ```
 
-Now you can run the script to create a channel.
+Now you can run the script to vote and send an IBC packet with the data related to your vote.
 
 ```bash
 npx hardhat run scripts/vote-and-send.js --network op-sepolia
