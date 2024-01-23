@@ -31,7 +31,7 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
       <Layout
-          title={`Polymer Documentation ${siteConfig.title}`}
+          title={`${siteConfig.title}`}
           description=" Explore Polymer x IBC <head />">
           <HomepageHeader />
           <main>
