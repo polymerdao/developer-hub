@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Polymer Documentation',
+  title: 'Polymer Developer Docs',
   tagline: 'Learn. Build. Connect.',
   favicon: 'img/favicon.ico',
 
@@ -64,7 +64,7 @@ const config = {
       // Replace with your project's social card
       image: 'img/poly-socialcard.jpg',
       navbar: {
-        title: 'Developer Docs',
+        title: 'Docs',
         hideOnScroll: false,
         logo: {
           alt: 'Polymer Logo',
