@@ -58,49 +58,153 @@ import './Ibc.sol'
 import './IbcReceiver.sol';
 import './IbcDispatcher.sol';
 
-contract Mars is IbcReceiver, Ownable {
-    ...
-       function greet(
-        IbcDispatcher dispatcher,
-        string calldata message,
-        bytes32 channelId,
-        uint64 timeoutTimestamp,
-        PacketFee calldata fee
-    ) external payable {
-        uint256 maxFee = fee.ackFee > fee.timeoutFee ? fee.ackFee : fee.timeoutFee;
-        dispatcher.sendPacket{value: fee.recvFee + maxFee}(channelId, bytes(message), timeoutTimestamp, fee);
+contract Mars is IbcReceiverBase, IbcReceiver {
+    // received packet as chain B
+    IbcPacket[] public recvedPackets;
+    // received ack packet as chain A
+    AckPacket[] public ackPackets;
+    // received timeout packet as chain A
+    IbcPacket[] public timeoutPackets;
+    bytes32[] public connectedChannels;
+
+    string[] supportedVersions = ["1.0", "2.0"];
+
+    constructor(IbcDispatcher _dispatcher) IbcReceiverBase(_dispatcher) {}
+}
+```
+
+You'll note that in the constructor you have to pass the dispatcher address. Find it in the [network information overview](../supp-networks.md).
+
+What do the interfaces referenced above represent and how to use them?
+
+### IbcReceiverBase
+
+Let's take a look at [`IbcReceiver.sol`](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/IbcReceiver.sol) to begin with.
+
+The first thing to note is that there's an `IbcReceiverBase` contract that every IBC application will need to inherit from.
+
+```solidity
+contract IbcReceiverBase is Ownable {
+    IbcDispatcher public dispatcher;
+
+    /**
+     * @dev Constructor function that takes an IbcDispatcher address and grants the IBC_ROLE to the Polymer IBC Dispatcher.
+     * @param _dispatcher The address of the IbcDispatcher contract.
+     */
+    constructor(IbcDispatcher _dispatcher) Ownable() {
+        dispatcher = _dispatcher;
+    }
+
+    /// This function is called for plain Ether transfers, i.e. for every call with empty calldata.
+    // An empty function body is sufficient to receive packet fee refunds.
+    receive() external payable {}
+
+    /**
+     * @dev Modifier to restrict access to only the IBC dispatcher.
+     * Only the address with the IBC_ROLE can execute the function.
+     * Should add this modifier to all IBC-related callback functions.
+     */
+    modifier onlyIbcDispatcher() {
+        require(msg.sender == address(dispatcher), "only IBC dispatcher");
+        _;
     }
 }
 ```
 
-What do these interfaces represent and how to use them?
+The main thing the `IbcReceiverBase` establishes is registering the vIBC core dispatcher contract.
+
+### IbcDispatcher
+
+Arguably the most important among the vIBC core smart contracts, is the [`Dispatcher.sol`](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/Dispatcher.sol). The dispatcher is critical to manage (dispatch) IBC communcation flow between applications on a virtual chain and Polymer (through the vIBC relayer).
+
+Refer to the [vIBC concepts section](../../learn/concepts/vibc/overview.md) to learn more.
+
+:::tip Find relevant contract addresses
+
+Find the vIBC smart contracts on the chain you want to deploy your IBC enabled contracts. These are the only addresses you'll need (in addition to importing the interfaces). Find them [here](../supp-networks.md).
+
+:::
+
+When you send packets from your contracts, you can call into the `Dispatcher.sol`'s `sendPacket` method and the vIBC smart contracts will take care of the rest, much like ibc-go's core handler would do in a Cosmos SDK native IBC setup.
+
+To communicate with the dispatcher contract in vIBC, an IBC application has to implement the `IbcDispatcher` interface, as defined in [IbcDispatcher.sol](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/IbcDispatcher.sol).
+
+```solidity
+
+/**
+ * @title IbcPacketSender
+ * @author Polymer Labs
+ * @dev IBC packet sender interface.
+ */
+interface IbcPacketSender {
+    function sendPacket(bytes32 channelId, bytes calldata payload, uint64 timeoutTimestamp) external;
+}
+
+/**
+ * @title IbcDispatcher
+ * @author Polymer Labs
+ * @notice IBC dispatcher interface is the Polymer Core Smart Contract that implements the core IBC protocol.
+ * @dev IBC-compatible contracts depend on this interface to actively participate in the IBC protocol. Other features are implemented as callback methods in the IbcReceiver interface.
+ */
+interface IbcDispatcher is IbcPacketSender {
+    function portPrefix() external view returns (string memory);
+
+    function openIbcChannel(
+        IbcChannelReceiver portAddress,
+        string calldata version,
+        ChannelOrder ordering,
+        bool feeEnabled,
+        string[] calldata connectionHops,
+        CounterParty calldata counterparty,
+        Proof calldata proof
+    ) external;
+
+    function closeIbcChannel(bytes32 channelId) external;
+}
+
+```
+
+It allows the application to call into the dispatcher to start channel creation by triggering the handshake or to start the packet lifecycle to send a packet.
+
+An example from the Mars.sol contract:
+```solidity
+    /**
+     * @dev Sends a packet with a greeting message over a specified channel.
+     * @param message The greeting message to be sent.
+     * @param channelId The ID of the channel to send the packet to.
+     * @param timeoutTimestamp The timestamp at which the packet will expire if not received.
+     */
+
+    function greet(string calldata message, bytes32 channelId, uint64 timeoutTimestamp) external {
+        dispatcher.sendPacket(channelId, bytes(message), timeoutTimestamp);
+    }
+```
 
 ### IbcReceiver
 
-Let's take a look at [`IbcReceiver`](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/IbcReceiver.sol) to begin with.
-
+As mentioned in the intro, an IBC application needs callbacks for the packet and channel lifecycle. These correspond to the `IbcPacketReceiver` and `IbcChannelReceiver`  interfaces that make up the `IbcReceiver` interface.
 ```solidity
 /**
- * @title IbcReceiver
- * @author Polymer Labs
- * @notice IBC receiver interface must be implemented by a IBC-enabled contract.
- * The implementer, aka. dApp devs, should implement channel handshake and packet handling methods.
+ * @title IbcPacketReceiver
+ * @notice Packet handler interface must be implemented by a IBC-enabled contract.
+ * @dev Packet handling callback methods are invoked by the IBC dispatcher.
  */
-interface IbcReceiver {
-    //
-    // Packet handling methods
-    //
-
+interface IbcPacketReceiver {
     function onRecvPacket(IbcPacket calldata packet) external returns (AckPacket memory ackPacket);
 
     function onAcknowledgementPacket(IbcPacket calldata packet, AckPacket calldata ack) external;
 
     function onTimeoutPacket(IbcPacket calldata packet) external;
+}
 
-    //
-    // Channel handshake methods
-    //
-
+```
+and:
+```solidity
+/**
+ * @title IbcChannelReceiver
+ * @dev This interface must be implemented by IBC-enabled contracts that act as channel owners and process channel handshake callbacks.
+ */
+interface IbcChannelReceiver {
     function onOpenIbcChannel(
         string calldata version,
         ChannelOrder ordering,
@@ -111,18 +215,13 @@ interface IbcReceiver {
         string calldata counterpartyVersion
     ) external returns (string memory selectedVersion);
 
-    function onConnectIbcChannel(
-        bytes32 channelId,
-        bytes32 counterpartyChannelId,
-        string calldata counterpartyVersion
-    ) external;
+    function onConnectIbcChannel(bytes32 channelId, bytes32 counterpartyChannelId, string calldata counterpartyVersion)
+        external;
 
-    function onCloseIbcChannel(
-        bytes32 channelId,
-        string calldata counterpartyPortId,
-        bytes32 counterpartyChannelId
-    ) external;
+    function onCloseIbcChannel(bytes32 channelId, string calldata counterpartyPortId, bytes32 counterpartyChannelId)
+        external;
 }
+
 ```
 
 :::info Where's the remaining handshake steps?
@@ -131,7 +230,7 @@ For regulars of ibc-go, this may seem like the channel handshake is missing two 
 
 :::
 
-This interface satisfies the The [ICS-26](https://github.com/cosmos/ibc/blob/main/spec/core/ics-026-routing-module/README.md) specification for an `IBCModule`.
+This interface (`IbcReceiver`) satisfies the The [ICS-26](https://github.com/cosmos/ibc/blob/main/spec/core/ics-026-routing-module/README.md) specification for an `IBCModule`.
 
 :::tip Apply custom logic to these callbacks, specific to your application
 
@@ -143,7 +242,7 @@ You can both define custom logic for the packet callbacks and channel handshake 
 
 #### Additional struct definitions
 
-Note that in a different file, [`Ibc.sol``](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/Ibc.sol), the following structs get defined, corresponding to the IBC specification:
+Note that in a different file, [`Ibc.sol`](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/Ibc.sol), the following structs get defined, corresponding to the IBC specification:
 
 ```solidity
 struct IbcEndpoint {
@@ -197,56 +296,15 @@ struct AckPacket {
 }
 ```
 
-### IbcDispatcher and sending packets
-
-Now you've seen the code to receive, acknowledge or timeout packets, but how to actually send them?
-
-That's where the [`IbcDispatcher`](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/IbcDispatcher.sol) interface comes into play:
-
-```solidity
-/**
- * @title IbcDispatcher
- * @author Polymer Labs
- * @notice IBC dispatcher interface is the Polymer Core Smart Contract that implements the core IBC protocol.
- */
-interface IbcDispatcher {
-    function closeIbcChannel(bytes32 channelId) external;
-
-    function sendPacket(
-        bytes32 channelId,
-        bytes calldata payload,
-        uint64 timeoutTimestamp,
-        PacketFee calldata fee
-    ) external payable;
-}
-```
-
-There's one more vIBC core smart contract, the [`Dispatcher.sol`](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/Dispatcher.sol#L459) that implements the interface and which you'll need to call to send packets.
-
-:::tip
-
-Find the vIBC smart contracts on the chain you want to deploy your IBC enabled contracts. This is the only address you'll need (in addition to importing the interfaces).
-
-:::
-
-When you send packets from your contracts, you can call into the `Dispatcher.sol`'s `sendPacket` method and the vIBC smart contracts will take care of the rest, much like ibc-go's core handler would do in a Cosmos SDK native IBC setup.
-
-```solidity
-function greet(
-        IbcDispatcher dispatcher,
-        string calldata message,
-        bytes32 channelId,
-        uint64 timeoutTimestamp,
-        uint256 fee
-    ) external payable {
-        dispatcher.sendPacket{value: fee}(channelId, bytes(message), timeoutTimestamp, fee);
-    }
-```
-
 ### Port binding
 
-Having implemented these methods, once you instantiate an instance of the contract it will be assigned a port (automatically) following the format: `IBC_PortID` =` portPrefix` + `IBC_ContractAddress `.
+Having implemented these methods, once you've succesfully set up a channel the contract (application) will be assigned a port (automatically) following the format: `IBC_PortID` =` portPrefix` + `IBC_ContractAddress `.
+
+As an example, the port ID for a contract on optimism with contract address '0x6a2544b95f6C256250C83F1FAf1f32B3448b0E38' would be:
+```typescript
+const portID = "polyibc.optimism.6a2544b95f6C256250C83F1FAf1f32B3448b0E38"
+```
 
 ## Example?
 
-Practical examples can be found in the [tutorials section](../../quickstart/tutorial1.md)
+If you want an additional example other than the Mars.sol demo contract, you can follow along with the tutorials in the [tutorials section](../../quickstart/tutorial1.md).

@@ -20,7 +20,7 @@ Another way look at it, is to consider it an extension of the IBC handler/router
 
 ![vIBC overview](../../../static/img/ibc/virtual-ibc.png)
 
-For the xDapp developer this implies that their application modules (smart contracts) that implement the [IBC application module interface defined by ICS-26](https://github.com/cosmos/ibc/tree/main/spec/core/ics-026-routing-module#module-callback-interface) will not exchange information with a core IBC implementation _on the chain it's hosted on_, but **with Polymer's IBC implementation**.
+For the cross-chain Dapp developer this implies that their application modules (smart contracts) that implement the [IBC application module interface defined by ICS-26](https://github.com/cosmos/ibc/tree/main/spec/core/ics-026-routing-module#module-callback-interface) will not exchange information with a core IBC implementation _on the chain it's hosted on_, but **with Polymer's IBC implementation**.
 
 Instead of having the IBC handler (and routing) module handle communication between IBC application modules and the IBC core all on the same chain, that functionality is extended by virtual IBC to allow for outsourcing IBC core functionality.
 
@@ -30,7 +30,7 @@ The IBC handler (and routing) in virtual IBC consists of:
 
 1. the vIBC core smart contracts _on the virtual chain_
 2. the _off-chain_ vIBC relayer that relays communication between virtual chain and Polymer (or any other IBC hub implmementing virtual IBC protocol)
-3. a `vIBC` module _on Polymer_ that wraps around the core IBC module on it.
+3. a `vIBC` module _on Polymer_ that wraps around the core IBC module (ibc-go) also on Polymer.
 
 :::
 
@@ -44,21 +44,21 @@ When developing IBC application modules or smart contracts on a virtual chain (e
 - the address of the _Dispatcher_ vIBC core smart contract on the virtual chain
 
 :::note vIBC core contracts source code
-The vIBC core smart contracts can be found in [this GitHub repo](https://github.com/open-ibc/vibc-core-smart-contracts) or be imported into your project as [this npm package](https://www.npmjs.com/package/@open-ibc/vibc-core-smart-contracts?activeTab=code).
+The vIBC core smart contracts can be found in [this GitHub repo](https://github.com/open-ibc/vibc-core-smart-contracts).
 :::
 
-Include the vIBC core smart contracts to your project by running:
+Include the vIBC core smart contracts to your project by running the following command into your project:
 
 ```bash
-npm i @open-ibc/vibc-core-smart-contracts
+git add submodule https://github.com/open-ibc/vibc-core-smart-contracts.git [optional-destination-path]
 ```
 
 You can then import for example the `IbcReceiver` interface to extend your IBC enabled contract, like so:
 
 ```solidity
 ...
-// replace $ROOT_DIR by the root directory of your project or store it as the $ROOT_DIR environment variable
-import '$ROOT_DIR/node_modules/@open-ibc/vibc-core-smart-contracts/contracts/IbcReceiver.sol'
+// replace $VIBC by the path (or store it as the $VIBC environment variable) you stored the submodule at
+import '$VIBC/contracts/IbcReceiver.sol'
 ...
 // have your application contract implement the interface
 contract MyIbcContract is IbcReceiver {
