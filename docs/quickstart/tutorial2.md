@@ -69,6 +69,11 @@ Then, install the dependencies:
 ```bash
 npm install
 ```
+and the git submodules.
+
+```bash
+git submodule update --init --recursive
+```
 ### Store private keys
 
 In the `hardhat.config.js` file in the root directory, you'll see that you need to define 3 private keys (can be the same for OP and Base), in an `.env` file to load them as an environment variable to sign transactions.
