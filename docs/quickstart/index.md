@@ -39,7 +39,7 @@ The aim of the application is to enable cross-chain minting of the NFT contract 
 To start the tutorial, clone the following repo and check out the correct branch:
 ```bash
 git clone git@github.com:polymerdao/demo-dapps.git && \
-    cd demo-dapps/x-ballot-nft-UC
+    cd demo-dapps/x-ballot-nft-quickstart
 ```
 Then, install the dependencies:
 ```bash
