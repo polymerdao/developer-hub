@@ -1,9 +1,9 @@
 ---
-sidebar_position: 1
-sidebar_label: 'Developer workflow'
+sidebar_position: 2
+sidebar_label: 'App developer workflow'
 ---
 
-# Developer workflow
+# Application developer workflow
 
 :::caution Disclaimer
 
@@ -11,24 +11,21 @@ The Polymer testnet is currently in a private testing phase. Please be aware tha
 
 :::
 
-:::info Who's this section for?
+Application developers are smart contract developers that build business logic requiring interaction with a remote chain or rollup. For application or _dApp_ developers, being able to have a smooth developer journey along the development process is critical to deploying dApps safely and effectively. Let's review the process you'll follow when building cross-chain applications that leverage Polymer and IBC.
 
-A number of different actors might be interested in interacting with Polymer, and different sections of the documentation apply to each.
+:::note Application-specific rollups
 
-- [x] cross-chain application (xDapp) developers: refer to [building IBC dApps docs](../category/build-ibc-dapps/)
-- [x] chain/rollup core developers: refer to [rollup integration docs](./integration.md)
-- [ ] relayer operators: docs to follow
-- [ ] other services: docs to follow
+The notion of application-specific chains or rollups, originated in Cosmoshas, has been gaining more mindshare among Ethereum rollups recently. This means that the line between application and chain/rollup developer is becoming more blurred.
+However, in the context of this discussion an application developer is someone developing cross-chain smart contracts (initially scoped to EVM compatible rollups).
+
 :::
-
-For dApp developers, being able to have a smooth developer journey along the development process is critical to deploying dApps safely and effectively.
 
 ## Prerequisites
 
 Before starting to build cross-chain dApps through Polymer, there's a couple of things to consider:
 
 1. Do you have _an application that requires cross-chain functionality_?
-2. Are the networks you're targeting supported by Polymer?
+2. Are the networks you're targeting [supported by Polymer](../supp-networks.md)? (if not, reach out to us)
 
 ### Ideation
 
@@ -53,9 +50,9 @@ When you've confirmed there is support to use Polymer with your target rollups, 
 
 This comes down to:
 
-1. Include the [vIBC core smart contracts](./ibc-solidity/vibc-core.md) into your project. Either as an [npm](https://www.npmjs.com/package/@open-ibc/vibc-core-smart-contracts) dependency, or add [the source code](https://github.com/open-ibc/vibc-core-smart-contracts) to your project.
+1. Go to the [ibc-app-solidity-template repo](https://github.com/open-ibc/ibc-app-solidity-template) and use it as a template (right top corner on GitHub) to start with. It sets up a template project with Hardhat and Foundry compatibility, includes the [vIBC core smart contracts](htpps://github.com/open-ibc/vibc-core-smart-contracts) as dependency in your project and comes with a simple quickstart project as well as some basic scripts to help IBC development in Solidity.
 
-2. Implement the [required interfaces](https://github.com/cosmos/ibc/tree/main/spec/core/ics-026-routing-module#module-callback-interface) to your contracts to enable IBC, as explained in the [build IBC dApps](./ibc-solidity/ibc-solidity.md) section.
+2. Develop you own custom contracts by implementing the [required interfaces](https://github.com/cosmos/ibc/tree/main/spec/core/ics-026-routing-module#module-callback-interface) to your contracts to enable IBC, as explained in the [build IBC dApps](./ibc-solidity/ibc-solidity.md) section.
 
 :::tip Guiding principle
 
@@ -65,19 +62,13 @@ We strive to make building cross-chain with Polymer as seamless as possible, mea
 
 ## Deploying to and testing on testnet
 
-Once your contracts have been updated with IBC related logic and have been tested locally, you can move on to deploying them to testnet and connect them to Polymer's dispatcher contract on chain.
+Once your contracts have been updated with IBC related logic and have been tested locally, you can move on to deploying them to testnet and connect them to Polymer's dispatcher or universal channel handler contracts on chain.
 
-Find the dispatcher contract address in the [supported networks page](./supp-networks.md).
+Find the dispatcher and universal channel handler contract addresses in the [supported networks page](./supp-networks.md).
 
 :::info How to connect your contract with Polymer dispatcher?
 
-If you have the address for the dispatcher contract, how do you _connect_ it? There's multiple patterns you could follow when writing the contracts:
-
-- store the dispatcher address in the contract's storage (it should be long lasting) along with a setter to update
-
-- pass it as an argument when calling the dispatcher (e.g. to create a channel or send a packet)
-
-For more details, check out the [tutorials](../category/quickstart/).
+The IBC app in Solidity template includes some base contracts for applications you can inherit from. Then it simply comes down to adding the dispatcher or universal channel handler address to the constructor of your applications's contract.
 
 :::
 
