@@ -56,7 +56,7 @@ Another tutorial for the same project that uses universal channels can be found 
 To start the tutorial, clone the following repo and check out the correct branch:
 ```bash
 git clone git@github.com:polymerdao/demo-dapps.git && \
-    cd demo-dapps/x-ballot-nft_STARTER
+     cd demo-dapps/contracts/x-ballot-nft
 ```
 
 :::note Starter code vs finished code
