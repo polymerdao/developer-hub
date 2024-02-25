@@ -50,7 +50,7 @@ The vIBC core smart contracts can be found in [this GitHub repo](https://github.
 Include the vIBC core smart contracts to your project by running the following command into your project:
 
 ```bash
-git add submodule https://github.com/open-ibc/vibc-core-smart-contracts.git [optional-destination-path]
+git submodule add https://github.com/open-ibc/vibc-core-smart-contracts.git [optional-destination-path]
 ```
 
 You can then import for example the `IbcReceiver` interface to extend your IBC enabled contract, like so:
