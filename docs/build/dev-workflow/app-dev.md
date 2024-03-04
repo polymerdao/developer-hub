@@ -5,17 +5,11 @@ sidebar_label: 'App developer workflow'
 
 # Application developer workflow
 
-:::caution Disclaimer
-
-The Polymer testnet is currently in a private testing phase. Please be aware that during this phase, the network may be subject to instability, downtime, and data resets. Read the full disclaimer [here](disclaimer.md).
-
-:::
-
 Application developers are smart contract developers that build business logic requiring interaction with a remote chain or rollup. For application or _dApp_ developers, being able to have a smooth developer journey along the development process is critical to deploying dApps safely and effectively. Let's review the process you'll follow when building cross-chain applications that leverage Polymer and IBC.
 
 :::note Application-specific rollups
 
-The notion of application-specific chains or rollups, originated in Cosmoshas, has been gaining more mindshare among Ethereum rollups recently. This means that the line between application and chain/rollup developer is becoming more blurred.
+The notion of application-specific chains or rollups, originated in Cosmos, has been gaining more mindshare among Ethereum rollups recently. This means that the line between application and chain/rollup developer is becoming more blurred.
 However, in the context of this discussion an application developer is someone developing cross-chain smart contracts (initially scoped to EVM compatible rollups).
 
 :::
@@ -68,7 +62,7 @@ Find the dispatcher and universal channel handler contract addresses in the [sup
 
 :::info How to connect your contract with Polymer dispatcher?
 
-The IBC app in Solidity template includes some base contracts for applications you can inherit from. Then it simply comes down to adding the dispatcher or universal channel handler address to the constructor of your applications's contract.
+The IBC app in Solidity template includes some base contracts for applications you can inherit from. Then it simply comes down to adding [the dispatcher](https://github.com/open-ibc/ibc-app-solidity-template/blob/main/contracts/XCounter.sol#L13) or [universal channel handler address](https://github.com/open-ibc/ibc-app-solidity-template/blob/main/contracts/XCounterUC.sol#L12) to the constructor of your applications's contract.
 
 :::
 
