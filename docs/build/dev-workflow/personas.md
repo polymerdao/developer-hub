@@ -35,7 +35,7 @@ The following sections will give a description of the workflow for all of the ab
 
 :::info Infra operators
 
-Polymer L2 node operators and relayer operators are a significantly different user group and have a dedicated section for "infra operators". Check it out by following [this link](../../run-infra/index.md).
+Polymer L2 node operators and relayer operators are a significantly different user group and have a dedicated section for "infra operators".
 
 :::
 

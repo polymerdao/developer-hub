@@ -17,7 +17,7 @@ Somewhat of a combination happens when a chain is an application specific chain 
 
 ## What is required for integration?
 
-:::caution Not fully supported yet
+:::caution 🚧 Not fully supported yet
 
 Permissionless integration of vIBC, permissionlessly running relayers and connecting to Polymer Hub for any (OP Stack and more in the future) rollup is the ultimate goal and one of the unique selling points of Polymer.
 
@@ -36,4 +36,6 @@ _Further steps require a relayer to support._
 4. Create connection(s) for the different clients you've set up.
 
 5. Create the [universal channel](../ibc-solidity/universal-channel.md).
+
+Docs will be added with more detailed information [here](../integration/integration.md)
 

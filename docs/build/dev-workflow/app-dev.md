@@ -32,11 +32,11 @@ As the need for scalability incentivizes more and more rollups or applications t
 
 ### Polymer support
 
-Polymer enables Ethereum rollups to use [IBC](../learn/concepts/ibc/ibc.md) through the virtual IBC protcol. This implies deploying a set of [vIBC core smart contracts](./ibc-solidity/vibc-core.md) on the target chain and providing relayer support between that rollup and Polymer.
+Polymer enables Ethereum rollups to use [IBC](../../learn/concepts/ibc/ibc.md) through the virtual IBC protcol. This implies deploying a set of [vIBC core smart contracts](../ibc-solidity/vibc-core.md) on the target chain and providing relayer support between that rollup and Polymer.
 
-Polymer ensures support for a number of networks, to be found in the [supported networks page](./supp-networks.md).
+Polymer ensures support for a number of networks, to be found in the [supported networks page](../supp-networks.md).
 
-However, the vIBC protocol allows for permissionless integration so even if the rollup you're interested in is not on the supported networks list, rollup integration is still possible. Refer to the documentation on [integration](./integration.md) for more information.
+However, the vIBC protocol allows for permissionless integration so even if the rollup you're interested in is not on the supported networks list, rollup integration is still possible. Refer to the documentation on [integration](../integration/integration.md) for more information.
 
 ## Develop IBC enabled dApps
 
@@ -46,7 +46,7 @@ This comes down to:
 
 1. Go to the [ibc-app-solidity-template repo](https://github.com/open-ibc/ibc-app-solidity-template) and use it as a template (right top corner on GitHub) to start with. It sets up a template project with Hardhat and Foundry compatibility, includes the [vIBC core smart contracts](htpps://github.com/open-ibc/vibc-core-smart-contracts) as dependency in your project and comes with a simple quickstart project as well as some basic scripts to help IBC development in Solidity.
 
-2. Develop you own custom contracts by implementing the [required interfaces](https://github.com/cosmos/ibc/tree/main/spec/core/ics-026-routing-module#module-callback-interface) to your contracts to enable IBC, as explained in the [build IBC dApps](./ibc-solidity/ibc-solidity.md) section.
+2. Develop you own custom contracts by implementing the [required interfaces](https://github.com/cosmos/ibc/tree/main/spec/core/ics-026-routing-module#module-callback-interface) to your contracts to enable IBC, as explained in the [build IBC dApps](../ibc-solidity/ibc-solidity.md) section.
 
 :::tip Guiding principle
 
@@ -58,7 +58,7 @@ We strive to make building cross-chain with Polymer as seamless as possible, mea
 
 Once your contracts have been updated with IBC related logic and have been tested locally, you can move on to deploying them to testnet and connect them to Polymer's dispatcher or universal channel handler contracts on chain.
 
-Find the dispatcher and universal channel handler contract addresses in the [supported networks page](./supp-networks.md).
+Find the dispatcher and universal channel handler contract addresses in the [supported networks page](../supp-networks.md).
 
 :::info How to connect your contract with Polymer dispatcher?
 
