@@ -5,7 +5,7 @@ sidebar_label: 'Disclaimer'
 
 # Disclaimer for Polymer Testnet
 
-The Polymer testnet is currently in a private testing phase. The purpose of this phase is to conduct thorough testing, identify potential issues, and ensure the stability and reliability of the network before its public release. Please be aware that during this phase, the network may be subject to instability, downtime, and data resets.
+The Polymer testnet is currently in an early public testing phase. The purpose of this phase is to conduct thorough testing, identify potential issues, and ensure the stability and reliability of the network before moving on to more final releases. Please be aware that during this phase, the network may be subject to instability, downtime, and (worst case) data resets.
 
 ## Limited Liability
 

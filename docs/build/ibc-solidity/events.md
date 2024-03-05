@@ -7,7 +7,7 @@ sidebar_label: 'Debug packet cycle'
 
 :::caution Disclaimer
 
-The Polymer testnet is currently in a private testing phase. Please be aware that during this phase, the network may be subject to instability, downtime, and data resets. Read the full disclaimer [here](disclaimer.md).
+The Polymer testnet is currently in an early public testnet phase. Please be aware that during this phase, the network may be subject to instability, downtime, and data resets. Read the full disclaimer [here](../disclaimer.md).
 
 :::
 
@@ -20,6 +20,8 @@ Below you find the sequence of events for all possible situations.
 :::note Ethereum L2 interoperability
 
 When connecting Ethereum L2s that don't have native IBC implementations, the virtual <-> virtual case is applicable.
+
+OP (Sepolia) to Base (Sepolia) is an example
 
 :::
 

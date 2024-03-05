@@ -31,12 +31,17 @@ From the [IBC documentation on IBC apps](https://ibc.cosmos.network/main/ibc/app
 
 ### For Polymer and vIBC to implement
 
-- Bind to a port(s): This will be performed automatically by Polymer so you as dapp developer do not need to be concerned with the port binding. The port ID is simply be the contract address with a prefix; `IBC_PortID` =` portPrefix` + `IBC_ContractAddress `. E.g. polyibc.base.398461594ff79A12FC2FA6820Bf867b0d95DE955 is the port address for an IBC enabled smart contract on the Base (testnet) L2.
-  :::note
+- Bind to a port(s): This will be performed automatically by Polymer so you as dapp developer do not need to be concerned with the port binding. The port ID is simply be the contract address with a prefix;`IBC_PortID` =` portPrefix` + `IBC_ContractAddress `. 
+```bash
+#Example: below is the port address for an IBC enabled smart contract on the Base (testnet) L2 (with proofs enabled)
+polyibc.base-proofs-1.398461594ff79A12FC2FA6820Bf867b0d95DE955
+```
 
-  Remember from the [IBC overview](../../learn/concepts/ibc/ibc.md) that ports facilitate module authentication? And that only a port owner (module or contract) can operate on all channels created with the port
+:::note
 
-  :::
+Remember from the [IBC overview](../../learn/concepts/ibc/ibc.md) that ports facilitate module authentication? And that only a port owner (module or contract) can operate on all channels created with the port
+
+:::
 
 - (add keeper methods): specific to ibc-go, in the context where the IBC application is a dapp, this refers to the dapp methods that handle application logic
 - add a route to the IBC router: this will be taken care of by the vIBC smart contract
@@ -49,33 +54,28 @@ As an xDapp developer, you will have to focus on the requirements above, impleme
 
 ## The IBC callbacks
 
-The [vIBC core smart contracts](https://github.com/open-ibc/vibc-core-smart-contracts) folder contains a template of an IBC enabled contract that implements the `IbcModule` interface. Look following simple Solidity contract, [`Mars.sol`](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/Mars.sol).
+The [IBC app in Solidity template](https://github.com/open-ibc/ibc-app-solidity-template) repo contains folder of base contracts to inherit which have the IBC callbacks as virtual functions to override (or leave as is in the case of channel handshake callbacks).
 
-You'll note that we import some interfaces, `Ibc`, `IbcReceiver` and `IbcDispatcher`.
+Look at [CustomChanIbcApp.sol](https://github.com/open-ibc/ibc-app-solidity-template/blob/main/contracts/base/CustomChanIbcApp.sol) as an example when creating custom channels.
 
-```solidity [https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/Mars.sol]
-import './Ibc.sol'
-import './IbcReceiver.sol';
-import './IbcDispatcher.sol';
+You can inherit those contract when creating your application, like so:
+```solidity
+//SPDX-License-Identifier: UNLICENSED
 
-contract Mars is IbcReceiverBase, IbcReceiver {
-    // received packet as chain B
-    IbcPacket[] public recvedPackets;
-    // received ack packet as chain A
-    AckPacket[] public ackPackets;
-    // received timeout packet as chain A
-    IbcPacket[] public timeoutPackets;
-    bytes32[] public connectedChannels;
+pragma solidity ^0.8.9;
 
-    string[] supportedVersions = ["1.0", "2.0"];
+import './base/CustomChanIbcApp.sol';
 
-    constructor(IbcDispatcher _dispatcher) IbcReceiverBase(_dispatcher) {}
-}
+contract XCounter is CustomChanIbcApp {
+    ...
+
+    constructor(IbcDispatcher _dispatcher) CustomChanIbcApp(_dispatcher) {}
 ```
 
-You'll note that in the constructor you have to pass the dispatcher address. Find it in the [network information overview](../supp-networks.md).
+Where you pass in the dispatcher address as constructor argument (with potentially additional custom ones).
+Find it in the [network information overview](../supp-networks.md).
 
-What do the interfaces referenced above represent and how to use them?
+What do the interfaces in CustomIbcChanApp.sol represent and how to use them?
 
 ### IbcReceiverBase
 
@@ -166,17 +166,26 @@ interface IbcDispatcher is IbcPacketSender {
 
 It allows the application to call into the dispatcher to start channel creation by triggering the handshake or to start the packet lifecycle to send a packet.
 
-An example from the Mars.sol contract:
+An example from the [XCounter.sol](https://github.com/open-ibc/ibc-app-solidity-template/blob/main/contracts/XCounter.sol) contract:
 ```solidity
     /**
-     * @dev Sends a packet with a greeting message over a specified channel.
-     * @param message The greeting message to be sent.
-     * @param channelId The ID of the channel to send the packet to.
-     * @param timeoutTimestamp The timestamp at which the packet will expire if not received.
+     * @dev Sends a packet with the caller address over a specified channel.
+     * @param channelId The ID of the channel (locally) to send the packet to.
+     * @param timeoutSeconds The timeout in seconds (relative).
      */
 
-    function greet(string calldata message, bytes32 channelId, uint64 timeoutTimestamp) external {
-        dispatcher.sendPacket(channelId, bytes(message), timeoutTimestamp);
+    function sendPacket( bytes32 channelId, uint64 timeoutSeconds) external {
+        // incrementing counter on source chain
+        increment();
+
+        // encoding the caller address to update counterMap on destination chain
+        bytes memory payload = abi.encode(msg.sender);
+
+        // setting the timeout timestamp at 10h from now
+        uint64 timeoutTimestamp = uint64((block.timestamp + timeoutSeconds) * 1000000000);
+
+        // calling the Dispatcher to send the packet
+        dispatcher.sendPacket(channelId, payload, timeoutTimestamp);
     }
 ```
 
@@ -302,9 +311,9 @@ Having implemented these methods, once you've succesfully set up a channel the c
 
 As an example, the port ID for a contract on optimism with contract address '0x6a2544b95f6C256250C83F1FAf1f32B3448b0E38' would be:
 ```typescript
-const portID = "polyibc.optimism.6a2544b95f6C256250C83F1FAf1f32B3448b0E38"
+const portID = "polyibc.optimism-proofs-1.6a2544b95f6C256250C83F1FAf1f32B3448b0E38"
 ```
 
 ## Example?
 
-If you want an additional example other than the Mars.sol demo contract, you can follow along with the tutorials in the [tutorials section](../../quickstart/tutorial1.md).
+If you want an additional example other than the Mars.sol demo contract, you can follow along with the tutorials in the [tutorials section](../../quickstart/start.md).

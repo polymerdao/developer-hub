@@ -53,17 +53,28 @@ Include the vIBC core smart contracts to your project by running the following c
 git submodule add https://github.com/open-ibc/vibc-core-smart-contracts.git [optional-destination-path]
 ```
 
-You can then import for example the `IbcReceiver` interface to extend your IBC enabled contract, like so:
+Alternatively, consider using [Foundry](https://book.getfoundry.sh/getting-started/installation) to manage the dependencies:
+```bash
+forge install open-ibc/vibc-core-smart-contracts
+```
+
+You can then import for example the `IbcReceiverBase` interface to extend your IBC enabled contract, like so:
 
 ```solidity
 ...
 // replace $VIBC by the path (or store it as the $VIBC environment variable) you stored the submodule at
-import '$VIBC/contracts/IbcReceiver.sol'
+import '$VIBC/contracts/interfaces/IbcReceiverBase.sol'
 ...
 // have your application contract implement the interface
 contract MyIbcContract is IbcReceiver {
     ...
 }
 ```
+
+:::tip Use IBC app template
+
+Just adding the vibc-core-smart-contracts as a dependency to your project is possible, but we have a template repository named [ibc-app-solidity-template](https://github.com/open-ibc/ibc-app-solidity-template) which abstracts away a lot of the complexity and is a great place to start!
+
+:::
 
 Continue on to the [next section](ibc-solidity.md) to see how to implement the interfaces to write IBC enabled smart contracts.

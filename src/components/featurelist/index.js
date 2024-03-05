@@ -26,7 +26,7 @@ export default function FeatureList(url) {
     {
       title: 'Follow the Tutorials',
       Svg: require('@site/static/img/tutorial-svg.svg').default,
-      to: `${url}/quickstart`,
+      to: `${url}/quickstart/start`,
       description: (
         <>
           Follow along with the tutorials to quickly experience how to build new or refactor existing apps to leverage Polymer.
@@ -35,7 +35,7 @@ export default function FeatureList(url) {
     },  
      {
        title: `Explore IBC Data`,
-       to: `http://35.236.98.227/`,
+       to: `https://sepolia.polymer.zone/packets`,
        Svg: require('@site/static/img/explorer-svg.svg').default,
        description: (
          <>
