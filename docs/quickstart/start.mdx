@@ -49,6 +49,13 @@ Additionally Hardhat will be installed as a dev dependency with some useful plug
 
 > Note: In case you're experiencing issues with dependencies using the `just install` recipe, check that all prerequisites are correctly installed. If issues persist with forge, try to do the individual dependency installations...
 
+## 📁 Repository structure
+
+:::note Video walkthrough: repository structure
+
+<div style={{position: 'relative', paddingBottom: '59.31830676195712%', height: 0}}><iframe src="https://www.loom.com/embed/c3739f8604da4132959772ac66cb5946?sid=e542f5ac-a5aa-4661-b8d1-25941aff5f78" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}></iframe></div>
+:::
+
 ## ⚙️ Set up your environment variables
 
 Convert the `.env.example` file into an `.env` file. This will ignore the file for future git commits as well as expose the environment variables. Add your private keys and update the other values if you want to customize (advanced usage feature).
@@ -81,11 +88,17 @@ The account associated with your private key must have both Base Sepolia and Opt
 - [Optimism Sepolia Faucet](https://www.alchemy.com/faucets/optimism-sepolia)
 - [Base Sepolia Faucet](https://www.alchemy.com/faucets/base-sepolia)
 
+
 ## 🏃🏽🏃🏻‍♀️ Quickstart
 
 The project comes with a built-in dummy application called x-counter (which syncrhonizes a counter across two contracts on remote chains). You can find the contracts in the `/contracts` directory as XCounterUC.sol and XCounter.sol (the former when using the universal channel, the latter when creating a custom IBC channel).
 
 ### Universal channels
+
+:::note Video walkthrough: Sending a packet over a universal channel
+
+<div style={{position: 'relative', paddingBottom: '59.31830676195712%', height: 0}}><iframe src="https://www.loom.com/embed/dd04f573bc664646820937751dc6466e?sid=8e518f29-9aae-4bc9-a32a-ee172274963c" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}></iframe></div>
+:::
 
 The easiest way to get onboarded is to use Universal channels. A universal channel is an IBC channel where the port is owned by Polymer's Universal channel middleware contracts on each chain.
 
@@ -169,6 +182,12 @@ For most of the actions above and more, there are just recipes that combine rela
 
 ### Deploy
 
+:::note Video walkthrough: Setting and deploying contracts
+
+<div style={{position: 'relative', paddingBottom: '59.31830676195712%', height: 0}}><iframe src="https://www.loom.com/embed/96c9ea3489c348efb33e4f58d975007e?sid=312a14ed-02f5-40fb-8738-92c1a036672d" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}></iframe></div>
+
+:::
+
 Before deploying, make sure to update the config.json with your contract type to deploy for each of the chain you wish to deploy to.
 
 #### Set contracts to config
@@ -223,6 +242,12 @@ just sanity-check
 
 If you're **using universal channels, channel creation is not required**. Your contract will send and receive packet data from the Universal channel handler contract which already has a universal channel to send packets over. You can directly proceed to sending (universal) packets in that case.
 
+:::note Video walkthrough: Creating a custom IBC channel
+
+<div style={{position: 'relative', paddingBottom: '59.31830676195712%', height: 0}}><iframe src="https://www.loom.com/embed/c3cb0d8d22d143c98b44a2b497f1f55f?sid=aee807e3-6bf3-466c-a299-276cace1df12" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}></iframe></div>
+
+:::
+
 To create a custom channel, run:
 
 ```bash
@@ -247,6 +272,12 @@ just send-packet optimism
 to send a packet over a channel (script looks at the config's isUniversal flag to know if it should use the custom or universal packet). You can pick either optimism or base to send the packet from.
 
 ## Verify, don't trust
+
+:::note Video walkthrough: Switching to the client with proofs
+
+<div style={{position: 'relative', paddingBottom: '59.31830676195712%', height: 0}}><iframe src="https://www.loom.com/embed/5275bdf612144e8fa91ac1e4aa3573f5?sid=49a7e2ba-7a14-4058-b4c2-da0a9bc9a80c" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}></iframe></div>
+
+:::
 
 As a starter value, the sim-client is used to improve latency. **The sim-client is useful for iterative development and testing BUT also insecure as it involves no proofs**. Make sure to move to the client **with proofs** by running another just command...
 
