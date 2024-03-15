@@ -32,7 +32,7 @@ The technical challenge thus, is to enable migrating the Cosmos SDK framework fo
 
 :::
 
-Consider the following diagram to study the archictecture of Polymer, the interoperability hub connecting Ethereum rollups.
+Consider the following diagram to study the architecture of Polymer, the interoperability hub connecting Ethereum rollups.
 
 ![Polymer rollup architecture](../../../../static/img/learn/polymer-stack.png)
 
@@ -50,7 +50,7 @@ We'll give a quick overview of the most important components as they are used (a
 
 :::caution Semantical variation
 
-When moving from the original OP Mainnet (formerly just Optimism) design to the modularized OP stack architecture, the diffferent roles played by the sequencer node got a more modular design where it's feasible to swap out certain components with other ones.
+When moving from the original OP Mainnet (formerly just Optimism) design to the modularized OP stack architecture, the different roles played by the sequencer node got a more modular design where it's feasible to swap out certain components with other ones.
 
 As a result, there was an update with respect to the semantics when considering the different functionality of a sequencer node (block derivation & production, transaction batching and submitting to a DA layer, proposing new blocks to L1). **Be sure to understand the processes underpinning the rollup architecture, while realizing there may be variation in the terms being thrown around**.
 
@@ -66,7 +66,7 @@ The rollup node can be used in different modes, not only for sequencing. From th
 - Participating in the L2 network
 - Sequencing transactions
 
-When ran **in sequening mode, the rollup node will create new L2 blocks**.
+When ran **in sequencing mode, the rollup node will create new L2 blocks**.
 
 :::info Polymer's sequencer
 

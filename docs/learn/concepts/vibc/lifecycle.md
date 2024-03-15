@@ -5,7 +5,7 @@ sidebar_label : 'Packet lifecycle'
 
 # Packet lifecycle with vIBC
 
-The previous sections explained the architecture and different components that make up virtual IBC or vIBC. Armed with this knowledge, we take a look at the packet lifecycle when sending packets over a multi-hop channel that involves one or more virtyal chians.
+The previous sections explained the architecture and different components that make up virtual IBC or vIBC. Armed with this knowledge, we take a look at the packet lifecycle when sending packets over a multi-hop channel that involves one or more virtual chains.
 
 :::tip Remember IBC packet flow
 
@@ -25,7 +25,7 @@ Without loss of generality, we break up the IBC packet cycle into some subcycles
 - Virtual chain <-> Polymer <-> Virtual chain : All subcycles will be using virtual IBC
 
 - Virtual chain <-> Polymer <-> IBC compatible chain: 
-  - Virtual chain is source of packet: `SendPacket` and `Acknowledgement` use vIBC procotol
+  - Virtual chain is source of packet: `SendPacket` and `Acknowledgement` use vIBC protocol
   - Virtual chain is destination of packet: `RecvPacket` and `WriteAcknowledgement` use vIBC protocol
 
 :::
@@ -102,7 +102,7 @@ The below overview is high-level and is mainly concerned with understanding the 
 
 - **Step 2a**: The IBC module emits an `EventAcknowledgePacket` event. This is not picked up by IBC relayers as the acknowledgement is usually the end of the packet flow. In vIBC however, we still need to relay the acknowledgement to the virtual chain. Additionally, the packet commitment corresponding to this packet will be deleted to avoid replay.
 
-- **Step 2b**: The IBC module calls into the vIBC module's `onAcknowledgePacket` callback. This callback will emit an `VirtualAcknowledgePacketReq` event, to be picked up by the vIBC relayers.
+- **Step 2b**: The IBC module calls into the vIBC module's `onAcknowledgePacket` callback. This callback will emit a `VirtualAcknowledgePacketReq` event, to be picked up by the vIBC relayers.
 
 - **Step 3**: The vIBC relayer picks up the `VirtualAcknowledgePacketReq` event and submits a tx that calls into the dispatcher contract's `acknowledgement` method, along with the membership proof of the `AckPacket` on Polymer.
 

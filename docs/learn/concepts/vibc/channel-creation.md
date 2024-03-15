@@ -35,7 +35,7 @@ For a virtual chain, client creation involves creating **both a native and a vir
 
 ## Connection creation
 
-When the clients have been created, next up are the connections. Now, when a virtual chain outsources its IBC workload to Polymer, it is Polymer that will run a client on behalf of the virtual chain. A connection "between Polymer an the virtual chain" will thus be a **local connection on Polymer**, we call this a localhost connection.
+When the clients have been created, next up are the connections. Now, when a virtual chain outsources its IBC workload to Polymer, it is Polymer that will run a client on behalf of the virtual chain. A connection "between Polymer and the virtual chain" will thus be a **local connection on Polymer**, we call this a localhost connection.
 
 :::info ICS-9: loopback client
 
@@ -43,11 +43,11 @@ The IBC specification includes a [spec for a loopback client](https://github.com
 
 :::
 
-Using the loopback client interface to represent Polymer's state, we can create a so-called **virtual connection** (an instance of a localhost connection) that uses the loopback client as one of its `ConnectionEnd`s and the virtual client (storing the the virtual chains virtual root, or ConsensusState) as the other. Virtual IBC connections allow connected chains to be aware of the state of the virtual chain separately from the state of Polymer.
+Using the loopback client interface to represent Polymer's state, we can create a so-called **virtual connection** (an instance of a localhost connection) that uses the loopback client as one of its `ConnectionEnd`s and the virtual client (storing the virtual chains virtual root, or ConsensusState) as the other. Virtual IBC connections allow connected chains to be aware of the state of the virtual chain separately from the state of Polymer.
 
 :::tip No handshakes here
 
-Because a virtual connnection is local on Polymer, there is no need for a handshake protocol. This is according to the loopback client spec for a localhost connection.
+Because a virtual connection is local on Polymer, there is no need for a handshake protocol. This is according to the loopback client spec for a localhost connection.
 
 :::
 
@@ -63,4 +63,4 @@ This varies in our implementation of a virtual connection. Another difference is
 
 The client and connection for virtual chains is where the innovation sets in. Once virtual connections have been created between Polymer and the virtual chains, the channel creation is default multi-hop channel creation. A multi-hop IBC channel can be established over multiple connections virtual and non-virtual. Specific details around the general multi-hop IBC protocol are covered in [the dedicated section](../ibc/multi-hop.md). 
 
-Channel handshake messages originate as IBC events on the virtual chain, refer to the [vIBC specification](https://github.com/polymerdao/polymerase/blob/main/chain/docs/vibc/vibc-api-spec.md). We'll not cover the channel lifecyle in detail here, but next up is the packet lifecycle deep dive which is analogous.
+Channel handshake messages originate as IBC events on the virtual chain, refer to the [vIBC specification](https://github.com/polymerdao/polymerase/blob/main/chain/docs/vibc/vibc-api-spec.md). We'll not cover the channel lifecycle in detail here, but next up is the packet lifecycle deep dive which is analogous.

@@ -49,7 +49,7 @@ There's three major interfaces of importance to clients:
 - ClientState: represents the full state of the connected blockchain, including ConsensusState, some client parameters and proof specs
 - ClientMessage: represents the messages that will be submitted to interact with the client
 
-Through ClientMessages submitted by the relayer, one can interact with the client. Headers or batches of headers can be submitted to update the ConsensusState, or a proof of misbehaviour (defined particular to its consensus rules) can be submitted to freeze the client. Additionally there are methods to update the client when the remote chain it represents has ugpraded.
+Through ClientMessages submitted by the relayer, one can interact with the client. Headers or batches of headers can be submitted to update the ConsensusState, or a proof of misbehaviour (defined particular to its consensus rules) can be submitted to freeze the client. Additionally there are methods to update the client when the remote chain it represents has upgraded.
 
 One more way of interacting with the client is when it `VerifyMembership` or `VerifyNonMembership` methods are called during the [packet lifecycle](#ibc-application-packet-flow) to verify if some state was committed or absent respectively.
 
@@ -96,7 +96,7 @@ The four handshake steps are (triggered by chain A, to connect to chain B):
 
 :::info
 
-The connection handshake, next to establishing the communication channels between chains (to be precise, IBC clients💡), also provide _double identity verfication_ on the handshake!
+The connection handshake, next to establishing the communication channels between chains (to be precise, IBC clients💡), also provide _double identity verification_ on the handshake!
 
 :::
 

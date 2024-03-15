@@ -5,7 +5,7 @@ sidebar_label : 'Clients in vIBC'
 
 # Native vs Virtual clients
 
-As discussed in the previous sections, one of the functions of the vIBC module is to allow for extending the IBC network by enbaling a more diverse set of chains to adopt IBC. Managing clients and transport commitments is a big part of this feature.
+As discussed in the previous sections, one of the functions of the vIBC module is to allow for extending the IBC network by enabling a more diverse set of chains to adopt IBC. Managing clients and transport commitments is a big part of this feature.
 
 ![native and virtual light clients](../../../../static/img/learn/native-virtual.png)
 
