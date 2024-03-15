@@ -27,7 +27,7 @@ Let's consider this diagram for **native  IBC chains**.
 
 IBC applications interact with the core IBC implementation that implements the client, connection and channel abstractions through the IBC handler and router submodule. In native IBC, these are all part of the same chain environment.
 
-Consider now the following diagram where **vIBC is introduced to enable IBC on a virtual chain**, through outsourcing its interopeability workload onto Polymer.
+Consider now the following diagram where **vIBC is introduced to enable IBC on a virtual chain**, through outsourcing its interoperability workload onto Polymer.
 
 ![virtual IBC](../../../../static/img/ibc/virtual-ibc.png)
 
