@@ -29,7 +29,7 @@ Instead of having the IBC handler (and routing) module handle communication betw
 The IBC handler (and routing) in virtual IBC consists of:
 
 1. the vIBC core smart contracts _on the virtual chain_
-2. the _off-chain_ vIBC relayer that relays communication between virtual chain and Polymer (or any other IBC hub implmementing virtual IBC protocol)
+2. the _off-chain_ vIBC relayer that relays communication between virtual chain and Polymer (or any other IBC hub implementing virtual IBC protocol)
 3. a `vIBC` module _on Polymer_ that wraps around the core IBC module (ibc-go) also on Polymer.
 
 :::
