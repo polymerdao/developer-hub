@@ -1,0 +1,12 @@
+nclude the vIBC core smart contracts to your project by running the following command into your project:
+
+git add submodule https://github.com/open-ibc/vibc-core-smart-contracts.git [optional-destination-path]
+git submodule add https://github.com/open-ibc/vibc-core-smart-contracts.git [optional-destination-path]
+
+You can then import for example the IbcReceiver interface to extend your IBC enabled contract, like so:
+@@ -66,4 +66,4 @@ contract MyIbcContract is IbcReceiver {
+}
+`
+
+Continue on to the [next section](ibc-solidity.md) to see how to implement the interfaces to write IBC enabled smart contracts.
+Continue on to the [next section](ibc-solidity.md) to see how to implement the interfaces to write IBC enabled smart contracts.
