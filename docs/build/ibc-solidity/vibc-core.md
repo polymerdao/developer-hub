@@ -40,7 +40,7 @@ Let's take a closer look at the vIBC core smart contracts.
 
 When developing IBC application modules or smart contracts on a virtual chain (e.g. Ethereum), you'll need the following:
 
-- access to the interfaces defined by the vIBC core smart contracts (e.g. [`IbcReceiver` interface](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/IbcReceiver.sol) for IBC application modules)
+- access to the interfaces defined by the vIBC core smart contracts (e.g. [`IbcReceiver` interface](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/interfaces/IbcReceiver.sol) for IBC application modules)
 - the address of the _Dispatcher_ vIBC core smart contract on the virtual chain
 
 :::note vIBC core contracts source code
