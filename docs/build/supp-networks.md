@@ -19,10 +19,10 @@ This table gives an overview of the important information for the networks Polym
 
 | Network                  | Client Type | General Info & Resources | vIBC dispatcher | UC middleware |
 | ------------------------ | ----------- | ------------------------ | ------------------------ | ------------------------ |
-| OP Sepolia       | Proof-enabled | [Link](https://docs.optimism.io/chain/networks#op-sepolia)    | [Blockscout](https://optimism-sepolia.blockscout.com/address/0x58f1863F75c9Db1c7266dC3d7b43832b58f35e83) | [Blockscout](https://optimism-sepolia.blockscout.com/address/0x34a0e37cCCEdaC70EC1807e5a1f6A4a91D4AE0Ce) |
-| Base Sepolia     | Proof-enabled | [Link](https://docs.base.org/network-information#base-testnet-sepolia)      | [Blockscout](https://base-sepolia.blockscout.com/address/0xfc1d3e02e00e0077628e8cc9edb6812f95db05dc)              | [Blockscout](https://base-sepolia.blockscout.com/address/0x50E32e236bfE4d514f786C9bC80061637dd5AF98) |
-| OP Sepolia       | Sim client | [Link](https://docs.optimism.io/chain/networks#op-sepolia)    | [Blockscout](https://optimism-sepolia.blockscout.com/address/0x6C9427E8d770Ad9e5a493D201280Cc178125CEc0) | [Blockscout](https://optimism-sepolia.blockscout.com/address/0xC3318ce027C560B559b09b1aA9cA4FEBDDF252F5) |
-| Base Sepolia     | Sim client | [Link](https://docs.base.org/network-information#base-testnet-sepolia)      | [Blockscout](https://base-sepolia.blockscout.com/address/0x0dE926fE2001B2c96e9cA6b79089CEB276325E9F)              | [Blockscout](https://base-sepolia.blockscout.com/address/0x5031fb609569b67608Ffb9e224754bb317f174cD) |
+| OP Sepolia       | Proof-enabled | [Link](https://docs.optimism.io/chain/networks#op-sepolia)    | [Blockscout](https://optimism-sepolia.blockscout.com/address/0xE2029629f51ab994210d671Dc08b7Ec94899b278) | [Blockscout](https://optimism-sepolia.blockscout.com/address/0xcce3D25C3189891617543D7f7398122E08a03cC6) |
+| Base Sepolia     | Proof-enabled | [Link](https://docs.base.org/network-information#base-testnet-sepolia)      | [Blockscout](https://base-sepolia.blockscout.com/address/0x9fcd52449261F732d017F8BD1CaCDc3dFbcD0361)              | [Blockscout](https://base-sepolia.blockscout.com/address/0x090850b654B054aCC11711b6805FD84c74555D85) |
+| OP Sepolia       | Sim client | [Link](https://docs.optimism.io/chain/networks#op-sepolia)    | [Blockscout](https://optimism-sepolia.blockscout.com/address/0x8957494cCD4B085133E9A8d3600b766427d4976a) | [Blockscout](https://optimism-sepolia.blockscout.com/address/0xdAa9e8B289730ae3161E9e91b3F7D6FF5D26D00D) |
+| Base Sepolia     | Sim client | [Link](https://docs.base.org/network-information#base-testnet-sepolia)      | [Blockscout](https://base-sepolia.blockscout.com/address/0xb7B9f6f8CF00bf9fAe840A608600F47A665080f4)              | [Blockscout](https://base-sepolia.blockscout.com/address/0xaBDdc50C2aF67E2fcF52Cc0db758f34be189bF99) |
 
 :::danger Sim client is fast, but less secure!
 
