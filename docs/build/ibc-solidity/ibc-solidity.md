@@ -115,7 +115,7 @@ The main thing the `IbcReceiverBase` establishes is registering the vIBC core di
 
 ### IbcDispatcher
 
-Arguably the most important among the vIBC core smart contracts, is the [`Dispatcher.sol`](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/Dispatcher.sol). The dispatcher is critical to manage (dispatch) IBC communcation flow between applications on a virtual chain and Polymer (through the vIBC relayer).
+Arguably the most important among the vIBC core smart contracts, is the [`Dispatcher.sol`](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/Dispatcher.sol). The dispatcher is critical to manage (dispatch) IBC communication flow between applications on a virtual chain and Polymer (through the vIBC relayer).
 
 Refer to the [vIBC concepts section](../../learn/concepts/vibc/overview.md) to learn more.
 
@@ -245,7 +245,7 @@ This interface (`IbcReceiver`) satisfies the The [ICS-26](https://github.com/cos
 
 One of the main jobs for you as xDapp developer when building IBC enabled applications is to implement these callbacks and provide them your custom logic.
 
-You can both define custom logic for the packet callbacks and channel handshake callbacks, but for the latter you could limit it to the default version negotation that is defined in `Mars.sol` for example.
+You can both define custom logic for the packet callbacks and channel handshake callbacks, but for the latter you could limit it to the default version negotiation that is defined in `Mars.sol` for example.
 
 :::
 
@@ -307,7 +307,7 @@ struct AckPacket {
 
 ### Port binding
 
-Having implemented these methods, once you've succesfully set up a channel the contract (application) will be assigned a port (automatically) following the format: `IBC_PortID` =` portPrefix` + `IBC_ContractAddress `.
+Having implemented these methods, once you've successfully set up a channel the contract (application) will be assigned a port (automatically) following the format: `IBC_PortID` =` portPrefix` + `IBC_ContractAddress `.
 
 As an example, the port ID for a contract on optimism with contract address '0x6a2544b95f6C256250C83F1FAf1f32B3448b0E38' would be:
 ```typescript

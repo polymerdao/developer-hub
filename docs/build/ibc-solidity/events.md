@@ -11,10 +11,9 @@ The Polymer testnet is currently in an early public testnet phase. Please be awa
 
 :::
 
-When debugging the IBC packet lifecycle, the first step to take is to track down the packet during its lifecyle and where any potential issue arises.
+When debugging the IBC packet lifecycle, the first step to take is to track down the packet during its lifecycle and where any potential issue arises.
 
 As an application developer, you'll be mostly looking at the events on the chains your application(s) live on, not Polymer itself in the middle. 
-
 Below you find the sequence of events for all possible situations.
 
 :::note Ethereum L2 interoperability
