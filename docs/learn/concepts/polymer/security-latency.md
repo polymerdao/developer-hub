@@ -9,7 +9,7 @@ Consider the following diagram to study the architecture of Polymer, the interop
 
 ![Polymer rollup architecture](../../../../static/img/learn/polymer-stack.png)
 
-In the previous section, all of the different components making up the Polymer chain were explained. But how does this translate when we send a packet? (This assumes that clients, connections and channels have been created.)
+In the previous section, all the different components making up the Polymer chain were explained. But how does this translate when we send a packet? (This assumes that clients, connections and channels have been created.)
 
 Generally speaking, the packet lifecycle is exactly as described [in the dedicated section on vIBC](../vibc/lifecycle.md). However, there's an important thing to remember when considering Polymer as Ethereum's interoperability hub:
 
