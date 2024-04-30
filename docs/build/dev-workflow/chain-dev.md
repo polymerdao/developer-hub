@@ -27,7 +27,7 @@ Polymer will have a phased launch however, first focusing on enabling applicatio
 
 1. Deploying the [vIBC core smart contracts](https://github.com/open-ibc/vibc-core-smart-contracts). Find the [script to help deployment](https://github.com/open-ibc/vibc-core-smart-contracts/tree/main/script) of the contracts and make sure to log the important contract addresses (dispatcher, universal channel handler etc.).
 
-2. Run a relayer between Polymer and your rollup. **NOTE**: a runbook will follow soon.
+2. Run a relayer between Polymer and your rollup. (**NOTE**: a runbook will follow soon).
 
 _Further steps require a relayer to support._
 
