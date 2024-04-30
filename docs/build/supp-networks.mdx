@@ -37,29 +37,8 @@ Be sure to move on to proof-enabled clients when your application logic looks so
 
 ## Network information
 
-Useful quick overview to add network information to your wallet etc. For more instructions visit the official docs for each network...
+Below you find a useful quick overview to add network information to your wallet etc. The information is fetched from the [Polymer chain registry](https://github.com/polymerdao/polymer-registry). For more instructions visit the official docs for each network...
 
-### OP Sepolia
+import NetworkInfo from '../../src/components/networks/NetworkInfo';
 
-| Parameter          | Value                                          |
-|--------------------|------------------------------------------------|
-| Network Name       | OP Sepolia                                     |
-| Chain ID           | 11155420                                       |
-| Currency Symbol1   | ETH                                            |
-| Explorer           | https://sepolia-optimistic.etherscan.io        |
-| Public RPC URL     | https://sepolia.optimism.io                    |
-| Sequencer URL2     | https://sepolia-sequencer.optimism.io          |
-| Contract Addresses | Refer to the [Contract Addresses page](https://docs.optimism.io/chain/addresses#testnet-sepolia)           |
-
-
-### Base Sepolia
-
-| Name           | Value                                  |
-|----------------|----------------------------------------|
-| Network Name   | Base Sepolia                           |
-| Description    | A public testnet for Base.             |
-| RPC Endpoint   | https://sepolia.base.org                |
-|                | Rate limited and not for production systems. |
-| Chain ID       | 84532                                  |
-| Currency Symbol| ETH                                    |
-| Block Explorer | https://sepolia-explorer.base.org      |
+<NetworkInfo />

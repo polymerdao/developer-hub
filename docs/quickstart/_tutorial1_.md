@@ -389,7 +389,7 @@ npx hardhat compile
 
 ### Deploy scripts
 
-The [Dispatcher address](../build/supp-networks.md) deployed by Polymer has been hard coded into the script, so all you need to do is run it with Hardhat:
+The [Dispatcher address](../build/supp-networks.mdx) deployed by Polymer has been hard coded into the script, so all you need to do is run it with Hardhat:
 ```bash
 # Deploy IbcBallot to OP Sepolia
 npx hardhat run scripts/deploy-ballot.js --network op-sepolia

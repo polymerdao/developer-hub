@@ -73,7 +73,7 @@ contract XCounter is CustomChanIbcApp {
 ```
 
 Where you pass in the dispatcher address as constructor argument (with potentially additional custom ones).
-Find it in the [network information overview](../supp-networks.md).
+Find it in the [network information overview](../supp-networks.mdx).
 
 What do the interfaces in CustomIbcChanApp.sol represent and how to use them?
 
@@ -121,7 +121,7 @@ Refer to the [vIBC concepts section](../../learn/concepts/vibc/overview.md) to l
 
 :::tip Find relevant contract addresses
 
-Find the vIBC smart contracts on the chain you want to deploy your IBC enabled contracts. These are the only addresses you'll need (in addition to importing the interfaces). Find them [here](../supp-networks.md).
+Find the vIBC smart contracts on the chain you want to deploy your IBC enabled contracts. These are the only addresses you'll need (in addition to importing the interfaces). Find them [here](../supp-networks.mdx).
 
 :::
 
