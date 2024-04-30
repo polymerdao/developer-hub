@@ -5,7 +5,7 @@ sidebar_label: 'Modular IBC'
 
 # IBC for the modular world
 
-As the IBC interoperability hub for Ethereum with its rollup-centric vision, Polymer will be at the forefront of solving the interoperability problme for modular blockchains, enter _modular IBC_. 
+As the IBC interoperability hub for Ethereum with its rollup-centric vision, Polymer will be at the forefront of solving the interoperability problem for modular blockchains, enter _modular IBC_. 
 
 :::caution Everything's modular these days, but what does it mean?
 
@@ -33,7 +33,7 @@ We’re considering settlement to be included in the execution layer and the can
 
 ![modular IBC](../../../../static/img/ibc/ibc-modular.png)
 
-For monolithic chains a single client supplies proof of execution, sequencing and data availability. Modular chains need to source these proofs from different clients as visualized in the diagram above, representing the changes at the state layer of IBC when moving from a monolitchic to modular design. 
+For monolithic chains a single client supplies proof of execution, sequencing and data availability. Modular chains need to source these proofs from different clients as visualized in the diagram above, representing the changes at the state layer of IBC when moving from a monolithic to modular design. 
 
 For example, you could have separate clients representing each of the core functional layers of a modular blockchain. Additionally, these clients express dependencies on each other using a new IBC concept called _conditional clients_. 
 

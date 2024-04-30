@@ -7,7 +7,7 @@ sidebar_label: 'IBC client diversity'
 
 IBC was designed from the start to be an **open, permissionless and trust-minimized interoperability protocol**. These requirements led to the design of the (light) client based approach, specified in the [02-client specification](https://github.com/cosmos/ibc/blob/main/spec/core/ics-002-client-semantics/README.md).
 
-As the IBC protocol originated within the Cosmos ecosystem for chains with Tendermint consensus, the most common IBC client is the [tendermint client](https://github.com/cosmos/ibc/blob/main/spec/client/ics-007-tendermint-client/README.md). The IBC connections built on top of the Tendermint IBC clients used in the early phases of (production) IBC, are based on _remote consensus proof verification_ on the host chain (i.e. the chain that runs the light client). **Thus, in this case the security of IBC reduces to the security of the connecting chains and the connection is trust-minized.**
+As the IBC protocol originated within the Cosmos ecosystem for chains with Tendermint consensus, the most common IBC client is the [tendermint client](https://github.com/cosmos/ibc/blob/main/spec/client/ics-007-tendermint-client/README.md). The IBC connections built on top of the Tendermint IBC clients used in the early phases of (production) IBC, are based on _remote consensus proof verification_ on the host chain (i.e. the chain that runs the light client). **Thus, in this case the security of IBC reduces to the security of the connecting chains and the connection is trust-minimized.**
 
 Many in the IBC community have thus started to consider the IBC protocol as synonymous with consensus proof based light clients. Recently however this is changing, in part due to the work Polymer is doing.
 
@@ -23,7 +23,7 @@ We'll give a short overview of the different verification methods that can also 
 
 ## IBC clients for heterogeneous chains
 
-Even though IBC was originated as part of the Cosmos vision of a network of interoperable L1s, mostly built using Tendermint consensus and Cosmos SDK, the team responsible for desinging the specification took no shortcuts and **built the protocol for a heterogenous network of many different chains with different consensus types**, existing and future ones.
+Even though IBC was originated as part of the Cosmos vision of a network of interoperable L1s, mostly built using Tendermint consensus and Cosmos SDK, the team responsible for designing the specification took no shortcuts and **built the protocol for a heterogenous network of many different chains with different consensus types**, existing and future ones.
 
 To ensure maximal compatibility, the [requirements on hosts chains to implement IBC](https://github.com/cosmos/ibc/blob/main/spec/core/ics-024-host-requirements/README.md) were intentionally kept minimal.
 
@@ -37,7 +37,7 @@ Initially, IBC adoption outside of Cosmos SDK chains (with Tendermint consensus)
 
 ### Client type vs client instance
 
-It's important to realize the difference between client types and client instance, i.e. an instance of said type. This implies that there are only a few different client types corresponding to chains with different concensus protocol. For each instance an monotonously increasing sequence number is assigned to identify different instances.
+It's important to realize the difference between client types and client instance, i.e. an instance of said type. This implies that there are only a few different client types corresponding to chains with different consensus protocol. For each instance an monotonously increasing sequence number is assigned to identify different instances.
 
 Client are then denominated as follows : `<ICS spec number>-<name string>-<iterator>`. For example: `07-tendermint-123` for Tendermint chains or `10-grandpa-345` for a Polkadot/Substrate chain.
 

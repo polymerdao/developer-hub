@@ -15,7 +15,7 @@ Polymer is bringing IBC to Ethereum rollups. [IBC](../../learn/concepts/ibc/ibc.
 
 Polymer as an IBC Hub takes care of the IBC transport layer, providing a straightforward and permissionless integration path, starting with OP stack rollups. Rollup chain devs or rollup framework devs are then potential users to integrate their rollups or frameworks with Polymer.
 
-Not only on the application layer, we expect a varierty of builders to build. Also on the state layer, we expect a thriving market in IBC clients to arise by developers specializing in state verification along the security/latency/cost trade-off space.
+Not only on the application layer, we expect a variety of builders to build. Also on the state layer, we expect a thriving market in IBC clients to arise by developers specializing in state verification along the security/latency/cost trade-off space.
 
 As Polymer grows, it will become more decentralized and infra operators who will run relayers and verifier nodes for Polymer will also make up 
 

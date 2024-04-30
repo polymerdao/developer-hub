@@ -25,14 +25,14 @@ Before starting to build cross-chain dApps through Polymer, there's a couple of 
 
 When going through the documentation, it's likely that you already have a cross-chain application in mind. Cross-chain applications can be split up into 2 broad categories:
 
-- An orignally single chain app that is refactored into a cross-chain one.
+- An originally single chain app that is refactored into a cross-chain one.
 - A _natively cross-chain_ application from scratch.
 
 As the need for scalability incentivizes more and more rollups or applications to be responsible for their own execution environments, application composability will increasingly appear as cross-chain interactions.
 
 ### Polymer support
 
-Polymer enables Ethereum rollups to use [IBC](../../learn/concepts/ibc/ibc.md) through the virtual IBC protcol. This implies deploying a set of [vIBC core smart contracts](../ibc-solidity/vibc-core.md) on the target chain and providing relayer support between that rollup and Polymer.
+Polymer enables Ethereum rollups to use [IBC](../../learn/concepts/ibc/ibc.md) through the virtual IBC protocol. This implies deploying a set of [vIBC core smart contracts](../ibc-solidity/vibc-core.md) on the target chain and providing relayer support between that rollup and Polymer.
 
 Polymer ensures support for a number of networks, to be found in the [supported networks page](../supp-networks.md).
 
