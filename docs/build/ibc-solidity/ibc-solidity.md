@@ -316,4 +316,4 @@ const portID = "polyibc.optimism-proofs-1.6a2544b95f6C256250C83F1FAf1f32B3448b0E
 
 ## Example?
 
-If you want an additional example other than the Mars.sol demo contract, you can follow along with the tutorials in the [tutorials section](../../quickstart/start.md).
+If you want an additional example other than the Mars.sol demo contract, you can follow along with the tutorials in the [tutorials section](../../quickstart/start.mdx).
