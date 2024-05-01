@@ -45,7 +45,7 @@ Below, we'll refer to the _**I**nter**c**hain **S**tandards_, or ICS-x for short
 
 ## Tackling Interoperability Fragmentation
 
-Counterintuitively, the _transport layer_ is arguably the most crucial layer in the interoperability model. This layer creates a commitment to all messages sent and received from a chain, while also enforcing TAO logic. This commitment is known as a [_transport commitment_](../concepts/vibc/clients.md/#fork-handling-and-virtual-roots).
+Counterintuitively, the _transport layer_ is arguably the most crucial layer in the interoperability model. This layer creates a commitment to all messages sent and received from a chain, while also enforcing TAO logic. This commitment is known as a [_transport commitment_](../concepts/vibc/clients.md#fork-handling-and-virtual-roots).
 
 Currently, transport commitments produced by one interoperability protocol are not understood by another, necessitating translation layers between protocols. This situation is anti-competitive and promotes vendor lock-in at the protocol level.
 

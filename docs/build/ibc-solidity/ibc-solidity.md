@@ -312,7 +312,7 @@ struct IbcPacket {
 }
 ```
 
-Please refer to the [IBC overview in the docs](../../learn/concepts/ibc/ibc.md/#the-ibc-application-module-callbacks) for additional background info.
+Please refer to the [IBC overview in the docs](../../learn/concepts/ibc/ibc.md#the-ibc-application-module-callbacks) for additional background info.
 
 ### `onRecvPacket` workflow
 
