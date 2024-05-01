@@ -22,7 +22,7 @@ Below you find the sequence of events for all possible situations.
 
 :::note Ethereum L2 interoperability
 
-When connecting Ethereum L2s that don't have native IBC implementations, the virtual <-> virtual case is applicable.
+When connecting Ethereum L2s that don't have native IBC implementations, the virtual-to-virtual case is applicable.
 
 OP (Sepolia) to Base (Sepolia) is an example
 
