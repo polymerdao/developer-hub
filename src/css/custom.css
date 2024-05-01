@@ -48,3 +48,8 @@ img {
   background-color: #21af90 !important;
 }
 
+.markdown {
+  max-width: 750px;
+  margin-left: auto;
+  margin-right: auto;
+}

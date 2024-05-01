@@ -17,6 +17,12 @@ IBC enabled smart contracts act as IBC application modules, effectively the appl
 
 Building IBC enabled contracts will be your concern as a cross-chain application developer (xDapp dev), the transport and state layers are taken care of by Polymer and vIBC.
 
+:::note Prerequisite reading 
+
+In case you haven't already, it's recommended to review the [app developer workflow documentation](../dev-workflow/app-dev.md) to correctly contextualize the content from here onwards.
+
+:::
+
 ## IBC application requirements
 
 From the [IBC documentation on IBC apps](https://ibc.cosmos.network/main/ibc/apps/apps.html), these are the tasks to implement to make your smart contract IBC enabled:
@@ -28,6 +34,12 @@ From the [IBC documentation on IBC apps](https://ibc.cosmos.network/main/ibc/app
   - channel closing handshake callbacks
   - packet callbacks
 - define your own packet data and acknowledgement structs as well as how to encode/decode them
+
+:::tip Takeaway
+
+As an xDapp developer, you will have to focus on the requirements above, implementing the `IBCModule` interface and defining packet and acknowledgment data structures.
+
+:::
 
 ### For Polymer and vIBC to implement
 
@@ -45,12 +57,6 @@ Remember from the [IBC overview](../../learn/concepts/ibc/ibc.md) that ports fac
 
 - (add keeper methods): specific to ibc-go, in the context where the IBC application is a dapp, this refers to the dapp methods that handle application logic
 - add a route to the IBC router: this will be taken care of by the vIBC smart contract
-
-:::tip Takeaway
-
-As an xDapp developer, you will have to focus on the requirements above, implementing the `IBCModule` interface and defining packet and acknowledgment data structures.
-
-:::
 
 ## The IBC callbacks
 
@@ -70,6 +76,8 @@ contract XCounter is CustomChanIbcApp {
     ...
 
     constructor(IbcDispatcher _dispatcher) CustomChanIbcApp(_dispatcher) {}
+    ...
+}
 ```
 
 Where you pass in the dispatcher address as constructor argument (with potentially additional custom ones).
@@ -81,14 +89,31 @@ What do the interfaces in CustomIbcChanApp.sol represent and how to use them?
 
 Let's take a look at [`IbcReceiver.sol`](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/IbcReceiver.sol) to begin with.
 
-The first thing to note is that there's an `IbcReceiverBase` contract that every IBC application will need to inherit from.
+The first thing to note is that there's an [`IbcReceiverBase` contract](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/interfaces/IbcReceiver.sol#L77-L103) that every IBC application will need to inherit from.
 
 ```solidity
 contract IbcReceiverBase is Ownable {
     IbcDispatcher public dispatcher;
 
+    error notIbcDispatcher();
+    error UnsupportedVersion();
+    error ChannelNotFound();
+
     /**
-     * @dev Constructor function that takes an IbcDispatcher address and grants the IBC_ROLE to the Polymer IBC Dispatcher.
+     * @dev Modifier to restrict access to only the IBC dispatcher.
+     * Only the address with the IBC_ROLE can execute the function.
+     * Should add this modifier to all IBC-related callback functions.
+     */
+    modifier onlyIbcDispatcher() {
+        if (msg.sender != address(dispatcher)) {
+            revert notIbcDispatcher();
+        }
+        _;
+    }
+
+    /**
+     * @dev Constructor function that takes an IbcDispatcher address and grants the IBC_ROLE to the Polymer IBC
+     * Dispatcher.
      * @param _dispatcher The address of the IbcDispatcher contract.
      */
     constructor(IbcDispatcher _dispatcher) Ownable() {
@@ -98,16 +123,6 @@ contract IbcReceiverBase is Ownable {
     /// This function is called for plain Ether transfers, i.e. for every call with empty calldata.
     // An empty function body is sufficient to receive packet fee refunds.
     receive() external payable {}
-
-    /**
-     * @dev Modifier to restrict access to only the IBC dispatcher.
-     * Only the address with the IBC_ROLE can execute the function.
-     * Should add this modifier to all IBC-related callback functions.
-     */
-    modifier onlyIbcDispatcher() {
-        require(msg.sender == address(dispatcher), "only IBC dispatcher");
-        _;
-    }
 }
 ```
 
@@ -115,13 +130,13 @@ The main thing the `IbcReceiverBase` establishes is registering the vIBC core di
 
 ### IbcDispatcher
 
-Arguably the most important among the vIBC core smart contracts, is the [`Dispatcher.sol`](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/Dispatcher.sol). The dispatcher is critical to manage (dispatch) IBC communication flow between applications on a virtual chain and Polymer (through the vIBC relayer).
+Arguably the most important among the vIBC core smart contracts, is the [`Dispatcher.sol`](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/interfaces/IbcDispatcher.sol). The dispatcher is critical to manage (dispatch) IBC communication flow between applications on a virtual chain and Polymer (through the vIBC relayer).
 
 Refer to the [vIBC concepts section](../../learn/concepts/vibc/overview.md) to learn more.
 
 :::tip Find relevant contract addresses
 
-Find the vIBC smart contracts on the chain you want to deploy your IBC enabled contracts. These are the only addresses you'll need (in addition to importing the interfaces). Find them [here](../supp-networks.mdx).
+Find the vIBC smart contracts on the chain you want to deploy your IBC enabled contracts. These are the only addresses you'll need (in addition to importing the interfaces). Find them [here](../supp-networks.mdx) (directed from the Polymer registry).
 
 :::
 
@@ -144,22 +159,22 @@ interface IbcPacketSender {
  * @title IbcDispatcher
  * @author Polymer Labs
  * @notice IBC dispatcher interface is the Polymer Core Smart Contract that implements the core IBC protocol.
- * @dev IBC-compatible contracts depend on this interface to actively participate in the IBC protocol. Other features are implemented as callback methods in the IbcReceiver interface.
+ * @dev IBC-compatible contracts depend on this interface to actively participate in the IBC protocol.
+ *         Other features are implemented as callback methods in the IbcReceiver interface.
  */
 interface IbcDispatcher is IbcPacketSender {
-    function portPrefix() external view returns (string memory);
-
-    function openIbcChannel(
-        IbcChannelReceiver portAddress,
+    function channelOpenInit(
         string calldata version,
         ChannelOrder ordering,
         bool feeEnabled,
         string[] calldata connectionHops,
-        CounterParty calldata counterparty,
-        Proof calldata proof
+        string calldata counterpartyPortId
     ) external;
 
-    function closeIbcChannel(bytes32 channelId) external;
+    function channelCloseConfirm(address portAddress, bytes32 channelId, Ics23Proof calldata proof) external;
+    function channelCloseInit(bytes32 channelId) external;
+
+    function portPrefix() external view returns (string memory portPrefix);
 }
 
 ```
@@ -167,7 +182,7 @@ interface IbcDispatcher is IbcPacketSender {
 It allows the application to call into the dispatcher to start channel creation by triggering the handshake or to start the packet lifecycle to send a packet.
 
 An example from the [XCounter.sol](https://github.com/open-ibc/ibc-app-solidity-template/blob/main/contracts/XCounter.sol) contract:
-```solidity
+```solidity title="Calling the dispatcher's sendPacket from the application"
     /**
      * @dev Sends a packet with the caller address over a specified channel.
      * @param channelId The ID of the channel (locally) to send the packet to.
@@ -191,7 +206,7 @@ An example from the [XCounter.sol](https://github.com/open-ibc/ibc-app-solidity-
 
 ### IbcReceiver
 
-As mentioned in the intro, an IBC application needs callbacks for the packet and channel lifecycle. These correspond to the `IbcPacketReceiver` and `IbcChannelReceiver`  interfaces that make up the `IbcReceiver` interface.
+As mentioned in the intro, an IBC application needs callbacks for the packet and channel lifecycle. These correspond to the `IbcPacketReceiver` and `IbcChannelReceiver`  interfaces that make up the [`IbcReceiver` interface](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/interfaces/IbcReceiver.sol).
 ```solidity
 /**
  * @title IbcPacketReceiver
@@ -211,33 +226,51 @@ and:
 ```solidity
 /**
  * @title IbcChannelReceiver
- * @dev This interface must be implemented by IBC-enabled contracts that act as channel owners and process channel handshake callbacks.
+ * @dev This interface must be implemented by IBC-enabled contracts that act as channel owners and process channel
+ * handshake callbacks.
  */
 interface IbcChannelReceiver {
-    function onOpenIbcChannel(
-        string calldata version,
-        ChannelOrder ordering,
-        bool feeEnabled,
+    function onChanOpenInit(
+        ChannelOrder order,
         string[] calldata connectionHops,
-        string calldata counterpartyPortId,
-        bytes32 counterpartyChannelId,
-        string calldata counterpartyVersion
+        string calldata counterpartyPortIdentifier,
+        string calldata version
     ) external returns (string memory selectedVersion);
 
-    function onConnectIbcChannel(bytes32 channelId, bytes32 counterpartyChannelId, string calldata counterpartyVersion)
+    function onChanOpenTry(
+        ChannelOrder order,
+        string[] memory connectionHops,
+        bytes32 channelId,
+        string memory counterpartyPortIdentifier,
+        bytes32 counterpartychannelId,
+        string memory counterpartyVersion
+    ) external returns (string memory selectedVersion);
+
+    function onChanOpenAck(bytes32 channelId, bytes32 counterpartychannelId, string calldata counterpartyVersion)
         external;
 
-    function onCloseIbcChannel(bytes32 channelId, string calldata counterpartyPortId, bytes32 counterpartyChannelId)
+    function onChanOpenConfirm(bytes32 channelId) external;
+    /**
+     * @notice Handles the channel close init event
+     * @param channelId The unique identifier of the channel
+     * @dev Make sure to validate channelId and counterpartyVersion
+     * @param counterpartyPortId The unique identifier of the counterparty's port
+     * @param counterpartyChannelId The unique identifier of the counterparty's channel
+     */
+    function onChanCloseInit(bytes32 channelId, string calldata counterpartyPortId, bytes32 counterpartyChannelId)
+        external;
+
+    /**
+     * @notice Handles the channel close confirmation event
+     * @param channelId The unique identifier of the channel
+     * @dev Make sure to validate channelId and counterpartyVersion
+     * @param counterpartyPortId The unique identifier of the counterparty's port
+     * @param counterpartyChannelId The unique identifier of the counterparty's channel
+     */
+    function onChanCloseConfirm(bytes32 channelId, string calldata counterpartyPortId, bytes32 counterpartyChannelId)
         external;
 }
-
 ```
-
-:::info Where's the remaining handshake steps?
-
-For regulars of ibc-go, this may seem like the channel handshake is missing two callbacks. However, it is simply vIBC internals (`Dispatcher.sol`) picking the right choice of handshake step during both `openIbcChannel` and `connectIbcChannel` methods, as depending on where the handshake was triggered each side will only go through two of the steps.
-
-:::
 
 This interface (`IbcReceiver`) satisfies the The [ICS-26](https://github.com/cosmos/ibc/blob/main/spec/core/ics-026-routing-module/README.md) specification for an `IBCModule`.
 
@@ -245,7 +278,7 @@ This interface (`IbcReceiver`) satisfies the The [ICS-26](https://github.com/cos
 
 One of the main jobs for you as xDapp developer when building IBC enabled applications is to implement these callbacks and provide them your custom logic.
 
-You can both define custom logic for the packet callbacks and channel handshake callbacks, but for the latter you could limit it to the default version negotiation that is defined in `Mars.sol` for example.
+You can both define custom logic for the packet callbacks and channel handshake callbacks, but for the latter you could limit it to the default version negotiation that is defined in [CustomChanIbcApp](https://github.com/open-ibc/ibc-app-solidity-template/blob/main/contracts/base/CustomChanIbcApp.sol) for example.
 
 :::
 
@@ -285,10 +318,10 @@ Please refer to the [IBC overview in the docs](../../learn/concepts/ibc/ibc.md/#
 
 One thing to note from the above is that the `onRecvPacket` returns an acknowledgement, according to the [spec](https://github.com/cosmos/ibc/tree/main/spec/core/ics-026-routing-module#packet-relay).
 
-Consider the `Mars.sol` example from earlier and how it implements the callback.
+Consider the `CustomChanIbcApp` example from earlier and how it implements the callback.
 
 ```solidity
-function onRecvPacket(IbcPacket calldata packet) external returns (AckPacket memory ackPacket) {
+function onRecvPacket(IbcPacket calldata packet) external virtual onlyIbcDispatcher returns (AckPacket memory ackPacket) {
         recvedPackets.push(packet);
 
         // here you'll typically decode the packet.data and do something with it
@@ -311,9 +344,13 @@ Having implemented these methods, once you've successfully set up a channel the 
 
 As an example, the port ID for a contract on optimism with contract address '0x6a2544b95f6C256250C83F1FAf1f32B3448b0E38' would be:
 ```typescript
-const portID = "polyibc.optimism-proofs-1.6a2544b95f6C256250C83F1FAf1f32B3448b0E38"
+const portID = "polyibc.optimism-proofs-2.6a2544b95f6C256250C83F1FAf1f32B3448b0E38"
 ```
+
+When in doubt, you can find out what the client suffix in the portPrefix is from the Polymer registry. For example, when using OP Sepolia's proof enabled client look [here](https://github.com/polymerdao/polymer-registry/blob/main/chains/eip155%3A11155420.json#L39). 
+
+When using IBC app Solidity template, these values are fetched automatically when using the script to create channels.
 
 ## Example?
 
-If you want an additional example other than the Mars.sol demo contract, you can follow along with the tutorials in the [tutorials section](../../quickstart/start.mdx).
+If you want an example, you can follow along with the tutorials in the [tutorials section](../../quickstart/start.mdx).
