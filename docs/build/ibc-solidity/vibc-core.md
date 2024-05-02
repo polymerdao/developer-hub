@@ -79,7 +79,7 @@ In the `/contracts` folder for the vIBC core smart contracts repo you'll find th
 
 The `/core` folder contains the most important contracts for vIBC.
 
-The **Dispatcher contract** implements a dispatcher that IBC applications call when they want to interact over IBC. The dispatcher will then emit IBC compatible events picked up by a vIBC relayer who will sumbit an IBC message to Polymer relating to the event along with a kind of proof as defined by the proof spec of the chosen IBC client (chosen by the dApp developer). Alternatively, events from Polymer or other IBC compatible chains destined for the virtual chain, are relayed by the vIBC relayer by calling into the dispatcher as well, which in turn will call the application callbacks as defined by the IBC packet lifecycle.
+The **Dispatcher contract** implements a dispatcher that IBC applications call when they want to interact over IBC. The dispatcher will then emit IBC compatible events picked up by a vIBC relayer who will submit an IBC message to Polymer relating to the event along with a kind of proof as defined by the proof spec of the chosen IBC client (chosen by the dApp developer). Alternatively, events from Polymer or other IBC compatible chains destined for the virtual chain, are relayed by the vIBC relayer by calling into the dispatcher as well, which in turn will call the application callbacks as defined by the IBC packet lifecycle.
 
 The **OpLightClient** and **OpProofVerifier** contracts take on the functionality of IBC client: keeping track of the _ConsensusState_ (a slight misnomer for the sake of IBC spec compatibility, given that for OP stack rollups the state is derived from L1 state and technically has no consensus), and handling updates to the state as well as verifying packet commitments against the state.
 
@@ -87,7 +87,7 @@ The **UniversalChannelHandler contract** is an IBC middleware that allows applic
 
 ### Import required logic or interfaces
 
-You can then import for example the `IbcReceiver` and `IbcReceiverBase` interface to extend your IBC enabled contract, like so:
+You can then import, for example, the `IbcReceiver` and `IbcReceiverBase` interface to extend your IBC enabled contract, like so:
 
 ```solidity
 ...

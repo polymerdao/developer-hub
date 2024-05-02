@@ -16,7 +16,7 @@ However, in the context of this discussion an application developer is someone d
 
 ## Prerequisites
 
-Before starting to build cross-chain dApps through Polymer, there's a couple of things to consider:
+Before starting to build cross-chain dApps through Polymer, there are a couple of things to consider:
 
 1. Do you have _an application that requires cross-chain functionality_?
 2. Are the networks you're targeting [supported by Polymer](../supp-networks.mdx)? (if not, reach out to us)
@@ -44,7 +44,7 @@ When you've confirmed there is support to use Polymer with your target rollups, 
 
 This comes down to:
 
-1. Go to the [ibc-app-solidity-template repo](https://github.com/open-ibc/ibc-app-solidity-template) and use it as a template (right top corner on GitHub) to start with. It sets up a template project with Hardhat and Foundry compatibility, includes the [vIBC core smart contracts](htpps://github.com/open-ibc/vibc-core-smart-contracts) and [Polymer chain registry](https://github.com/polymerdao/polymer-registry) as dependency in your project and comes with a simple quickstart project as well as some basic scripts to help kickstart your IBC development in Solidity.
+1. Go to the [ibc-app-solidity-template repo](https://github.com/open-ibc/ibc-app-solidity-template) and use it as a template (right top corner on GitHub) to start with. It sets up a template project with Hardhat and Foundry compatibility, includes the [vIBC core smart contracts](https://github.com/open-ibc/vibc-core-smart-contracts) and [Polymer chain registry](https://github.com/polymerdao/polymer-registry) as dependency in your project and comes with a simple quickstart project as well as some basic scripts to help kickstart your IBC development in Solidity.
 
 2. Decide whether you want to own your own private IBC channel or if you want to use the [Universal Channel](../ibc-solidity/universal-channel.md) that aggregates multiple applications sending packets over it. This decision will come down to your preferences: a custom channel ensures you own the channel and have more control over rate limiting, authentication, channel versioning etc. It requires the application to set up a channel handshake however, which may be undesirable.
 
@@ -74,7 +74,7 @@ The IBC app in Solidity template includes some base contracts for applications y
 
 :::note Not using IBC solidity app template?
 
-Although recommended to get started, it's not required to use _ibc-app-solidity-template_. In that case you'll have to manually add the dependencies to your project and look at the example contracts in the [vIBC core smart contracts repo](htpps://github.com/open-ibc/vibc-core-smart-contracts) to implement the required interfaces.
+Although recommended to get started, it's not required to use _ibc-app-solidity-template_. In that case you'll have to manually add the dependencies to your project and look at the example contracts in the [vIBC core smart contracts repo](https://github.com/open-ibc/vibc-core-smart-contracts) to implement the required interfaces.
 
 :::
 

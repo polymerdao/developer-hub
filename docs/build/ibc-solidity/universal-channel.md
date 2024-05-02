@@ -6,7 +6,7 @@ sidebar_label: 'Universal channels'
 
 In the last [section on building IBC apps in Solidity](ibc-solidity.md) we (implicitly) looked at how to build IBC enabled applications in Solidity by implementing the ICS-26 interface from the IBC spec, setting up packet lifecycle and channel lifecycle callbacks.
 
-However, as mentioned in the [app developer workflow overview](../dev-workflow/app-dev.md) there's also the possibility to send packets over a universal channel, eliminating the need to go through a channel handshake for every new pair of contracts that you want to send IBC packets between.
+However, as mentioned in the [app developer workflow overview](../dev-workflow/app-dev.md), there's also the possibility to send packets over a universal channel, eliminating the need to go through a channel handshake for every new pair of contracts that you want to send IBC packets between.
 
 ## Overview
 
