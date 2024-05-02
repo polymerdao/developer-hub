@@ -4,7 +4,7 @@ sidebar_label: 'Universal channels'
 ---
 # Universal Channel Middleware
 
-In the last [section on building IBC apps in Solidit](ibc-solidity.md) we (implicitly) looked at how to build IBC enabled applications in Solidity by implementing the ICS-26 interface from the IBC spec, setting up packet lifecycle and channel lifecycle callbacks.
+In the last [section on building IBC apps in Solidity](ibc-solidity.md) we (implicitly) looked at how to build IBC enabled applications in Solidity by implementing the ICS-26 interface from the IBC spec, setting up packet lifecycle and channel lifecycle callbacks.
 
 However, as mentioned in the [app developer workflow overview](../dev-workflow/app-dev.md) there's also the possibility to send packets over a universal channel, eliminating the need to go through a channel handshake for every new pair of contracts that you want to send IBC packets between.
 
@@ -22,7 +22,7 @@ The Universal channel is implemented as an IBC application, implementing the ICS
 
 The Universal Channel (UC) is designed to simplify the process of sending and receiving IBC packets for dApp users. Without the UC, dApp users would need to perform a channel handshake every time they want to establish a new IBC connection between pairs of contracts. This can be a complex and error-prone process, especially for users who are not familiar with the intricacies of the IBC protocol.
 
-The UC abstracts away these complexities by providing a single, universal channel between *two chains* (so building on top of an IBC connection) that all dApps can use to send and receive IBC packets to and from. The UC handles the channel handshake and IBC core authentication, so dApp users do not need to worry about it. See caveat below. 
+The UC abstracts away these complexities by providing a single, universal channel between *two chains* (so building on top of an IBC connection) that all dApps can use to send and receive IBC packets to and from. The UC handles the channel handshake and IBC core authentication, so dApp users do not need to worry about it. See caveat below.
 
 :::tip Universal channel as onboarding
 
@@ -39,7 +39,7 @@ For regular IBC packets, both packet sender and receiver with unique IBC ports a
 For Universal Packets, packet sender and receiver still have unique IBC ports for packet routing, but they do not own the channel. Instead, the Universal Channel Middleware contract owns the channel, and it is responsible for handling the channel handshake and authentication.
 One sender can send universal packets over the same universal channel to multiple receivers, and one receiver contract can receive universal packets from multiple senders over the same universal channel too. 
 
-- On the sender side, a universal packet is packed into a regular IBC packet and sent over the universal channel. 
+- On the sender side, a universal packet is packed into a regular IBC packet and sent over the universal channel.
 
 - On the receiver side, The Universal Channel Middleware contract unpacks the regular IBC packet, extracts the universal packet, and passes it to the next Middleware, if any, in the middleware stack, until it reaches the final destination specified in `UniversalPacket.destPortAddress` field.
 
@@ -78,7 +78,7 @@ uc.sendUniversalPacket(channelId, destPortAddr, appData, timeoutTimestamp);
 
 ### Receiving Packets, Acks, and Timeouts
 
-To be able to receive a packet, you need to implement the [`IbcUniversalPacketReceiver`](https://github.com/open-ibc/vibc-core-smart-contracts/tree/main/contracts/interfaces/IbcMiddleware.sol#L76) interface in your contract. This function is called by the UC when a packet is received. 
+To be able to receive a packet, you need to implement the [`IbcUniversalPacketReceiver`](https://github.com/open-ibc/vibc-core-smart-contracts/tree/main/contracts/interfaces/IbcMiddleware.sol#L76) interface in your contract. This function is called by the UC when a packet is received.
 
 Here's a simplified example of how to receive a packet:
 ```solidity

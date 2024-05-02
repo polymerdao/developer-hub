@@ -37,7 +37,7 @@ From the [IBC documentation on IBC apps](https://ibc.cosmos.network/main/ibc/app
 
 :::tip Takeaway
 
-As an xDapp developer, you will have to focus on the requirements above, implementing the `IBCModule` interface and defining packet and acknowledgment data structures.
+As an xDapp developer, focus on implementing the `IBCModule` interface and defining packet and acknowledgment data structures as described above.
 
 :::
 

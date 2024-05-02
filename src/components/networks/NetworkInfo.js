@@ -16,7 +16,14 @@ const NetworkInfo = () => {
         if (selectedChainId === '') return;
 
         const fetchData = async () => {
-            const response = await fetch(`https://raw.githubusercontent.com/polymerdao/polymer-registry/main/chains/eip155%3A${selectedChainId}.json`);
+            try {
+                const response = await fetch(`https://raw.githubusercontent.com/polymerdao/polymer-registry/main/chains/eip155%3A${selectedChainId}.json`);
+                const jsonData = await response.json();
+                console.log(jsonData);
+                setData(jsonData);
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+            }
             const jsonData = await response.json();
             console.log(jsonData);
             setData(jsonData);
