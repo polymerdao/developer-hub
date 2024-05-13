@@ -26,7 +26,7 @@ The UC abstracts away these complexities by providing a single, universal channe
 
 :::tip Universal channel as onboarding
 
-Although not limited to it, making use of a universal channel can be an excellent way to onboard onto IBC for new developers. It allows developers to get familiar with the packet lifecyle without dealing with the complexities of the channel lifecycle.
+Making use of a universal channel can be an excellent way to onboard onto IBC for new developers. It allows developers to get familiar with the packet lifecyle without dealing with the complexities of the channel lifecycle.
 
 :::
 
@@ -41,7 +41,7 @@ One sender can send universal packets over the same universal channel to multipl
 
 - On the sender side, a universal packet is packed into a regular IBC packet and sent over the universal channel.
 
-- On the receiver side, The Universal Channel Middleware contract unpacks the regular IBC packet, extracts the universal packet, and passes it to the next Middleware, if any, in the middleware stack, until it reaches the final destination specified in `UniversalPacket.destPortAddress` field.
+- On the receiver side, the Universal Channel Middleware contract processes the standard IBC packet to extract the universal packet. It then forwards this universal packet through any other Middleware in the stack, as needed, until it arrives at the final destination specified in the `UniversalPacket.destPortAddress` field.
 
 :::caution Additional authentication
 
