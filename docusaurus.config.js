@@ -1,8 +1,7 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -42,7 +41,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/polymerdao/developer-hub',
+            'https://github.com/polymerdao/developer-hub/tree/main/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -164,8 +163,8 @@ const config = {
         copyright: `Copyright © ${new Date().getFullYear()} Polymer Labs. Built with Docusaurus.`,
       },
       prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
+        theme: prismThemes.github,
+        darkTheme: prismThemes.dracula,
         additionalLanguages: ['bash', 'go', 'rust', 'typescript', 'solidity']
       },
     }),

@@ -8,7 +8,7 @@ sidebar_label: 'vIBC core contracts'
 
 One of the differentiating features of the Polymer chain, is its ability to enable IBC for chains (rollups) that don't have a native implementation and/or compatibility. We call these chains _virtual chains_ in the language of [vIBC](../../learn/concepts/vibc/overview.md).
 
-To ensure that these chains have access to the IBC transport layer, Polymer enables to run the IBC transport layer on their behalf.
+To ensure that these chains have access to the IBC transport layer, Polymer effectively runs the IBC transport layer on their behalf.
 
 ## Theory
 
@@ -36,7 +36,7 @@ The IBC handler (and routing) in virtual IBC consists of:
 
 Let's take a closer look at the vIBC core smart contracts.
 
-## Practical
+## Implementation
 
 When developing IBC application modules or smart contracts on a virtual chain (e.g. Ethereum), you'll need the following:
 
@@ -58,23 +58,46 @@ Alternatively, consider using [Foundry](https://book.getfoundry.sh/getting-start
 forge install open-ibc/vibc-core-smart-contracts
 ```
 
-You can then import for example the `IbcReceiverBase` interface to extend your IBC enabled contract, like so:
-
-```solidity
-...
-// replace $VIBC by the path (or store it as the $VIBC environment variable) you stored the submodule at
-import '$VIBC/contracts/interfaces/IbcReceiverBase.sol'
-...
-// have your application contract implement the interface
-contract MyIbcContract is IbcReceiver {
-    ...
-}
-```
-
 :::tip Use IBC app template
 
 Just adding the vibc-core-smart-contracts as a dependency to your project is possible, but we have a template repository named [ibc-app-solidity-template](https://github.com/open-ibc/ibc-app-solidity-template) which abstracts away a lot of the complexity and is a great place to start!
 
 :::
+
+### A high-level overview of the vIBC contracts
+
+In the `/contracts` folder for the vIBC core smart contracts repo you'll find the following folders (alphabetical order):
+
+1. `/base`: This folder contains base contracts applications can inherit from
+2. `/core`: This folder contains the **core logic for vIBC core**, we look at it in more detail below
+3. `/examples`: Fairly self-explanatory, this folder contains some example implementations
+4. `/interfaces`: Contains the interfaces defined, such as the ICS-26 interface IBC apps need to implement
+5. `/libs`: Contains libraries with shared functionality and definitions
+6. `/utils`: This folder contains some utils, including dummy light client contracts for the sim client.
+
+### Core logic
+
+The `/core` folder contains the most important contracts for vIBC.
+
+The **Dispatcher contract** implements a dispatcher that IBC applications call when they want to interact over IBC. The dispatcher will then emit IBC compatible events picked up by a vIBC relayer who will submit an IBC message to Polymer relating to the event along with a kind of proof as defined by the proof spec of the chosen IBC client (chosen by the dApp developer). Alternatively, events from Polymer or other IBC compatible chains destined for the virtual chain, are relayed by the vIBC relayer by calling into the dispatcher as well, which in turn will call the application callbacks as defined by the IBC packet lifecycle.
+
+The **OpLightClient** and **OpProofVerifier** contracts take on the functionality of IBC client: keeping track of the _ConsensusState_ (a slight misnomer for the sake of IBC spec compatibility, given that for OP stack rollups the state is derived from L1 state and technically has no consensus), and handling updates to the state as well as verifying packet commitments against the state.
+
+The **UniversalChannelHandler contract** is an IBC middleware that allows applications wishing to send IBC packets without establishing their own channel to define a middleware stack. In this stack, the UniversalChannelHandler owns the port for the universal IBC channel and allows wrapping the application's packet data with additional information into an IBC packet. This packet is then sent to the destination and unwrapped by the counterparty UniversalChannelHandler before being forwarded to the destination application. Read more in [the dedicated section](./universal-channel.md).
+
+### Import required logic or interfaces
+
+You can then import, for example, the `IbcReceiver` and `IbcReceiverBase` interface to extend your IBC enabled contract, like so:
+
+```solidity
+...
+// make sure to define a remapping to find @open-ibc/vibc-core-smart-contracts from the dependency /lib folder
+import { IbcReceiver, IbcReceiverBase } from '@open-ibc/vibc-core-smart-contracts/contracts/interfaces/IbcReceiver.sol'
+...
+// have your application contract implement the interface
+contract MyIbcContract is IbcReceiver, IbcReceiverBase {
+    ...
+}
+```
 
 Continue on to the [next section](ibc-solidity.md) to see how to implement the interfaces to write IBC enabled smart contracts.

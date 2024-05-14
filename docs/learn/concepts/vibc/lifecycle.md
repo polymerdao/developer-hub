@@ -22,9 +22,9 @@ This introduces some _subcycles_ to relay information between Polymer, the inter
 
 Without loss of generality, we break up the IBC packet cycle into some subcycles and investigate how it works for a virtual chain outsourcing IBC workload to Polymer. Following setups are possible:
 
-- Virtual chain <-> Polymer <-> Virtual chain : All subcycles will be using virtual IBC
+- Virtual chain --- Polymer --- Virtual chain : All subcycles will be using virtual IBC
 
-- Virtual chain <-> Polymer <-> IBC compatible chain: 
+- Virtual chain --- Polymer --- IBC compatible chain: 
   - Virtual chain is source of packet: `SendPacket` and `Acknowledgement` use vIBC protocol
   - Virtual chain is destination of packet: `RecvPacket` and `WriteAcknowledgement` use vIBC protocol
 

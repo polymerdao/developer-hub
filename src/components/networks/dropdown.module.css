@@ -1,0 +1,21 @@
+/* Dropdown.module.css */
+.dropdownContainer {
+    margin: 1rem 0;
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown {
+    padding: 0.8rem 1.6rem;
+    border: 1px solid #d4d4d5;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #222222;
+    outline: none;
+}
+
+.dropdown:focus {
+    border-color: #0056b3;
+}
