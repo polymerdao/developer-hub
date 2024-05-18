@@ -37,7 +37,7 @@ Additionally you'll need the following software installed:
 
 ## Project introduction and setup
 
-This dApp combines the [ballot contract from the Solidity docs](https://docs.soliditylang.org/en/v0.8.23/solidity-by-example.html#voting) and the [NFT contract from the Base intro to smart contract developement](https://docs.base.org/guides/deploy-smart-contracts).
+This dApp combines the [ballot contract from the Solidity docs](https://docs.soliditylang.org/en/v0.8.23/solidity-by-example.html#voting) and the [NFT contract from the Base intro to smart contract development](https://docs.base.org/guides/deploy-smart-contracts).
 
 The aim is to enable cross-chain minting of the NFT contract corresponding to a vote cast on the ballot contract on the counterparty. Therefore we **make the contracts IBC enabled** by implementing the [`IbcUniversalPacketReceiver` interface](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/IbcMiddleware.sol#L73-L82) as specified by the [vIBC protocol](../learn/concepts/vibc/overview.md).
 
@@ -45,7 +45,7 @@ The aim is to enable cross-chain minting of the NFT contract corresponding to a 
 
 Traditionally in IBC applications, each application would bind a port to the application and this port would own a channel end. This way the IBC channel functions as a _private lane_ for IBC traffic between the applications on both chains.
 
-However, to enhance the developer experience for application developers, the vIBC protocol allows applications developers to use a **universal channel**. This is an unordered channel that is shared among many appications (contracts) and requires no channel handshake protocol before starting to send packets.
+However, to enhance the developer experience for application developers, the vIBC protocol allows applications developers to use a **universal channel**. This is an unordered channel that is shared among many applications (contracts) and requires no channel handshake protocol before starting to send packets.
 
 **This tutorial handles the case of sending over the universal channel, i.e. you don't need to implement the channel callbacks but can start sending packets immediately after deploying your app.**
 
@@ -88,7 +88,7 @@ Make sure to ignore the file with your private keys when pushing your project to
 
 ## Implement `IbcUniversalPacketReceiver` interface
 
-In the `/contracts` folder, you'll find the `Ballot.sol` and `NFT.sol` contracts that correspond to the [ballot contract from the Solidity docs](https://docs.soliditylang.org/en/v0.8.23/solidity-by-example.html#voting) and the [NFT contract from the Base intro to smart contract developement](https://docs.base.org/guides/deploy-smart-contracts) respectively.
+In the `/contracts` folder, you'll find the `Ballot.sol` and `NFT.sol` contracts that correspond to the [ballot contract from the Solidity docs](https://docs.soliditylang.org/en/v0.8.23/solidity-by-example.html#voting) and the [NFT contract from the Base intro to smart contract development](https://docs.base.org/guides/deploy-smart-contracts) respectively.
 
 These are currently standalone contracts with the logic to vote on a proposal on the one hand and minting an NFT on the other hand. As part of this tutorial we'll **implement cross-chain logic** that allows a user to mint an NFT on Base Sepolia corresponding to a vote cast on OP Sepolia.
 

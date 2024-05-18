@@ -26,7 +26,7 @@ The UC abstracts away these complexities by providing a single, universal channe
 
 :::tip Universal channel as onboarding
 
-Making use of a universal channel can be an excellent way to onboard onto IBC for new developers. It allows developers to get familiar with the packet lifecyle without dealing with the complexities of the channel lifecycle.
+Making use of a universal channel can be an excellent way to onboard onto IBC for new developers. It allows developers to get familiar with the packet lifecycle without dealing with the complexities of the channel lifecycle.
 
 :::
 
