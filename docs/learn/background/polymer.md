@@ -11,7 +11,7 @@ Polymer is built around these three technical pillars:
 
 :::info Polymer's 3 technical pillars
 
-1. **Ethereum Security**: an Ethereum rollup itself, Polymer shares security with the rollups it provides interoperability.
+1. **Ethereum Security**: as an Ethereum rollup, Polymer shares the same source of security as other the rollups it connects to.
 
 2. **Native IBC interoperability**: having no _enshrined in-protocol_ interoperability standards, Polymer ports the IBC standard into the Ethereum ecosystem.
 
