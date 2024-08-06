@@ -5,6 +5,8 @@ sidebar_label: 'Intro to Polymer'
 
 # Introducing Polymer
 
+[Introducing the Polymer Hub: A Rollup built for interoperability] (https://www.polymerlabs.org/blog/introducing-the-polymer-hub-a-rollup-built-for-interoperability)
+
 Interoperability for rollups on Ethereum today is both highly [fragmented](interop.md) and insecure. Polymer solves this by bringing the strong interoperability foundation set by [IBC](../concepts/ibc/ibc.md) to Ethereum and its ecosystem of rollups. Our [approach](../concepts/polymer/polymer-stack.md) to doing so is to put the Cosmos SDK on top of the OP stack and build **Ethereum’s first interoperability hub**. 
 
 Polymer is built around these three technical pillars:
