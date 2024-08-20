@@ -19,6 +19,10 @@ All Polymer Hub clients are based on the rollup's architecture i.e how a rollup 
 
 ![image (15)](https://github.com/user-attachments/assets/b39a94a6-e367-4459-bf79-8bc31208fed9)
 
+As you move away from Ethereum to access the latest rollup state, you increase centralization (such as the sequencer acting dishonestly) and reorg risks.
+
+As a developer, you can select the client that best aligns with your use case and the trade-offs you're comfortable with.
+
 :::tip Re-org Resistance
 
 Our clients are designed around these critical pillars for rollup interoperability: **ordering** (re-org resistance) and **truth** (validity).
@@ -33,9 +37,47 @@ Guaranteeing both safety properties is crucial for rollup-to-rollup interoperabi
 ![image (16)](https://github.com/user-attachments/assets/7aaaf747-69a1-4eef-86b4-1c7d6c65978a)
 
 
-| Client Type                  | Source of Truth (Validity) | Re-org Protection (Ordering) | Speed/Latency |
-| ------------------------ | ------------------------ | ------------------------ | ------------------------ |
-| OP Sepolia       | [Link](https://docs.optimism.io/chain/networks#op-sepolia)    | [Blockscout](https://optimism-sepolia.blockscout.com/address/0xE2029629f51ab994210d671Dc08b7Ec94899b278) | [Blockscout](https://optimism-sepolia.blockscout.com/address/0x6c3AD733e52f700b47155e5e09b784b9d324C420) |
-| Base Sepolia     | [Link](https://docs.base.org/network-information#base-testnet-sepolia)      | [Blockscout](https://base-sepolia.blockscout.com/address/0x9fcd52449261F732d017F8BD1CaCDc3dFbcD0361)              | [Blockscout](https://base-sepolia.blockscout.com/address/0x7264fb109C059Fe56551F712e7B869a8bCA4E9CB) |
+| Client Type              | Source of Truth (Validity) | Re-org Protection (Ordering)                       | Speed/Latency |
+| ------------------------ | -------------------------- | -------------------------------------------------- | ------------- |
+| **Ethereum Client**      | Ethereum                   | Yes (Ensures data is finalized on Ethereum)        | 150 mins      |
+| **Lagrange Client**      | State Committee/AVS        | Yes (Derived from finalized data on Ethereum)      | 30 mins       |
+| **Sequencer Client**     | Sequencer/Rollup Operators | Partial (Blocks are off-chain, checked against L1) | 6-10 secs     |
 
 
+## Ethereum Client
+Every rollup proposes a state on Ethereum. Polymer Hub being a rollup itself, is able to read any information present on Ethereum like other rollup states via its own Native bridge (acting as the L1 light client). This direct view from Ethereum is used to build an image of the source rollup, i.e latest state of the rollup as per Ethereum. 
+
+![image (15)](https://github.com/user-attachments/assets/186de4d2-0d83-4d03-8b28-a5e73e74fb3d)
+
+- **Source:** Takes the input state directly from Ethereum (e.g., for Optimism, the proposer contract). 1st party source of truth, the best actually i.e Ethereum.
+- **Features:**
+    - In future will allow app developers to program a custom challenge window, ranging from zero (immediate state root proposal) to a full seven-day window.
+- **Risk:** Similar to all rollup native bridges, trust lies in the rollup operators and the ability to submit fraud, provided there is an honest party.
+
+
+## Lagrange ZK Client
+The next step towards getting closer the latest transactions on a rollup are the the batches of transactions submitted by rollups on Ethereum. They batches are posted so that anyone can derive the latest state of rollup and challenge the sequencer in case a fraudulent state is proposed.  
+
+Lagrange uses the same data to compute the state of rollup and attests (BLS signatures) to it backed by EigenLayer AVS stake, giving it crypto-economic security - that can be slashed in case they sign a wrong state root.
+
+![image (17)](https://github.com/user-attachments/assets/bf32547a-ec21-4b0e-aff8-f19f1c357754)
+
+- **Source:** The Lagrange State Committee (LSC) network, a simple and efficient ZK light client protocol for optimistic rollups that settle on Ethereum. 3rd party source of truth.
+- **Features:**
+    - Aggregated ZK proofs for cross-rollup transactions significantly lower the cost and complexity of proof generation, benefiting from economies of scale and dynamic security.
+    - BLS Signatures provide a quicker and more reliable method for verifying the state of rollups, addressing challenges associated with state updates in optimistic rollups.
+- **Risk:** The Lagrange State Committee network is an EigenLayer AVS (Actively Validated Service), backed by crypto-economic security.
+
+
+## Sequencer Client
+Moving a step further to the exact source of ordering and state transition, the Sequencer. Sequencer is simply a centralized process that every rollup team operates, that orders incoming user transactions, build blocks and then executes these transactions → this is the primary source where the new state is created, in real-time! 
+
+This state is signed and emitted by the sequencer to fellow nodes (P2P gossip network) to track the rollup chain, Polymer Hub taps into this P2P network to get the latest state as fast as the blocks are produced.
+
+![image (18)](https://github.com/user-attachments/assets/87cbe999-e288-4387-ab21-79a8f825f917)
+
+- **Source:** The sequencer of the rollup. 1st party source of truth.
+- **Features:**
+    - Fastest client possible, only limiting factor is block production rate of the rollup.
+    - This client tracks the L1 origin of the rollup to protect against L1 reorgs (existing forks) to maintain a consistent chain view of the rollup between the networking rollups.
+- **Risk:** Trust lies in the sequencer i.e rollup operators. Given this client operates pre-finality, there is significant reorg risk (future L1 reorg) till the ordering is finalized on Ethereum.
