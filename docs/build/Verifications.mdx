@@ -3,40 +3,38 @@ sidebar_position: 5
 sidebar_label: 'Verification Types'
 ---
 
-# Supported networks & dispatcher contracts
+# Verification trade-off matrix
 
-:::caution Disclaimer
+## Background
 
-The Polymer testnet is currently in an early public testnet phase. Please be aware that during this phase, the network may be subject to instability, downtime, and data resets. Read the full disclaimer [here](./disclaimer.md).
+Polymer Hub allows developers to choose between different client types, each managing the latest state of a connecting rollup on Polymer Hub. These clients are crucial for validating packets sent between various rollups.
+
+:::tip State Management
+
+Polymer Hub serves as the state manager for communicating rollups, relying on the rollup's chain state instead of individual transactions.
 
 :::
 
-Here you'll find an overview of the networks Polymer currently supports and where to find the address of the Dispatcher contract.
+All Polymer Hub clients are based on the rollup's architecture i.e how a rollup is communicating its latest state to Ethereum via the Native Rollup Bridge. Since rollups are designed to be faster, there’s an inherent lag between the Sequencer’s off-chain view and the on-chain view on Ethereum.
 
-## Supported networks (testnet)
+IMGAGEEEEEEEEE
 
-This table gives an overview of the important information for the networks Polymer supports currently. Note that when using IBC app in Solidity template to build apps, these are pre-populated in the environment file [here](https://github.com/open-ibc/ibc-app-solidity-template/blob/main/.env.example).
+:::tip Re-org Resistance
+
+Our clients are designed around these critical pillars for rollup interoperability: **ordering** (re-org resistance) and **truth** (validity).
+
+- **Ordering:** Finality of the state in question (Risk: Re-org and loss of transaction).
+- **Truth:** Validity of the state transaction, i.e., execution of a transaction (Risk: Processing fraud).
+
+Guaranteeing both safety properties is crucial for rollup-to-rollup interoperability.
+
+:::
+
+
 
 | Network                  | General Info & Resources | vIBC dispatcher | UC middleware |
 | ------------------------ | ------------------------ | ------------------------ | ------------------------ |
 | OP Sepolia       | [Link](https://docs.optimism.io/chain/networks#op-sepolia)    | [Blockscout](https://optimism-sepolia.blockscout.com/address/0xE2029629f51ab994210d671Dc08b7Ec94899b278) | [Blockscout](https://optimism-sepolia.blockscout.com/address/0x6c3AD733e52f700b47155e5e09b784b9d324C420) |
 | Base Sepolia     | [Link](https://docs.base.org/network-information#base-testnet-sepolia)      | [Blockscout](https://base-sepolia.blockscout.com/address/0x9fcd52449261F732d017F8BD1CaCDc3dFbcD0361)              | [Blockscout](https://base-sepolia.blockscout.com/address/0x7264fb109C059Fe56551F712e7B869a8bCA4E9CB) |
 
-:::danger Sim client is fast, but less secure!
 
-In the table below you'll find for each testnet a link to the Dispatcher and Universal channel middleware contracts for different kinds of clients. 
-
-- The _sim client_ is meant to be used for prototyping and iterative development. It is faster, but **less secure**
-- The _proof-enabled_ client goes through the channel or packet lifecycles with proofs provided by the relayer. This is slower, but more secure and representative of mainnet circumstances.
-
-Be sure to move on to proof-enabled clients when your application logic looks sound.
-
-:::
-
-## Network information
-
-Below you find a useful quick overview to add network information to your wallet etc. The information is fetched from the [Polymer chain registry](https://github.com/polymerdao/polymer-registry). For more instructions visit the official docs for each network...
-
-import NetworkInfo from '../../src/components/networks/NetworkInfo';
-
-<NetworkInfo />
