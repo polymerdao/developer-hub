@@ -49,6 +49,8 @@ Guaranteeing both safety properties is crucial for rollup-to-rollup interoperabi
 
 
 
+
+
 ## Ethereum Client
 Every rollup proposes a state on Ethereum. Polymer Hub being a rollup itself, is able to read any information present on Ethereum like other rollup states via its own Native bridge (acting as the L1 light client). This direct view from Ethereum is used to build an image of the source rollup, i.e latest state of the rollup as per Ethereum. 
 
@@ -58,6 +60,8 @@ Every rollup proposes a state on Ethereum. Polymer Hub being a rollup itself, is
 - **Features:**
     - In future will allow app developers to program a custom challenge window, ranging from zero (immediate state root proposal) to a full seven-day window.
 - **Risk:** Similar to all rollup native bridges, trust lies in the rollup operators and the ability to submit fraud, provided there is an honest party.
+
+
 
 
 
@@ -73,6 +77,8 @@ Lagrange uses the same data to compute the state of rollup and attests (BLS sign
     - Aggregated ZK proofs for cross-rollup transactions significantly lower the cost and complexity of proof generation, benefiting from economies of scale and dynamic security.
     - BLS Signatures provide a quicker and more reliable method for verifying the state of rollups, addressing challenges associated with state updates in optimistic rollups.
 - **Risk:** The Lagrange State Committee network is an EigenLayer AVS (Actively Validated Service), backed by crypto-economic security.
+
+
 
 
 
