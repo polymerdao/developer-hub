@@ -3,7 +3,7 @@ sidebar_position: 5
 sidebar_label: 'Verification Types'
 ---
 
-# Verification trade-off matrix
+# Verification Methods with Polymer
 
 ## Background
 
@@ -37,11 +37,16 @@ Guaranteeing both safety properties is crucial for rollup-to-rollup interoperabi
 ![image (16)](https://github.com/user-attachments/assets/7aaaf747-69a1-4eef-86b4-1c7d6c65978a)
 
 
+
+## Trade-off Matrix
+
 | Client Type              | Source of Truth (Validity) | Re-org Protection (Ordering)                       | Speed/Latency |
 | ------------------------ | -------------------------- | -------------------------------------------------- | ------------- |
 | **Ethereum Client**      | Ethereum                   | Yes (Ensures data is finalized on Ethereum)        | 150 mins      |
 | **Lagrange Client**      | State Committee/AVS        | Yes (Derived from finalized data on Ethereum)      | 30 mins       |
 | **Sequencer Client**     | Sequencer/Rollup Operators | Partial (Blocks are off-chain, checked against L1) | 6-10 secs     |
+
+
 
 
 ## Ethereum Client
@@ -53,6 +58,7 @@ Every rollup proposes a state on Ethereum. Polymer Hub being a rollup itself, is
 - **Features:**
     - In future will allow app developers to program a custom challenge window, ranging from zero (immediate state root proposal) to a full seven-day window.
 - **Risk:** Similar to all rollup native bridges, trust lies in the rollup operators and the ability to submit fraud, provided there is an honest party.
+
 
 
 ## Lagrange ZK Client
@@ -67,6 +73,7 @@ Lagrange uses the same data to compute the state of rollup and attests (BLS sign
     - Aggregated ZK proofs for cross-rollup transactions significantly lower the cost and complexity of proof generation, benefiting from economies of scale and dynamic security.
     - BLS Signatures provide a quicker and more reliable method for verifying the state of rollups, addressing challenges associated with state updates in optimistic rollups.
 - **Risk:** The Lagrange State Committee network is an EigenLayer AVS (Actively Validated Service), backed by crypto-economic security.
+
 
 
 ## Sequencer Client
