@@ -57,6 +57,7 @@ Every rollup proposes a state on Ethereum. Polymer Hub being a rollup itself, is
 
 - **Source:** Takes the input state directly from Ethereum (e.g., for Optimism, the proposer contract). 1st party source of truth, the best actually i.e Ethereum.
 - **Features:**
+    - This client also makes sure that the ordering of transactions is finalization on Ethereum. Add both ordering and data availability guarantees. 
     - In future will allow app developers to program a custom challenge window, ranging from zero (immediate state root proposal) to a full seven-day window.
 - **Risk:** Similar to all rollup native bridges, trust lies in the rollup operators and the ability to submit fraud, provided there is an honest party.
 
