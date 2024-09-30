@@ -1,4 +1,0 @@
-
-[[edge_functions]]
-function = "token-auth"
-path = "/*"
