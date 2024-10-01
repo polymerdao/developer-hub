@@ -91,7 +91,7 @@ The account associated with your private key must have both Base Sepolia and Opt
 
 ## 🏃🏽🏃🏻‍♀️ Quickstart
 
-The project comes with a built-in dummy application called x-counter (which syncrhonizes a counter across two contracts on remote chains). You can find the contracts in the `/contracts` directory as XCounterUC.sol and XCounter.sol (the former when using the universal channel, the latter when creating a custom IBC channel).
+The project comes with a built-in dummy application called x-counter (which synchronizes a counter across two contracts on remote chains). You can find the contracts in the `/contracts` directory as XCounterUC.sol and XCounter.sol (the former when using the universal channel, the latter when creating a custom IBC channel).
 
 ### Universal channels
 
@@ -100,11 +100,11 @@ The project comes with a built-in dummy application called x-counter (which sync
 <div style={{position: 'relative', paddingBottom: '59.31830676195712%', height: 0}}><iframe src="https://www.loom.com/embed/dd04f573bc664646820937751dc6466e?sid=8e518f29-9aae-4bc9-a32a-ee172274963c" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}></iframe></div>
 :::
 
-The easiest way to get onboarded is to use Universal channels. A universal channel is an IBC channel where the port is owned by Polymer's Universal channel middleware contracts on each chain.
+Universal channels are the easiest way to get started. A universal channel is an IBC channel where the port is owned by Polymer's Universal channel middleware contracts on each chain.
 
 When a user deploys a Universal channel compatible contract (this means inheriting the [UniversalChanIbcApp](https://github.com/open-ibc/ibc-app-solidity-template/blob/main/contracts/base/UniversalChanIbcApp.sol) base contract), it will be able to connect to the Universal Channel middleware, define Universal packets which will then be wrapped into an IBC packet by the Universal Channel Handler and unwrapped by its counterpart on the destination chain (rollup). The Universal channel middleware on the destination will then unwrap the IBC packet and send the data through to you application on the destination.
 
-Find out more about uinversal channels in the [documenation](https://docs.polymerlabs.org/docs/build/ibc-solidity/universal-channel).
+Find out more about universal channels in the [documentation](https://docs.polymerlabs.org/docs/build/ibc-solidity/universal-channel).
 
 The configuration file that comes as default in the template repository, allows to quickly send a packet by running:
 
@@ -120,7 +120,7 @@ Check if the packet got through on the [Polymer IBC explorer](https://sepolia.po
 
 ### Custom IBC channel
 
-There's also a just recipe that quickly enables to try to send packets over a custom IBC channel. Custom IBC channel require a channel hanshake to open a private IBC channel (which can take a while depending on the client latency) but then give complete control over a private IBC channel that enables fault isolation from other applications, compared to unviersal channels.
+There's also a just recipe that quickly enables to try to send packets over a custom IBC channel. A Custom IBC channel requires a channel handshake to open a private IBC channel (which can take a while depending on the client latency) but then gives complete control over a private IBC channel that enables fault isolation from other applications, compared to universal channels.
 
 To have your application be compatible with custom IBC channels, have it inherit the [CustomChanIbcApp](https://github.com/open-ibc/ibc-app-solidity-template/blob/main/contracts/base/CustomChanIbcApp.sol) base contract.
 
@@ -174,9 +174,9 @@ There's three types of default scripts in the project:
 
 - The `deploy.js` allows you to deploy your application contract. You may want to add additional deployment logic to the Hardhat script.
 - In the `/contracts` folder you'll find `arguments.js` to add your custom constructor arguments for automated deployment with the `deploy.js` script.
-- The `send-packet.js` script sends packets over an existing custom channel, and `send-universal-packet.js` is specifically for sending packets over a universal channel. You might want to add additional logic before or after sending the packet to cusotmize your application.
+- The `send-packet.js` script sends packets over an existing custom channel, and `send-universal-packet.js` is specifically for sending packets over a universal channel. You might want to add additional logic before or after sending the packet to customize your application.
 
-For most of the actions above and more, there are just recipes that combine related logic and update the configuation file in an automated way.
+For most of the actions above and more, there are just recipes that combine related logic and update the configuration file in an automated way.
 
 > **Note**: These are the default scripts provided. They provide the most generic interactions with the contracts to deploy, create channels and send packets. For more complicated use cases you will want to customize the scripts to your use case.
 
