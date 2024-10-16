@@ -162,7 +162,6 @@ For additional data and debugging, you may want to access one of the following:
 
 - [OP Sepolia block explorer](https://optimism-sepolia.blockscout.com/)
 - [Base Sepolia block explorer](https://base-sepolia.blockscout.com/)
-- [Polymer IBC explorer](http://35.236.98.227/packets)
 
 The block explorers will reveal additional information about all of the transactions that make up the IBC packet lifecycle, but these general purpose explorers are not _IBC aware_ which is where the Polymer IBC explorer comes into the picture.
 
