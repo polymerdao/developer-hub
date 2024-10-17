@@ -457,7 +457,7 @@ npx hardhat run scripts/vote-and-send.js --network op-sepolia
 
 Now you've sent the packet and the script tells you if the packet was sent successfully, but how do you check? There's many options to debug using block explorers for OP and Base Sepolia.
 
-For example, check the block explorer for the Dispatcher to start verifying on [OP](https://optimism-sepolia.blockscout.com/address/0xD92B86315CBcf9cC612F0b0542E0bE5871bCa146) and [Base](https://base-sepolia.blockscout.com/address/0xab6AEF0311954C40AcD4D1DED56CAAE9cc074975).
+For example, check the block explorer for the Dispatcher to start verifying on [OP](https://optimism-sepolia.blockscout.com/address/0xA8887C2689F1cE60081A9F37537483dD66fe2e1a) and [Base](https://base-sepolia.blockscout.com/address/0xD46875efF3fEa2c9c9A310f53d74E7BdF411f672).
 
 
 
