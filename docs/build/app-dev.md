@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 6
 sidebar_label: 'App developer workflow'
 ---
 
@@ -19,7 +19,7 @@ However, in the context of this discussion an application developer is someone d
 Before starting to build cross-chain dApps through Polymer, there are a couple of things to consider:
 
 1. Do you have _an application that requires cross-chain functionality_?
-2. Are the networks you're targeting [supported by Polymer](../supp-networks.mdx)? (if not, reach out to us)
+2. Are the networks you're targeting [supported by Polymer](../build/supp-networks.mdx)? (if not, reach out to us)
 
 ### Ideation
 
@@ -32,11 +32,11 @@ As the need for scalability incentivizes more and more rollups or applications t
 
 ### Polymer support
 
-Polymer enables Ethereum rollups to use [IBC](../../learn/concepts/ibc/ibc.md) through the virtual IBC protocol. This implies deploying a set of [vIBC core smart contracts](../ibc-solidity/vibc-core.md) on the target chain and providing relayer support between that rollup and Polymer.
+Polymer enables Ethereum rollups to use [IBC](../learn/concepts/ibc/ibc.md) through the virtual IBC protocol. This implies deploying a set of [vIBC core smart contracts](../build/ibc-solidity/vibc-core.md) on the target chain and providing relayer support between that rollup and Polymer.
 
-Polymer ensures support for a number of networks, to be found in the [supported networks page](../supp-networks.mdx).
+Polymer ensures support for a number of networks, to be found in the [supported networks page](../build/supp-networks.mdx).
 
-However, the **vIBC protocol allows for permissionless integration** so even if the rollup you're interested in is not on the supported networks list, rollup integration is still possible. Refer to the documentation on [integration](../integration/integration.md) for more information.
+However, the **vIBC protocol allows for permissionless integration** so even if the rollup you're interested in is not on the supported networks list, rollup integration is still possible.
 
 ## Develop IBC enabled dApps
 
@@ -46,9 +46,9 @@ This comes down to:
 
 1. Go to the [ibc-app-solidity-template repo](https://github.com/open-ibc/ibc-app-solidity-template) and use it as a template (right top corner on GitHub) to start with. It sets up a template project with Hardhat and Foundry compatibility, includes the [vIBC core smart contracts](https://github.com/open-ibc/vibc-core-smart-contracts) and [Polymer chain registry](https://github.com/polymerdao/polymer-registry) as dependency in your project and comes with a simple quickstart project as well as some basic scripts to help kickstart your IBC development in Solidity.
 
-2. Decide whether you want to own your own private IBC channel or if you want to use the [Universal Channel](../ibc-solidity/universal-channel.md) that aggregates multiple applications sending packets over it. This decision will come down to your preferences: a custom channel ensures you own the channel and have more control over rate limiting, authentication, channel versioning etc. It requires the application to set up a channel handshake however, which may be undesirable.
+2. Decide whether you want to own your own private IBC channel or if you want to use the [Universal Channel](../build/ibc-solidity/universal-channel.md) that aggregates multiple applications sending packets over it. This decision will come down to your preferences: a custom channel ensures you own the channel and have more control over rate limiting, authentication, channel versioning etc. It requires the application to set up a channel handshake however, which may be undesirable.
 
-3. Develop your own custom contracts by implementing the [required interfaces](https://github.com/cosmos/ibc/tree/main/spec/core/ics-026-routing-module#module-callback-interface) to your contracts to enable IBC, as explained in the [build IBC dApps](../ibc-solidity/ibc-solidity.md) section.
+3. Develop your own custom contracts by implementing the [required interfaces](https://github.com/cosmos/ibc/tree/main/spec/core/ics-026-routing-module#module-callback-interface) to your contracts to enable IBC, as explained in the [build IBC dApps](../build/ibc-solidity/ibc-solidity.md) section.
 
 :::tip Guiding principle
 
