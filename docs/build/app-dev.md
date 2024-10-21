@@ -32,7 +32,7 @@ As the need for scalability incentivizes more and more rollups or applications t
 
 ### Polymer support
 
-Polymer enables Ethereum rollups to use [IBC](../../learn/concepts/ibc/ibc.md) through the virtual IBC protocol. This implies deploying a set of [vIBC core smart contracts](../build/ibc-solidity/vibc-core.md) on the target chain and providing relayer support between that rollup and Polymer.
+Polymer enables Ethereum rollups to use [IBC](../learn/concepts/ibc/ibc.md) through the virtual IBC protocol. This implies deploying a set of [vIBC core smart contracts](../build/ibc-solidity/vibc-core.md) on the target chain and providing relayer support between that rollup and Polymer.
 
 Polymer ensures support for a number of networks, to be found in the [supported networks page](../build/supp-networks.mdx).
 
