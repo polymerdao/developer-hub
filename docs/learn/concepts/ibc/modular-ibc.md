@@ -11,7 +11,7 @@ As the IBC interoperability hub for Ethereum with its rollup-centric vision, Pol
 
 Ever since Celestia first introduced the concept of the modular blockchain paradigm, there has been ever increasing hype for the concept and the term _modular_ arguably is overused. In that vein, modular IBC, might be somewhat ambiguous, so let's clarify.
 
-- A **modular interoperability protocol**: as outlined [in the interoperability intro](../../background/interop.md), we consider a complete interoperability protocol one that has clear separation between application, transport and state layers. A modular interop protocol then, is one that **fully outsources the transport layer** to a dedicated transport hub, like Polymer
+- A **modular interoperability protocol**: We consider a complete interoperability protocol one that has clear separation between application, transport and state layers. A modular interop protocol then, is one that **fully outsources the transport layer** to a dedicated transport hub, like Polymer
 
 - **IBC (clients) for modular blockchains**: modular blockchains significantly change IBC network topology. The main issue is that modular blockchains break up a single logical blockchain into many parts. This means that **a single logical blockchain is represented using more than one IBC client**. 
 
