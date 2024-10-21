@@ -19,8 +19,6 @@ Building IBC enabled contracts will be your concern as a cross-chain application
 
 :::note Prerequisite reading 
 
-In case you haven't already, it's recommended to review the [app developer workflow documentation](../dev-workflow/app-dev.md) to correctly contextualize the content from here onwards.
-
 :::
 
 ## IBC application requirements
