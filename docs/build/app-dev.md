@@ -1,6 +1,6 @@
 ---
 sidebar_position: 6
-sidebar_label: 'App developer workflow'
+sidebar_label: 'App Developer Workflow'
 ---
 
 # Application developer workflow
