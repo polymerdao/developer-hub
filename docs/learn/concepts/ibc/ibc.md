@@ -23,7 +23,7 @@ The section here will give a quick high-level overview that will discuss the mos
 
 ## IBC, and its formal specification
 
-IBC is the first open and permissionless interoperability protocol to launch that allows for open participation. It is a [complete interoperability model](../../background/interop.md#the-interoperability-model) consisting of an application, transport and state layer with a clean separation between each layer.
+IBC is the first open and permissionless interoperability protocol to launch that allows for open participation. It is a complete interoperability model consisting of an application, transport and state layer with a clean separation between each layer.
 
 There's a complete [IBC specification](https://github.com/cosmos/ibc/) that allows for open source improvements and for teams to implement the protocol in existing or new blockchain architectures.
 
