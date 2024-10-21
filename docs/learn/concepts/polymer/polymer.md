@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 4
 sidebar_label: 'Intro to Polymer'
 ---
 
@@ -7,7 +7,7 @@ sidebar_label: 'Intro to Polymer'
 
 [Introducing the Polymer Hub: A Rollup built for interoperability](https://www.polymerlabs.org/blog/introducing-the-polymer-hub-a-rollup-built-for-interoperability)
 
-Interoperability for rollups on Ethereum today is both highly fragmented and insecure. Polymer solves this by bringing the strong interoperability foundation set by [IBC](../concepts/ibc/ibc.md) to Ethereum and its ecosystem of rollups. Our [approach](../concepts/polymer/polymer-stack.md) to doing so is to put the Cosmos SDK on top of the OP stack and build **Ethereum’s first interoperability hub**. 
+Interoperability for rollups on Ethereum today is both highly fragmented and insecure. Polymer solves this by bringing the strong interoperability foundation set by [IBC](../ibc/ibc.md) to Ethereum and its ecosystem of rollups. Our [approach](../polymer/polymer-stack.md) to doing so is to put the Cosmos SDK on top of the OP stack and build **Ethereum’s first interoperability hub**. 
 
 Polymer is built around these three technical pillars:
 
@@ -55,12 +55,12 @@ IBC allows any channel to be updated (via a feature called _channel upgradabilit
 
 ### Transparent Upgrades
 
-Polymer’s architecture allows it to enable IBC on connected chains and make them visible to the IBC network without the chains needing to implement IBC themselves, using a protocol called [_virtual IBC_](../concepts/vibc/overview.md). 
+Polymer’s architecture allows it to enable IBC on connected chains and make them visible to the IBC network without the chains needing to implement IBC themselves, using a protocol called [_virtual IBC_](../vibc/overview.md). 
 However, chains connected via Polymer are **not locked into using Polymer**. If the chain ends up implementing IBC natively, a channel upgrade can be performed to update the underlying list of connections from using Polymer to another hub or direct connection.
 
 ### Open Client Marketplace
 
-The [IBC client design is flexible](../concepts/ibc/ibc-clients.md) enough to represent arbitrary verification logic. They are not restricted to verifying the consensus of a chain. In fact, **many interoperability protocols today could easily be represented as an [IBC solo machine client](https://medium.com/the-interchain-foundation/ibc-beyond-light-clients-solo-machine-5af93618ef63)** which can support one or more private keys. The IBC network itself is essentially client agnostic and allows client builders to compete with one another for business. 
+The [IBC client design is flexible](../ibc/ibc-clients.md) enough to represent arbitrary verification logic. They are not restricted to verifying the consensus of a chain. In fact, **many interoperability protocols today could easily be represented as an [IBC solo machine client](https://medium.com/the-interchain-foundation/ibc-beyond-light-clients-solo-machine-5af93618ef63)** which can support one or more private keys. The IBC network itself is essentially client agnostic and allows client builders to compete with one another for business. 
 
 ## 3. Scalable connectivity
 
@@ -74,7 +74,7 @@ Polymer is being built as an L2 on Ethereum’s dedicated to one application, in
 
 There are different high level approaches to interoperability when it comes to network topology. Peer-to-peer or _p2p_ approaches were some of the earliest approaches that were explored. P2P connectivity scales poorly with the number of connected chains as you have an N^2 connectivity problem. 
 
-Hub and spoke approaches came next and improve on the scalability at the cost of introducing a middleman between connected chains. An IBC enabled hub like Polymer further improves on scalability by allowing for a _mesh network topology_ where any chain in the IBC network can connect to any other chain no matter how "distant" using [multi-hop routing](../concepts/ibc/multi-hop.md). 
+Hub and spoke approaches came next and improve on the scalability at the cost of introducing a middleman between connected chains. An IBC enabled hub like Polymer further improves on scalability by allowing for a _mesh network topology_ where any chain in the IBC network can connect to any other chain no matter how "distant" using [multi-hop routing](../ibc/multi-hop.md). 
 
 ### Polymer as a Port City
 
@@ -82,7 +82,7 @@ By combining its native IBC implementation along with sharing Ethereum as settle
 
 Additionally, Polymer acts a port city (reference to similar [Cosmos Hub metaphor](https://blog.cosmos.network/the-cosmos-hub-is-a-port-city-5b7f2d28debf)) connecting rollups on Ethereum with the growing IBC network effectively making the Ethereum ecosystem a part of the interchain (i.e. the network of IBC connected chains).
 
-![Ethereum's IBC interoperability Hub](../../../static/img/background/ethereum-ibc.png)
+![Screenshot 2024-10-21 at 2 42 03 PM](https://github.com/user-attachments/assets/76b83521-785a-4b25-a2e4-0eb2660b64be)
 
 :::note How does a Cosmos chain connect with Ethereum rollups via Polymer?
 

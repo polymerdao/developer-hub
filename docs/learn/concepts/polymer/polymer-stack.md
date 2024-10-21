@@ -5,8 +5,6 @@ sidebar_label : 'Polymer stack'
 
 # The Polymer stack
 
-The vision and product positioning for Polymer as the interoperability hub for Ethereum rollups has been laid out [earlier](../../background/polymer.md), but what is the architecture used to enable this vision?
-
 :::info Design principles
 
 When building out the interoperability hub for Ethereum, these design principles were guiding us:
