@@ -36,7 +36,7 @@ Polymer enables Ethereum rollups to use [IBC](../../learn/concepts/ibc/ibc.md) t
 
 Polymer ensures support for a number of networks, to be found in the [supported networks page](../build/supp-networks.mdx).
 
-However, the **vIBC protocol allows for permissionless integration** so even if the rollup you're interested in is not on the supported networks list, rollup integration is still possible. Refer to the documentation on [integration](../integration/integration.md) for more information.
+However, the **vIBC protocol allows for permissionless integration** so even if the rollup you're interested in is not on the supported networks list, rollup integration is still possible.
 
 ## Develop IBC enabled dApps
 
