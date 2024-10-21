@@ -45,7 +45,7 @@ Client are then denominated as follows : `<ICS spec number>-<name string>-<itera
 
 ## IBC clients: beyond consensus proof verification 
 
-As mentioned in the [section on interoperability](../../background/interop.md), the separation of the transport layer and the state layer is an important towards a unified transport standard while allowing flexibility in terms of state verification. The IBC client definition is loose enough to allow for verification beyond consensus proofs to update its view of the remote chain. Multi-signature, single signature, threshold signatures and more can all be considered valid clients. Any of the trust mechanisms listed below can be represented as an IBC client.
+The separation of the transport layer and the state layer is an important towards a unified transport standard while allowing flexibility in terms of state verification. The IBC client definition is loose enough to allow for verification beyond consensus proofs to update its view of the remote chain. Multi-signature, single signature, threshold signatures and more can all be considered valid clients. Any of the trust mechanisms listed below can be represented as an IBC client.
 
 :::tip All state layer verification as IBC clients
 This implies that many of the existing bridges or other interoperability solutions of today, mostly limited to state layers concerns, could be IBC clients in the future.

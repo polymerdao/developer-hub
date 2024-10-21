@@ -7,7 +7,7 @@ sidebar_label: 'Intro to Polymer'
 
 [Introducing the Polymer Hub: A Rollup built for interoperability](https://www.polymerlabs.org/blog/introducing-the-polymer-hub-a-rollup-built-for-interoperability)
 
-Interoperability for rollups on Ethereum today is both highly [fragmented](interop.md) and insecure. Polymer solves this by bringing the strong interoperability foundation set by [IBC](../concepts/ibc/ibc.md) to Ethereum and its ecosystem of rollups. Our [approach](../concepts/polymer/polymer-stack.md) to doing so is to put the Cosmos SDK on top of the OP stack and build **Ethereum’s first interoperability hub**. 
+Interoperability for rollups on Ethereum today is both highly fragmented and insecure. Polymer solves this by bringing the strong interoperability foundation set by [IBC](../concepts/ibc/ibc.md) to Ethereum and its ecosystem of rollups. Our [approach](../concepts/polymer/polymer-stack.md) to doing so is to put the Cosmos SDK on top of the OP stack and build **Ethereum’s first interoperability hub**. 
 
 Polymer is built around these three technical pillars:
 
@@ -27,7 +27,7 @@ Let's investigate these in more detail.
 
 The rollup-centric roadmap has surfaced as the way forward for the Ethereum ecosystem to tackle its scalability challenges. However, this approach hasn’t been without tradeoffs. Sharding execution across rollups, while enabling scalability, has come at the expense of creating relatively siloed execution environments that fragment liquidity, confuse end users, and complicate the developer journey. Secure composability across Layer 2s has emerged as one of the most significant issues plaguing Ethereum.
 
-There is currently no _enshrined_ interoperability protocol in the Ethereum ecosystem creating a lack of standardization. All of the existing arbitrary messaging bridges (AMBs) are implemented as smart contracts with diverging implementations causing [fragmented composability](interop.md). These problems are expected to get worse as we enter a period of exponential growth of L2 launches.
+There is currently no _enshrined_ interoperability protocol in the Ethereum ecosystem creating a lack of standardization. All of the existing arbitrary messaging bridges (AMBs) are implemented as smart contracts with diverging implementations causing fragmented composability. These problems are expected to get worse as we enter a period of exponential growth of L2 launches.
 
 Realizing the potential of introducing an interoperability standard to provide rollup-to-rollup communication (arbitrary message passing) for the Ethereum rollups, Polymer has decided to build as a rollup settling on Ethereum. We examine the major benefit below.
 
