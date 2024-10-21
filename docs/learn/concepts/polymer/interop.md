@@ -29,7 +29,7 @@ A **complete interoperability model consists of three layers, each with a clear 
 
 The layers in this model mirror those from the Open Systems Interconnection model (OSI model) used in network communication.
 
-![OSI Model Comparison of Interoperability Model](../../../static/img/background/OSI-comp.png)
+![Screenshot 2024-10-21 at 10 36 48 AM](https://github.com/user-attachments/assets/05ba28ed-fc92-40f9-b79f-5b6029dbca39)
 
 :::note Interchain Standards
 
