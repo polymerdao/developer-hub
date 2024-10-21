@@ -3,17 +3,6 @@ import React from "react";
 export default function FeatureList(url) {
   return [
     {
-      title: 'Learn the Foundations',
-      Svg: require('@site/static/img/learn-svg.svg').default,
-      to: `${url}/category/why-polymer-1`,
-      description: (
-        <>
-          Learn all about Polymer, IBC and vIBC
-          to understand how Polymer manages to connect rollups.
-        </>
-      ),
-    },
-    {
       title: 'Build IBC Apps',
       Svg: require('@site/static/img/build-svg.svg').default,
       to: `${url}/category/build-ibc-dapps-1`,
