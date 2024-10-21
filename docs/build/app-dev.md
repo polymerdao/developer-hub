@@ -19,7 +19,7 @@ However, in the context of this discussion an application developer is someone d
 Before starting to build cross-chain dApps through Polymer, there are a couple of things to consider:
 
 1. Do you have _an application that requires cross-chain functionality_?
-2. Are the networks you're targeting [supported by Polymer](../supp-networks.mdx)? (if not, reach out to us)
+2. Are the networks you're targeting [supported by Polymer](../build/supp-networks.mdx)? (if not, reach out to us)
 
 ### Ideation
 
@@ -32,9 +32,9 @@ As the need for scalability incentivizes more and more rollups or applications t
 
 ### Polymer support
 
-Polymer enables Ethereum rollups to use [IBC](../../learn/concepts/ibc/ibc.md) through the virtual IBC protocol. This implies deploying a set of [vIBC core smart contracts](../ibc-solidity/vibc-core.md) on the target chain and providing relayer support between that rollup and Polymer.
+Polymer enables Ethereum rollups to use [IBC](../../learn/concepts/ibc/ibc.md) through the virtual IBC protocol. This implies deploying a set of [vIBC core smart contracts](../build/ibc-solidity/vibc-core.md) on the target chain and providing relayer support between that rollup and Polymer.
 
-Polymer ensures support for a number of networks, to be found in the [supported networks page](../supp-networks.mdx).
+Polymer ensures support for a number of networks, to be found in the [supported networks page](../build/supp-networks.mdx).
 
 However, the **vIBC protocol allows for permissionless integration** so even if the rollup you're interested in is not on the supported networks list, rollup integration is still possible. Refer to the documentation on [integration](../integration/integration.md) for more information.
 
