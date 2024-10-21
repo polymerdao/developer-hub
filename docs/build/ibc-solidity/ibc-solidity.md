@@ -17,12 +17,6 @@ IBC enabled smart contracts act as IBC application modules, effectively the appl
 
 Building IBC enabled contracts will be your concern as a cross-chain application developer (xDapp dev), the transport and state layers are taken care of by Polymer and vIBC.
 
-:::note Prerequisite reading 
-
-In case you haven't already, it's recommended to review the [app developer workflow documentation](../dev-workflow/app-dev.md) to correctly contextualize the content from here onwards.
-
-:::
-
 ## IBC application requirements
 
 From the [IBC documentation on IBC apps](https://ibc.cosmos.network/main/ibc/apps/apps.html), these are the tasks to implement to make your smart contract IBC enabled:
