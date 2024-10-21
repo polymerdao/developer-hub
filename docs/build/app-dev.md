@@ -48,7 +48,7 @@ This comes down to:
 
 2. Decide whether you want to own your own private IBC channel or if you want to use the [Universal Channel](../build/ibc-solidity/universal-channel.md) that aggregates multiple applications sending packets over it. This decision will come down to your preferences: a custom channel ensures you own the channel and have more control over rate limiting, authentication, channel versioning etc. It requires the application to set up a channel handshake however, which may be undesirable.
 
-3. Develop your own custom contracts by implementing the [required interfaces](https://github.com/cosmos/ibc/tree/main/spec/core/ics-026-routing-module#module-callback-interface) to your contracts to enable IBC, as explained in the [build IBC dApps](../ibc-solidity/ibc-solidity.md) section.
+3. Develop your own custom contracts by implementing the [required interfaces](https://github.com/cosmos/ibc/tree/main/spec/core/ics-026-routing-module#module-callback-interface) to your contracts to enable IBC, as explained in the [build IBC dApps](../build/ibc-solidity/ibc-solidity.md) section.
 
 :::tip Guiding principle
 
