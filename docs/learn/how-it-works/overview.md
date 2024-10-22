@@ -15,7 +15,7 @@ Polymer Hub gathers state from source rollups using a light-client approach, dif
 
 ## Sequencer Client
 
-Our flagship offering is the Sequencer Client, which reads rollup state directly from the rollups’ sequencer, aggregates it on Polymer Hub, and sends a single state update to the destination chain to account for all the rollups and transactions on them.
+Polymer Hub's flagship offering is the Sequencer Client, which reads rollup state directly from the rollups’ sequencer, aggregates it on Polymer Hub, and sends a single state update to the destination chain to account for all the rollups and transactions on them.
 
 ![image (32)](https://github.com/user-attachments/assets/16272602-3926-4d53-a9ca-93cf4b9d1072)
 
