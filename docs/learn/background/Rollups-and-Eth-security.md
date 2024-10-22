@@ -18,3 +18,20 @@ Rollups scale Ethereum by offloading execution overhead to an off-chain sequence
     - The rollup computes the state root by executing transactions from the posted data batches, and then proposes it on Ethereum.
     - A challenge window (typically 7 days) begins, allowing anyone to submit a fault proof.
     - Users experience a 7-day exit delay due to this challenge window.
+
+## Rollup's Relationship to Ethereum Timeline
+Every rollup anchors to Ethereum via its L1Origin, defining its position on the timeline. The depth at which a rollup follows Ethereum matters:
+![image (23)](https://github.com/user-attachments/assets/eb0b3d03-ceae-4605-a8ec-0fc44de4fd33)
+
+- **Shallow Depth** (e.g., Optimism at 4 blocks):
+    - Less delay but higher risk if Ethereum forks.
+- **Greater Depth**:
+    - More confirmations reduce the risk of following a forked timeline.
+
+### Consequences of Tracking the Wrong Timeline
+![image (24)](https://github.com/user-attachments/assets/dcfc4956-277b-4b63-b3c2-eb87a75c4d37)
+
+If a rollup follows an incorrect Ethereum fork:
+- The rollup must switch to the correct timeline upon Ethereum's finalization.
+- Transactions executed on the wrong timeline revert to the mempool.
+- The sequencer replays these transactions; failure to catch up may lead to state reversion i.e a reorg as seen in the 2-week reorg on Degen Chain.
