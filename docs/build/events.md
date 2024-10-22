@@ -7,7 +7,7 @@ sidebar_label: 'Debug Packet Cycle'
 
 :::caution Disclaimer
 
-The Polymer testnet is currently in an early public testnet phase. Please be aware that during this phase, the network may be subject to instability, downtime, and data resets. Read the full disclaimer [here](../disclaimer.md).
+The Polymer testnet is currently in an early public testnet phase. Please be aware that during this phase, the network may be subject to instability, downtime, and data resets. Read the full disclaimer [here](../build/disclaimer.md).
 
 :::
 
