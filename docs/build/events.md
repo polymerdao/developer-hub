@@ -1,6 +1,6 @@
 ---
-sidebar_position: 4
-sidebar_label: 'Debug packet cycle'
+sidebar_position: 3
+sidebar_label: 'Debuging packet cycle'
 ---
 
 # Events overview for vIBC
