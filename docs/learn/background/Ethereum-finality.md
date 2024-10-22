@@ -16,6 +16,7 @@ For context of the sacred timeline, see [here](https://www.tumblr.com/rekaspbrak
 ![image (31)](https://github.com/user-attachments/assets/7fb13a23-d185-4b85-b277-5c04ecf949fc)
 
 <br/>
+<br/>
 
 Ethereum's rollup-centric roadmap aims to scale the usability of its decentralized and secure blockspace, bolstered by significant staking. While this approach enhances security and inclusivity (like solo stakers), it encounters a **finality problem**.
 
