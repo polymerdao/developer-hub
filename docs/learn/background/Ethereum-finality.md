@@ -15,6 +15,8 @@ For context of the sacred timeline, see [here](https://www.tumblr.com/rekaspbrak
 
 ![image (31)](https://github.com/user-attachments/assets/7fb13a23-d185-4b85-b277-5c04ecf949fc)
 
+<br/>
+
 Ethereum's rollup-centric roadmap aims to scale the usability of its decentralized and secure blockspace, bolstered by significant staking. While this approach enhances security and inclusivity (like solo stakers), it encounters a **finality problem**.
 
 ### Finality of Ordering
@@ -49,6 +51,8 @@ Rollups scale Ethereum by offloading execution overhead to an off-chain sequence
     - A challenge window (typically 7 days) begins, allowing anyone to submit a fault proof.
     - Users experience a 7-day exit delay due to this challenge window.
 
+
+
 # Rollup's Relationship to Ethereum Timeline
 Every rollup anchors to Ethereum via its L1Origin, defining its position on the timeline. The depth at which a rollup follows Ethereum matters:
 ![image (23)](https://github.com/user-attachments/assets/eb0b3d03-ceae-4605-a8ec-0fc44de4fd33)
@@ -69,12 +73,18 @@ If a rollup follows an incorrect Ethereum fork:
 # The Space-Time Gap Between Rollups
 ![image (25)](https://github.com/user-attachments/assets/2f9fef63-53ce-43af-b6ef-72ecb76e5367)
 
+<br/>
+
 Rollups anchor themselves to Ethereum at specific points on the blockchain known as **L1Origin**. Depending on their L1Origin, rollups can be at different places on Ethereum's timeline. In the worst-case scenario, they might even be following a different fork of Ethereum entirely.
+
+<br/>
 
 This situation has important implications:
 
 - **State Dependency on Ethereum's View**: Each rollup's state is contingent upon the Ethereum chain it follows. Since Ethereum achieves finality after about 13 minutes (two epochs), the chain a rollup follows might not be the finalized one. This means the rollup's state is provisional until Ethereum finalizes its chain.
 - **Risk of Reorganizations (Reorgs)**: If rollups are anchored to different forks of Ethereum, at least one will be following a non-canonical chain. When Ethereum finalizes its correct (canonical) chain, rollups on the wrong fork will have to reorganize their blockspace to align with the finalized chain. Transactions processed on the incorrect fork will be reverted and need to be re-executed on the correct timeline.
+
+<br/>
 
 Because rollups are tied to specific state of Ethereum they follow (as defined in their native bridge contracts), there's an inherent **gap** between them. This gap arises due to Ethereum's finality period—the time it takes for blocks to become immutable (approximately 13 minutes). Until finality is reached, rollups may not be perfectly synchronized.
 
@@ -96,6 +106,8 @@ This gap emphasizes the importance of considering Ethereum's finality in rollup 
 With over 200 rollups and growing, tracking each rollup's alignment with Ethereum is becoming complex. Although Ethereum rarely experiences deep reorgs (typically up to 2 blocks and max seen upto 7 blocks), even minor discrepancies can disrupt closely following rollups.
 
 Bringing rollups closer in blockspace is crucial, especially as transaction times decrease (e.g., milliseconds for rollups like MegaETH). High finality gap between rollups hinders application development, forcing new rollups to repeatedly deploy the same primitives instead of focusing on specialized use cases.
+
+<br/>
 
 ## Polymer Hub: Uniting Ethereum Rollup Blockspace
 ![image (27)](https://github.com/user-attachments/assets/a308085f-c29d-4c21-bf19-e46f05ac9d92)
