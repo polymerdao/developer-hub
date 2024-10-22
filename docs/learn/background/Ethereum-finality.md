@@ -13,7 +13,7 @@ For context of the sacred timeline, see [here](https://www.tumblr.com/rekaspbrak
 
 ## Ethereum: The sacred timeline of Finality
 
-<img width="708" alt="Screenshot 2024-10-22 at 3 21 46 PM" src="https://github.com/user-attachments/assets/8cd20648-34c1-4e13-8d30-324263f304d9">
+![image (31)](https://github.com/user-attachments/assets/7fb13a23-d185-4b85-b277-5c04ecf949fc)
 
 Ethereum's rollup-centric roadmap aims to scale the usability of its decentralized and secure blockspace, bolstered by significant staking. While this approach enhances security and inclusivity (like solo stakers), it encounters a **finality problem**.
 
