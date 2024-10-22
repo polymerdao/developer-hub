@@ -15,7 +15,11 @@ This is practical example with Base and Optimism on Ethereum mainnet. Both have 
 - **Optimism:** L1 origin at block 11.
 - **Base:** L1 origin at block 16.
 
-'Minimum Finality Gap' = ('Delta of L1Origins' - 1) × 'Ethereum Block Time'
+:::INFO
+ 
+`Minimum Finality Gap` =  (`Delta of L1Origins` - 1) x `Ethereum Block Time`
+
+:::
 
 ### Implecations
 - **Rollup Knowledge:** Optimism references Ethereum up to 11 blocks deep, while Base references up to 16 blocks. This mean the Optimism lacks the knowledge of Ethereum beyond the 11th block and for Base this is even larger i.e the first 16 Ethereum blocks.
@@ -31,7 +35,7 @@ This is practical example with Base and Optimism on Ethereum mainnet. Both have 
 
 ![image (40)](https://github.com/user-attachments/assets/036665a3-c448-45fc-8656-09cba00c8d99)
 
-Minimum Finality Gap: To share Optimism's state with Base, we need to wait until Base's L1 origin advances past block 4. This introduces a minimum finality gap calculated as: For this example, the gap is '(16 - 11 - 1) × 12 seconds = 48 seconds'.
+Minimum Finality Gap: To share Optimism's state with Base, we need to wait until Base's L1 origin advances past block 4. This introduces a minimum finality gap calculated as: For this example, the gap is `(16 - 11 - 1) × 12 seconds = 48 seconds`.
 
 :::TIP
 
