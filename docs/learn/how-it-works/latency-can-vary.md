@@ -4,7 +4,7 @@ sidebar_label: 'Why Latency Can Vary'
 ---
 
 
-# Sub-finality In Action
+# Sub-Finality In Action
 
 Polymer Labs has contributed a rollup improvement proposal, RIP-7789 to talk about the importance of L1 origin and part it play for rollup communications. Read more about [RIP-7789](https://ethereum-magicians.org/t/rip-7789-cross-rollup-contingent-transactions/21402).
 
