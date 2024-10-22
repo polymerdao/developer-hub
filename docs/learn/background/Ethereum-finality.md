@@ -11,7 +11,7 @@ For context of the sacred timeline, see [here](https://www.tumblr.com/rekaspbrak
 
 :::
 
-## Ethereum: The sacred timeline of Finality
+## Ethereum: The Sacred Timeline of Finality
 
 ![image (31)](https://github.com/user-attachments/assets/7fb13a23-d185-4b85-b277-5c04ecf949fc)
 <br/>
