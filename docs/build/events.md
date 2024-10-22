@@ -1,6 +1,6 @@
 ---
-sidebar_position: 4
-sidebar_label: 'Debug packet cycle'
+sidebar_position: 3
+sidebar_label: 'Debug Packet Cycle'
 ---
 
 # Events overview for vIBC
@@ -15,7 +15,7 @@ When debugging the IBC packet lifecycle, the first step to take is to track down
 
 For example, you can find reference to these events (or rather, the transaction they were emitted from) by looking at [IBC explorer](https://sepolia.polymer.zone/packets).
 
-![IBC explorer packet summary](../../../static/img/event.png)
+![IBC explorer packet summary](../../static/img/event.png)
 
 As an application developer, you'll be mostly looking at the events on the chains your application(s) live on, not Polymer itself in the middle. 
 Below you find the sequence of events for all possible situations.
