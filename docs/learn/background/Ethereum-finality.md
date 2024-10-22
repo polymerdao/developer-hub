@@ -5,7 +5,7 @@ sidebar_label: 'Ethereum Finality'
 
 # Ethereum's Finality
 
-:::
+:::info
 
 For context of the Sacred Timeline, see [here](https://www.tumblr.com/rekaspbrak/661582984296775680/adorablelokie-how-does-the-sacred-timeline-and)
 
