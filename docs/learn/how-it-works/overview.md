@@ -22,7 +22,7 @@ Our flagship offering is the Sequencer Client, which reads rollup state directly
 **Key Features:**
 
 - **First-Party Security:** The Sequencer Client reads the rollup state by tapping into the P2P gossip network of rollups—the source of all state changes on a rollup—as soon as a block is generated.
-- **Real-Time Communication (<1 min):** Rollups communicating through Polymer Hub can verify events nearly instantly. The speed depends how fast each rollup is configured. Polymer Hub will operate similar speed to each rollup.
+- **Real-Time Communication (1 min):** Rollups communicating through Polymer Hub can verify events nearly instantly. The speed depends how fast each rollup is configured. Polymer Hub will operate similar speed to each rollup.
 - **Ethereum Fork Consistency Checks:** The client performs dual checks—not only for verification guarantees but also to ensure that communicating rollups are on the same L1 (canonical fork of Ethereum). This allows for fast latency without the need for arbitrary confirmations.
 
 :::info
