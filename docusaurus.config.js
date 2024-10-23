@@ -5,10 +5,6 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Polymer Developer Docs',
-  tagline: 'Learn. Build. Connect.',
-  favicon: 'img/favicon.ico',
-
   // Set the production url of your site here
   url: 'https://docs.polymerlabs.org',
   // Set the /<baseUrl>/ pathname under which your site is served
