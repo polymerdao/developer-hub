@@ -63,7 +63,7 @@ const config = {
       // Replace with your project's social card
       image: 'img/poly-socialcard.jpg',
       navbar: {
-        title: 'Docs',
+        title: 'Docsxxx',
         hideOnScroll: false,
         logo: {
           alt: 'Polymer Logo',
