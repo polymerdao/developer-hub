@@ -347,4 +347,4 @@ When using IBC app Solidity template, these values are fetched automatically whe
 
 ## Example?
 
-If you want an example, you can follow along with the tutorials in the [tutorials section](../../quickstart/start.mdx).
+If you want an example, you can follow along with the tutorials in the [tutorials section](../../build/start.mdx).
