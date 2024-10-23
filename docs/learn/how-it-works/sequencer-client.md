@@ -37,5 +37,5 @@ In case a rollup is following the wrong fork of Ethereum or has undergone a reor
 
 ![image (35)](https://github.com/user-attachments/assets/96bfe2d8-f64c-46dd-b392-1a4edc5ccc0a)
 
-Polymer Labs has contributed a Rollup Improvement Proposal, RIP-7789, discussing the importance of L1Origin and the role it plays in rollup communications. Read more about [RIP-7789] (https://ethereum-magicians.org/t/rip-7789-cross-rollup-contingent-transactions/21402).
+Polymer Labs has contributed a Rollup Improvement Proposal, RIP-7789, discussing the importance of L1Origin and the role it plays in rollup communications. Read more about [RIP-7789](https://ethereum-magicians.org/t/rip-7789-cross-rollup-contingent-transactions/21402).
 
