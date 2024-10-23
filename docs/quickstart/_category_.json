@@ -1,8 +1,0 @@
-{
-    "label" : "Quickstart",
-    "position" : 4,
-    "link" : {
-        "type" : "generated-index",
-        "description" : "Get a feel for building IBC enabled contracts or dApps that connect via Polymer"
-    }
-}
