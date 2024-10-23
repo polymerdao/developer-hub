@@ -71,18 +71,18 @@ const config = {
           srcDark: 'img/logo-png-white.png',
         },
         items: [
+           {
+            type: 'docSidebar',
+            sidebarId: 'buildSidebar', 
+            label : 'Build', 
+            position: 'left'
+          }, 
           {
             type: "docSidebar",
             sidebarId: "learnSidebar",
             label : 'Learn', 
             position: 'left'
-          },
-          {
-            type: 'docSidebar',
-            sidebarId: 'buildSidebar', 
-            label : 'Build', 
-            position: 'left'
-          },       
+          },      
           {
             href: 'https://github.com/polymerdao',
             // label: 'GitHub',
