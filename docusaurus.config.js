@@ -63,7 +63,7 @@ const config = {
       // Replace with your project's social card
       image: 'img/poly-socialcard.jpg',
       navbar: {
-        title: 'Docsxxx',
+        title: 'Docs',
         hideOnScroll: false,
         logo: {
           alt: 'Polymer Logo',
@@ -82,13 +82,7 @@ const config = {
             sidebarId: 'buildSidebar', 
             label : 'Build', 
             position: 'left'
-          },
-          {
-            type: 'docSidebar',
-            sidebarId: 'quickstartSidebar',
-            label : 'Quickstart', 
-            position: 'left'
-          },          
+          },       
           {
             href: 'https://github.com/polymerdao',
             // label: 'GitHub',
