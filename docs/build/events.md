@@ -5,12 +5,6 @@ sidebar_label: 'Debug Packet Cycle'
 
 # Events overview for vIBC
 
-:::caution Disclaimer
-
-The Polymer testnet is currently in an early public testnet phase. Please be aware that during this phase, the network may be subject to instability, downtime, and data resets. Read the full disclaimer [here](../build/disclaimer.md).
-
-:::
-
 When debugging the IBC packet lifecycle, the first step to take is to track down the packet during its lifecycle and where any potential issue arises.
 
 For example, you can find reference to these events (or rather, the transaction they were emitted from) by looking at [IBC explorer](https://sepolia.polymer.zone/packets).
