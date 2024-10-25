@@ -15,7 +15,7 @@ To use Polymer's relayer, users must send fees that offset the gas costs on sour
 
 For example, for sending a packet or opening a chanel from from Optimism to Base chains, fees should be sent in optimism ETH through calling the  `depositSendPacketFee`  or    `depositOpenChannelFee`.  Sending insufficient fees will result in packets or channels (at any step of the handshakes) to not being relayed by Polymer.
 
-:::TIP
+::: TIP
 
 Fees should never be sent directly to the feeVault. They should only be deposited through defined methods.
 
