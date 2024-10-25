@@ -23,21 +23,7 @@ This table gives an overview of the important information for the networks Polym
 | [OP Mainnet](https://docs.optimism.io/chain/networks#op-mainnet)    | [Blockscout](https://optimism-sepolia.blockscout.com/address/0x7b456332e91Edf68B7d5E517085D5b15F9133fb8) | [Blockscout](https://optimism-sepolia.blockscout.com/address/0x0d3ed2B0A69a55519Ac249554aA58c5aD08E3174) |
 | [Base Mainnet](https://docs.base.org/network-information#base-mainnet)      | [Blockscout](https://base-sepolia.blockscout.com/address/0x7b456332e91Edf68B7d5E517085D5b15F9133fb8)              | [Blockscout](https://base-sepolia.blockscout.com/address/0x0d3ed2B0A69a55519Ac249554aA58c5aD08E3174) |
 
-:::danger Sim client is fast, but less secure!
-
-In the table below you'll find for each testnet a link to the Dispatcher and Universal channel middleware contracts for different kinds of clients. 
-
-- The _sim client_ is meant to be used for prototyping and iterative development. It is faster, but **less secure**
-- The _proof-enabled_ client goes through the channel or packet lifecycles with proofs provided by the relayer. This is slower, but more secure and representative of mainnet circumstances.
-
-Be sure to move on to proof-enabled clients when your application logic looks sound.
-
-:::
 
 ## Network information
 
 Below you find a useful quick overview to add network information to your wallet etc. The information is fetched from the [Polymer chain registry](https://github.com/polymerdao/polymer-registry). For more instructions visit the official docs for each network...
-
-import NetworkInfo from '../../src/components/networks/NetworkInfo';
-
-<NetworkInfo />
