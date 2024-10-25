@@ -45,7 +45,7 @@ polyibc.base-proofs-1.398461594ff79A12FC2FA6820Bf867b0d95DE955
 
 :::note
 
-Remember from the [IBC overview](../../learn/concepts/ibc/ibc.md) that ports facilitate module authentication? And that only a port owner (module or contract) can operate on all channels created with the port
+Remember from the [IBC overview](../learn/concepts/ibc/ibc.md) that ports facilitate module authentication? And that only a port owner (module or contract) can operate on all channels created with the port
 
 :::
 
@@ -75,7 +75,7 @@ contract XCounter is CustomChanIbcApp {
 ```
 
 Where you pass in the dispatcher address as constructor argument (with potentially additional custom ones).
-Find it in the [network information overview](../supp-networks.mdx).
+Find it in the [network information overview](../build/supp-networks.mdx).
 
 What do the interfaces in CustomIbcChanApp.sol represent and how to use them?
 
@@ -126,11 +126,11 @@ The main thing the `IbcReceiverBase` establishes is registering the vIBC core di
 
 Arguably the most important among the vIBC core smart contracts, is the [`Dispatcher.sol`](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/interfaces/IbcDispatcher.sol). The dispatcher is critical to manage (dispatch) IBC communication flow between applications on a virtual chain and Polymer (through the vIBC relayer).
 
-Refer to the [vIBC concepts section](../../learn/concepts/vibc/overview.md) to learn more.
+Refer to the [vIBC concepts section](../learn/concepts/vibc/overview.md) to learn more.
 
 :::tip Find relevant contract addresses
 
-Find the vIBC smart contracts on the chain you want to deploy your IBC enabled contracts. These are the only addresses you'll need (in addition to importing the interfaces). Find them [here](../supp-networks.mdx) (directed from the Polymer registry).
+Find the vIBC smart contracts on the chain you want to deploy your IBC enabled contracts. These are the only addresses you'll need (in addition to importing the interfaces). Find them [here](../build/supp-networks.mdx) (directed from the Polymer registry).
 
 :::
 
@@ -306,7 +306,7 @@ struct IbcPacket {
 }
 ```
 
-Please refer to the [IBC overview in the docs](../../learn/concepts/ibc/ibc.md#the-ibc-application-module-callbacks) for additional background info.
+Please refer to the [IBC overview in the docs](../learn/concepts/ibc/ibc.md#the-ibc-application-module-callbacks) for additional background info.
 
 ### `onRecvPacket` workflow
 
@@ -341,10 +341,10 @@ As an example, the port ID for a contract on optimism with contract address '0x6
 const portID = "polyibc.optimism-proofs-2.6a2544b95f6C256250C83F1FAf1f32B3448b0E38"
 ```
 
-When in doubt, you can find out what the client suffix in the portPrefix is from the Polymer registry. For example, when using OP Sepolia's proof enabled client look [here](https://github.com/polymerdao/polymer-registry/blob/main/chains/eip155%3A11155420.json#L39). 
+When in doubt, you can find out what the client suffix in the portPrefix is from the Polymer registry. For example, when using OP Sepolia's proof enabled client look [here](https://github.com/polymerdao/polymer-registry). 
 
 When using IBC app Solidity template, these values are fetched automatically when using the script to create channels.
 
 ## Example?
 
-If you want an example, you can follow along with the tutorials in the [tutorials section](../../build/start.mdx).
+If you want an example, you can follow along with the tutorials in the [tutorials section](../build/start.mdx).
