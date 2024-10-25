@@ -33,7 +33,7 @@ Consider now the following diagram where **vIBC is introduced to enable IBC on a
 
 - **IBC applications**: IBC application modules can be developed on the virtual chain as if it were a native IBC chain. Refer to the [IBC in Solidity section](../../../build/ibc-solidity/ibc-solidity.md) to learn how to build IBC enabled smart contracts on virtual chains.
 
-- **vIBC core smart contracts**: These contracts, deployed on the virtual chain, facilitate the IBC apps on the virtual chain to communicate with the transport layer on the remote Polymer hub by binding to it asynchronously. Refer to the [vIBC core contracts section](../../../build/ibc-solidity/vibc-core.md) to find out more.
+- **vIBC core smart contracts**: These contracts, deployed on the virtual chain, facilitate the IBC apps on the virtual chain to communicate with the transport layer on the remote Polymer hub by binding to it asynchronously. 
 
 - **vIBC relayer**: A relayer that listens to events related to the IBC lifecycle, emitted by vIBC core smart contracts, it then relays these events to the vIBC module on Polymer.
 
