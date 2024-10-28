@@ -25,7 +25,6 @@ Polymer Hub aggregates external rollup events into a single state commitment tha
 Polymer Hub gathers state from source rollups using a light-client approach, differing from systems that work on a per-packet basis signed by multisigs.
 
 :::
-
 <br/>
 The interop space, within the Ethereum landscape, is full of tradeoffs and recently it has mostly come down to speed vs security. Polymer aims to debunk that.
 
