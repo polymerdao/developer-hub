@@ -328,8 +328,6 @@ interface ModuleCallbacks {
 }
 ```
 
-A more detailed description on how to implement that in a Solidity smart contract, can be found in [the section on IBC apps in Solidity](../../../build/ibc-solidity/ibc-solidity.md).
-
 ## Putting it all together
 
 The client, connection and channel (and port) abstractions are the major "core IBC" abstractions defined by the protocol. Together they form the transport layer (and part of the state layer, with the client instances). How to implement the protocol in the blockchain code is left to the core developer. But there are some extra useful handlers that facilitate the communication flow.
