@@ -22,6 +22,13 @@ When being able to read directly from a rollup’s sequencer, it enables Polymer
 ## First Party Security Standards
 This is an issue handled by most interop protocols today by using different third party security standards:
 
+| Source of Truth          | Verification Type | Description |
+| ------------------------ | ------------------------ | ------------------------ |
+| 1st party    | Ethereum | Relies on Ethereum state as the security |
+| 1st party    | Rollup Infra | Rollup infra equated to sequencer, node or a shared layer of the rollup |
+| 3rd party    | Staked Multisig / PoS | Validators or AVSs committee style attestation services that have economic bond to prevent misbehavior |
+| 3rd party    | Multisig | A standalone multi party signature scheme with no economic stake for misbehavior |
+| 3rd party    | PoA | Trusted setup, where the party relaying and securing the message are close and likely the same |
 
 
 *1st party source is where the information is generated vs 3rd party verification is when an external party is giving that info*
