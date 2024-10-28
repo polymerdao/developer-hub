@@ -14,6 +14,18 @@ Polymer Hub’s feature set includes but not limited to:
 
 :::
 
+Polymer Hub is a networking protocol that connects Ethereum rollups by sharing state updates among them. Polymer Hub utilizes the IBC protocol, where a blockchain receives light client updates from a counterparty chain. Polymer Hub empowers rollups to verify any event emitted on any other chain through light client updates.
+
+![image (42)](https://github.com/user-attachments/assets/6453a27c-eae8-4c4c-b339-7c00a4d709fd)
+
+Polymer Hub aggregates external rollup events into a single state commitment that can be proven on all external chains. This allows dapps to prove external events against a unified state without the trust assumptions of a centralized bridge or relayer. 
+
+:::tip State Aggregation
+
+Polymer Hub gathers state from source rollups using a light-client approach, differing from systems that work on a per-packet basis signed by multisigs.
+
+:::
+
 The interop space, within the Ethereum landscape, is full of tradeoffs and recently it has mostly come down to speed vs security. Polymer aims to debunk that.
 
 ## Polymer Hub is Real-Time (Fast)
