@@ -26,6 +26,7 @@ Polymer Hub gathers state from source rollups using a light-client approach, dif
 
 :::
 
+<br/>
 The interop space, within the Ethereum landscape, is full of tradeoffs and recently it has mostly come down to speed vs security. Polymer aims to debunk that.
 
 ## Polymer Hub is Real-Time (Fast)
