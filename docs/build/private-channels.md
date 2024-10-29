@@ -1,9 +1,9 @@
 ---
 sidebar_position: 5
-sidebar_label: 'Private Channels'
+sidebar_label: 'Private Message Flow'
 ---
 
-# Creating your Private Channel
+# Creating your Private Channel (for private message flow)
 
 Polymer follows networking topology similar to TCP, thus a channel is established through a session setup process, often called a handshake. It is a 4 step process and at every step of the handshake process, core IBC performs basic verification and logic, while making callbacks to the application where custom handshake logic can be performed.
 
