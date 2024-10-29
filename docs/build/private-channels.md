@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-sidebar_label: 'Private Message Flow'
+sidebar_label: 'Private Message Flow (More Custom)'
 ---
 
 # Creating your Private Channel (for private message flow)
