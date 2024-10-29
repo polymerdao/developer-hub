@@ -1,9 +1,9 @@
 ---
 sidebar_position: 4
-sidebar_label: 'Universal Channels'
+sidebar_label: 'Default Message Flow'
 ---
 
-# Speed Run Rollup IBC with Universal Channels
+# Speed Run Rollup IBC with Universal Channels (a default path for messages)
 
 Universal channel is like an open port already deployed by us to allow anyone to call their remote contracts without creating a channel. This pre-deploy is known as Universal channel handler (UCH), so instead of calling the dispatcher your application will be calling this contract to quick send over an executing message. 
 
