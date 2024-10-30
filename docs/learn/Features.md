@@ -44,7 +44,7 @@ This is an issue handled by most interop protocols today by using different thir
 
 **1st party source is where the information is generated vs 3rd party verification is when an external party is giving that info*
 
-Polymer Hub is the first protocol to leverage 1st party standards due to its design of being a rollup itself. In other words, Polymer Hub does not depend on additional trust assumptions offchain. Instead it leverages the same security of the chains it is built on, such as the sequencers that control ordering and validity for each rollup.
+Polymer Hub is the first protocol to leverage 1st party standards due to its design of being a rollup itself. In other words, Polymer Hub does not depend on additional trust assumptions offchain. Instead, it leverages the same security of the chains it is built on, such as the sequencers that control ordering and validity for each rollup.
 
 
 ## Ethereum Fork Protected
