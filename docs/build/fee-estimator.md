@@ -49,7 +49,7 @@ There's a few specifics to sending packet fees vs channel fees:
 
 ### Channel Fees
 
-Given their complexity and relative infrequency, fees for channel handshakes are collected in a single lump sump. This amount is to be negotiated with the Polymer team by dapp which is opening the channel. 
+Given their complexity and relative infrequency, fees for channel handshakes are collected in a single lump sum. Please contact our team for assistance with setting up the channel handshake.
 
 Note: The Universal Channel for each chain pair can be used to send messages without having to do the channel handshake, and thus to avoid having to send channel handshake fees. 
 
