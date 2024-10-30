@@ -10,8 +10,6 @@ With over 200 rollups and growing, tracking each rollup's alignment with Ethereu
 
 Bringing rollups closer in blockspace is crucial, especially as transaction times decrease (e.g., milliseconds for rollups like MegaETH). High finality gap between rollups hinders application development, forcing new rollups to repeatedly deploy the same primitives instead of focusing on specialized use cases.
 
-<br/>
-
 ## Polymer Hub: Uniting Ethereum Rollup Blockspace
 ![image (27)](https://github.com/user-attachments/assets/a308085f-c29d-4c21-bf19-e46f05ac9d92)
 
