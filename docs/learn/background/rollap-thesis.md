@@ -6,9 +6,9 @@ sidebar_label: 'Rollapp Thesis and Polymer'
 # Nexus of 1000s of Rollups
 ![image (26)](https://github.com/user-attachments/assets/212a09ed-cb40-4772-83ba-1f4b6ff9f3df)
 
-With over 200 rollups and growing, tracking each rollup's alignment with Ethereum is becoming complex. Although Ethereum rarely experiences deep reorgs (typically up to 2 blocks, and at max, seen up to 7 blocks), even minor discrepancies can disrupt closely following rollups.
+With over 200 rollups and growing, tracking each rollup's alignment with Ethereum is becoming complex. Although Ethereum rarely experiences deep reorgs (typically up to 2 blocks, and at max, seen up to 7 blocks), even minor discrepancies can disrupt development progress.
 
-Bringing rollups closer in blockspace is crucial, especially as transaction times decrease (e.g., milliseconds for rollups like MegaETH). High finality gap between rollups hinders application development, forcing new rollups to repeatedly deploy the same primitives instead of focusing on specialized use cases.
+Bringing rollups closer in blockspace is crucial, especially as transaction times decrease (e.g., milliseconds for rollups like MegaETH). A high finality gap between rollups hinders application development, forcing new rollups to repeatedly deploy the same primitives instead of focusing on specialized use cases.
 
 ## Polymer Hub: Uniting Ethereum Rollup Blockspace
 ![image (27)](https://github.com/user-attachments/assets/a308085f-c29d-4c21-bf19-e46f05ac9d92)
