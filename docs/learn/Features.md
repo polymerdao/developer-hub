@@ -13,7 +13,7 @@ sidebar_label: 'Features'
 
 :::
 
-Polymer Hub is a networking protocol that connects Ethereum rollups by sharing state updates among them. Polymer Hub utilizes the IBC protocol, where a blockchain receives light client updates from a counterparty chain. Polymer Hub empowers rollups to verify any event emitted on any other chain through light client updates.
+Polymer Hub is a networking protocol that connects Ethereum rollups by sharing state updates among them. Polymer Hub utilizes IBC primitives, where a blockchain receives light client updates from a counterparty chain. Polymer Hub empowers rollups to verify any event emitted on any other chain through light client updates.
 
 ![image (42)](https://github.com/user-attachments/assets/6453a27c-eae8-4c4c-b339-7c00a4d709fd)
 
