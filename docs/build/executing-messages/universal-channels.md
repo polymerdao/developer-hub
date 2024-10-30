@@ -3,24 +3,24 @@ sidebar_position: 4
 sidebar_label: 'Default Message Flow'
 ---
 
-# Speed Run Rollup IBC with Universal Channels (a default path for messages)
+# Speed Run Rollup IBC with Universal Channels 
 
-Universal channel is like an open port already deployed by us to allow anyone to call their remote contracts without creating a channel. This pre-deploy is known as Universal channel handler (UCH), so instead of calling the dispatcher your application will be calling this contract to quick send over an executing message. 
+Universal channel is like an open port already deployed by Polymer to allow anyone to call a remote contracts. This contract is known as Universal channel handler (UCH), so instead of calling the dispatcher your application will be calling this contract to quickly send over an executing message. 
 
-- On the sender side, a universal packet is packed into a regular SendPacket and sent over the universal channel.
-- On the receiver side, another UCH processes the standard IBC packet to extract the universal packet. It then forwards this universal packet to the specified destination as per the  `UniversalPacket.destPortAddress` field.
+- On the sender side, the Universal Channel Handler will package the Universal Packet into a regular SendPacket (as if it were a normal packet) and send it over the channel it owns (the universal channel).
+- On the receiver side, another UCH processes the regular IBC packet to extract the universal packet. It then forwards this universal packet to the specified destination as per the  `UniversalPacket.destPortAddress` field.
 
 :::tip
 
-Making use of a universal channel can be an excellent way to onboard onto IBC for new developers. At the same time, application should not use it for production ready use-cases, as many applications share the channel, and can thus get our Dispatcher contract to call the permissioned packet handlers. It is therefore recommended to always authenticate both the universal channel and the remote sender for packets sent over UCH. 
+Making use of a universal channel can be an excellent way to onboard onto Rollup IBC for new developers. At the same time, application should not use it for production ready use-cases, as many applications share the same channel, and can thus get our Dispatcher contract to call the permissioned packet handlers. It is therefore recommended to always authenticate both the universal channel and the remote sender for packets sent over UCH. 
 
 :::
 
 ## Deploying your Receiving contract 
 
-To be able to receive a packet, you need to implement the  [`IbcUniversalPacketReceiver`](https://github.com/open-ibc/vibc-core-smart-contracts/tree/main/contracts/interfaces/IbcMiddleware.sol#L76)  interface in your contract. This function is called by the UC when a packet is received.
+To be able to receive a packet, you need to implement the  [`IbcUniversalPacketReceiver`](https://github.com/open-ibc/vibc-core-smart-contracts/tree/main/contracts/interfaces/IbcMiddleware.sol#L76)  interface in your contract. This function is called by the UCH when a packet is received.
 
-Here is an example on OnRecv function from [Earth demo contract:](https://github.com/open-ibc/vibc-core-smart-contracts/blob/b50844c6925d6780d110bbddb3c47d0797f57c7a/contracts/examples/Earth.sol#L108) 
+Here is an example receiving function from [Earth demo contract:](https://github.com/open-ibc/vibc-core-smart-contracts/blob/b50844c6925d6780d110bbddb3c47d0797f57c7a/contracts/examples/Earth.sol#L108) 
 
 Notice that you need to now inherit the [IbcUniversalPacketReceiverBase abstract contract](https://github.com/open-ibc/vibc-core-smart-contracts/blob/b50844c6925d6780d110bbddb3c47d0797f57c7a/contracts/interfaces/IbcMiddleware.sol#L317) instead of `IbcPacketReceiver`. 
 
