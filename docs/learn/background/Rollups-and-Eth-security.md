@@ -9,7 +9,7 @@ Rollups scale Ethereum by offloading execution overhead to a different sequencer
    ![image (22)](https://github.com/user-attachments/assets/430b88f9-c72a-4686-ba68-6313ba8347dc)
    - Each rollup block associates with a corresponding Ethereum L1 block (known as **L1Origin**).
    - The L1Origin can be at various depths on Ethereum's timeline, even on a fork.
-   - This is also how users bridge funds to the rollup via the native bridge, entering the off-chain environment, or force include transactions.
+     - This is also how users bridge funds to the rollup via the native bridge, entering the off-chain environment, or force include transactions.
    - *In the example image above Base has already seen the L1 block Arbitrum is using as it’s L1Origin since it is further in depth. However, Base is unaware Optimism as it is too early in depth.*
 2. **Sequencer Posting Transactions to L1 (DA):**
    - The sequencer batches transactions (ordered) and posts them on L1 for data availability.
