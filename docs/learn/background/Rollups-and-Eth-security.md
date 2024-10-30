@@ -34,4 +34,4 @@ Every rollup anchors to Ethereum via its L1Origin, defining its position on the 
 If a rollup follows an incorrect Ethereum fork:
 - The rollup must switch to the correct timeline upon Ethereum's finalization.
 - Transactions executed on the wrong timeline revert to the mempool.
-- The sequencer replays these transactions; failure to catch up may lead to state reversion i.e a reorg as seen in the 2-week reorg on Degen Chain.
+- The sequencer replays these transactions; failure to catch up may lead to state reversion i.e., a reorg as seen in the 2-week reorg on Degen Chain.
