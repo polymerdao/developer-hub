@@ -56,7 +56,7 @@ The `depositSendPacketFee` function will deposit the relayer fees for your appli
 
 ## Executing Packet on Receiving chain
 
-Your smart contract on the chain you are communicating with will need to implement the **IBC Receiver Interface** in your dApp. This is required so our **dispatcher smart** contract on the destination chaincan call these methods on your dapp.
+Your smart contract on the chain you are communicating with will need to implement the **IBC Receiver Interface** in your dApp. This is required so our **dispatcher smart** contract on the destination chain can call these methods on your dapp.
 
 ```solidity
 /**
@@ -93,7 +93,7 @@ interface IbcPacketReceiver {
 }
 ```
 
-Defining your own callback or the receiving function:
+Below is the template to define your application callback or receiving function:
 
 ```solidity
 /**
@@ -120,7 +120,7 @@ Defining your own callback or the receiving function:
 
 In the above:
 
-- The dispatcher on the source chain uses the returned `AckPacket` to emit a `WriteAckPacket` event.
+- The dispatcher on the destination chain uses the returned `AckPacket` to emit a `WriteAckPacket` event.
 - If you wish to avoid any acknowledgments, simply have your dapp return a  `skipAck` value of  false in the `onRecvPacket` callback.
 
 **Example:** An application (e.g., [Mars demo contracts](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/examples/Mars.sol)) that simply responds to a received message with "got the message".
@@ -139,9 +139,9 @@ In the above:
     }
 ```
 
-**Note:** The `onlyIbcDispatcher` modifier ensures that only the dispatcher contract can call the functions. Functions which don't have this modifier allow any arbitrary (read: potentially malicious) dapp to call them, which can result in unintended consequences.  
+**Note:** The `onlyIbcDispatcher` modifier ensures that only the dispatcher contract can call the functions. Functions which don't have this modifier allow any arbitrary (potentially malicious) dapp to call them, which can result in unintended consequences.  
 
-Inheriting from the [`IbcReceiverBase` contract](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/interfaces/IbcReceiver.sol#L77-L103) enables you register the dispatcher and implement the required interfaces, but do note that you still have to use this `onlyIbcDisaptcher` modifier on all methods which are polymer related.
+Inheriting from the [`IbcReceiverBase` contract](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/interfaces/IbcReceiver.sol#L77-L103) enables you to register the dispatcher and implement the required interfaces, but do note that you still have to use this `onlyIbcDisaptcher` modifier on all methods which are polymer related.
 
 ```solidity
 contract IbcReceiverBase is Ownable {
