@@ -4,7 +4,7 @@ sidebar_label: 'Rollups and Ethereum Security'
 ---
 
 # Rollups and Ethereum Security
-Rollups scale Ethereum by offloading execution overhead to an off-chain sequencer while inheriting Ethereum's security. They achieve this by:
+Rollups scale Ethereum by offloading execution overhead to a different sequencer while inheriting Ethereum's security. They achieve this by:
 1. **Tracking Ethereum's Timeline:**
    ![image (22)](https://github.com/user-attachments/assets/430b88f9-c72a-4686-ba68-6313ba8347dc)
    - Each rollup block associates with a corresponding Ethereum L1 block (known as **L1Origin**).
