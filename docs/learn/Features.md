@@ -5,7 +5,7 @@ sidebar_label: 'Features'
 
 # Polymer Hub Features
 
-:::info Polymer Hub’s feature set includes but not limited to:
+:::info Polymer Hub’s feature set includes but is not limited to:
 
  1. Speed (~10-50 seconds)
  2. 1st party security standards
