@@ -101,25 +101,13 @@ const config = {
             title: 'Documentation',
             items: [
               {
-                label: 'IBC specs',
-                href: 'https://github.com/cosmos/ibc',
+                label: 'Build',
+                href: 'https://docs.polymerlabs.org/docs/build/start',
               },
               {
-                label: 'ibc-go',
-                href: 'https://github.com/cosmos/ibc-go',
+                label: 'Learn',
+                href: 'https://docs.polymerlabs.org/docs/learn/Features',
               },
-              {
-                label: 'ibcx-go',
-                href: 'https://github.com/open-ibc/ibcx-go',
-              },
-              {
-                label: 'Ethereum',
-                href: 'https://ethereum.org/en/developers/docs/'
-              },
-              {
-                label: 'OP Stack',
-                href: 'https://stack.optimism.io/'
-              }
             ],
           },
           
