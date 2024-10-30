@@ -5,6 +5,8 @@ sidebar_label: 'Developer Launchpad'
 
 # Developer Launchpad
 
+Test test test
+
 Polymer Hub at its core (low level functionality) gathers state updates (e.g., block headers) from various rollups, aggregates them into a single state, and then shares this state across rollups—all accomplished using light clients (similar to IBC). By storing state updates, Polymer Hub enables rollups to verify any event log on any other chain.
 
 On top of this low-level state protocol sits the **application layer messaging primitive**, which this documentation focuses on. It follows IBC topology and allows applications to open communication channels between their smart contracts deployed on various chains, define contract endpoints with unique port IDs, and send messages to execute actions over them.
