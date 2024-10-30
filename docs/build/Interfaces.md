@@ -119,7 +119,6 @@ Below is the template to define your application callback or receiving function:
 ```
 
 In the above:
-
 - The dispatcher on the destination chain uses the returned `AckPacket` to emit a `WriteAckPacket` event.
 - If you wish to avoid any acknowledgments, simply have your dapp return a  `skipAck` value of  false in the `onRecvPacket` callback.
 
