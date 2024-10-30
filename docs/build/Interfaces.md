@@ -7,6 +7,8 @@ sidebar_label: 'Interfaces'
 
 ## Sending a Packet
 
+Test test test
+
 To send a message or packet, you will call the `SendPacket` method via the [dispatcher contract](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/interfaces/IbcDispatcher.sol) **on the chain you are sending the packet from.** Following is the event you will see on your explorer, if you are able to submit a successful transaction.
 
 ![image (46)](https://github.com/user-attachments/assets/e3df9dcb-3f43-46ed-bbb2-f9996bb019fa)
