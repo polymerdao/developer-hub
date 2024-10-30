@@ -5,11 +5,11 @@ sidebar_label: 'Private Message Flow (Advanced)'
 
 # Creating your Private Channel (for private message flow)
 
-Polymer follows networking topology similar to TCP, thus a channel is established through a session setup process, often called a handshake. It is a 4 step process and at every step of the handshake process, core IBC performs basic verification and logic, while making callbacks to the application where custom handshake logic can be performed.
+Polymer follows networking topology similar to TCP, thus a channel is established through a session setup process, often called a handshake. A channel is established through a session setup process, often referred to as a handshake. This handshake is a four-step process, where at each step, core IBC performs fundamental verification and logic by invoking handshake callbacks (shown below) between application smart contracts on different chains.
 
 ![image (47)](https://github.com/user-attachments/assets/47b744c4-a4d1-4200-b16d-4e59e774d687)
 
-While the [quickstart solidity template](https://docs.polymerlabs.org/docs/build/start/#custom-ibc-channel) takes care of the handshake process under the hood (it will take less than 5mins to go through the whole process), the follow section might help you understand some of the functions you are supposed to add in your smart contracts to allow them to proceed smoothly with the channel creation process.
+While the [quickstart solidity template](https://docs.polymerlabs.org/docs/build/start/#custom-ibc-channel) handles the handshake process under the hood (taking less than 5 minutes to complete), the following section provides an overview of the functions you need to add to your smart contracts to facilitate a smooth channel creation process.
 
 :::tip
 
@@ -17,7 +17,7 @@ Custom channels are the most effective way to bring your application to producti
 
 :::
 
-Setting up a channel is done through calling ``channelOpenInit`` on the dispatcher contract and calling ``_depositOpenChannelFee``, which is available through inheriting from the `[FeeSender](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/implementation_templates/FeeSender.sol)` contract. 
+Setting up a channel is done through calling ``channelOpenInit`` on the dispatcher contract and calling ``_depositOpenChannelFee``, which is available through inheriting from the [FeeSender](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/implementation_templates/FeeSender.sol) contract. 
 
 **Example:** An application (e.g., [Mars demo contracts](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/examples/Mars.sol)) that initiates the channel creation process. 
 
@@ -40,13 +40,17 @@ Setting up a channel is done through calling ``channelOpenInit`` on the dispatch
     }
 ```
 
-Connection hops can be queried from the polymer registry. Each connection in the connection hop array encodes the given chain light client type you are using. The counterpartyPortId is simply a concatenation of the portPrefix of the destination chain (which can be queried from the polymer registry), and the address of the dapp you want to communicate with. 
+Note: Connection hops can be queried from the polymer registry. Each connection in the connection hop array encodes the given chain light client type you are using. The counterpartyPortId is simply a concatenation of the portPrefix of the destination chain (which can be queried from the polymer registry), and the address of the dapp you want to communicate with. 
 
 **On the Receiver side**
 
-Follow is the snippet of Channel Receiver interfaces from [**IbcReceiver.sol](https://github.com/open-ibc/vibc-core-smart-contracts/blob/b50844c6925d6780d110bbddb3c47d0797f57c7a/contracts/interfaces/IbcReceiver.sol#L29)** . 
+Follow is the snippet of Channel Receiver interfaces from [**IbcReceiver.sol**](https://github.com/open-ibc/vibc-core-smart-contracts/blob/b50844c6925d6780d110bbddb3c47d0797f57c7a/contracts/interfaces/IbcReceiver.sol#L29). 
+
+:::tip
 
 Notice that the both source and destination contracts implement all the channel callbacks. Depending on which chain you initiate the channel handshake from, different functions will be called based on the flow is the diagram above. 
+
+:::
 
 ```solidity
 /**

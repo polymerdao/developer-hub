@@ -19,7 +19,7 @@ If you don't see a successful `SendPacketEvent` and instead see a reverted tx , 
 - The packet has already been sent for the given sequence number - try incrementing the sequence number to one you haven't used!
 - Your timeout might be invalid - is it one in the past?
 
-Calling `sendPacket` on our dispatcher contract, followed by `_depositSendPacketFee`, which is available through inheriting from our [FeeSender](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/implementation_templates/FeeSender.sol) contract. 
+Calling `sendPacket` on our dispatcher contract, must be followed by `_depositSendPacketFee`,available through inheriting from our [FeeSender](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/implementation_templates/FeeSender.sol) contract. 
 
 Following is an example from our [Mars](https://github.com/open-ibc/vibc-core-smart-contracts/blob/b50844c6925d6780d110bbddb3c47d0797f57c7a/contracts/examples/Mars.sol#L172) contract. 
 
@@ -56,7 +56,7 @@ The `depositSendPacketFee` function will deposit the relayer fees for your appli
 
 ## Executing Packet on Receiving chain
 
-Your smart contract on the chain you are communicating with will need to implement the **IBC Receiver Interface** in your dApp. This is required so our **dispatcher smart** contract on the destination chaincan call these methods on your dapp.
+Your smart contract on the chain you are communicating with will need to implement the **IBC Receiver Interface** in your dApp. This is required so our **dispatcher smart** contract on the destination chain can call these methods on your dapp.
 
 ```solidity
 /**
@@ -93,7 +93,7 @@ interface IbcPacketReceiver {
 }
 ```
 
-Defining your own callback or the receiving function:
+Below is the template to define your application callback or receiving function:
 
 ```solidity
 /**
@@ -120,7 +120,7 @@ Defining your own callback or the receiving function:
 
 In the above:
 
-- The dispatcher on the source chain uses the returned `AckPacket` to emit a `WriteAckPacket` event.
+- The dispatcher on the destination chain uses the returned `AckPacket` to emit a `WriteAckPacket` event.
 - If you wish to avoid any acknowledgments, simply have your dapp return a  `skipAck` value of  false in the `onRecvPacket` callback.
 
 **Example:** An application (e.g., [Mars demo contracts](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/examples/Mars.sol)) that simply responds to a received message with "got the message".
@@ -139,9 +139,9 @@ In the above:
     }
 ```
 
-**Note:** The `onlyIbcDispatcher` modifier ensures that only the dispatcher contract can call the functions. Functions which don't have this modifier allow any arbitrary (read: potentially malicious) dapp to call them, which can result in unintended consequences.  
+**Note:** The `onlyIbcDispatcher` modifier ensures that only the dispatcher contract can call the functions. Functions which don't have this modifier allow any arbitrary (potentially malicious) dapp to call them, which can result in unintended consequences.  
 
-Inheriting from the [`IbcReceiverBase` contract](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/interfaces/IbcReceiver.sol#L77-L103) enables you register the dispatcher and implement the required interfaces, but do note that you still have to use this `onlyIbcDisaptcher` modifier on all methods which are polymer related.
+Inheriting from the [`IbcReceiverBase` contract](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/interfaces/IbcReceiver.sol#L77-L103) enables you to register the dispatcher and implement the required interfaces, but do note that you still have to use this `onlyIbcDisaptcher` modifier on all methods which are polymer related.
 
 ```solidity
 contract IbcReceiverBase is Ownable {
