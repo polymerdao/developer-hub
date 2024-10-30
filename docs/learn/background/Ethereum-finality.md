@@ -14,7 +14,7 @@ For context of the Sacred Timeline, see [here](https://www.tumblr.com/rekaspbrak
 ## Ethereum: The Sacred Timeline of Finality
 
 ![image (31)](https://github.com/user-attachments/assets/7fb13a23-d185-4b85-b277-5c04ecf949fc)
-<br/>
+
 Ethereum's rollup-centric roadmap aims to scale the usability of its decentralized and secure blockspace, bolstered by significant staking. While this approach enhances security and inclusivity (like solo stakers), it encounters a **finality problem**.
 
 ### Finality of Ordering
