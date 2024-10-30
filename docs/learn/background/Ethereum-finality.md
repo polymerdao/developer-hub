@@ -22,7 +22,7 @@ Ethereum operates on a probabilistic model where transactions aren't fully confi
 
 ![image (21)](https://github.com/user-attachments/assets/66ca59e3-377f-4bb8-a7db-512bf56526f5)
 
-- **Forks May Occur**: Ethereum can have different forks based on the transactions included in a block, leading to diverging views
+- **Forks May Occur**: Ethereum can have different forks based on the transactions included in a block, leading to diverging views.
 - **Delayed Confirmations**: It can take significant time to finalize transactions (horizontal relationship to finality).
 
 Thus, the primary settlement layer for rollups requires about 13 minutes to achieve finality, prompting the question: **How do rollups ensure they align with Ethereum's timeline?**
