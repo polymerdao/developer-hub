@@ -19,7 +19,7 @@ If you don't see a successful `SendPacketEvent` and instead see a reverted tx , 
 - The packet has already been sent for the given sequence number - try incrementing the sequence number to one you haven't used!
 - Your timeout might be invalid - is it one in the past?
 
-Calling `sendPacket` on our dispatcher contract, must be followed by `_depositSendPacketFee`,available through inheriting from our [FeeSender](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/implementation_templates/FeeSender.sol) contract. 
+Calling `sendPacket` on our dispatcher contract, must be followed by `_depositSendPacketFee` , available through inheriting from our [FeeSender](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/implementation_templates/FeeSender.sol) contract. 
 
 Following is an example from our [Mars](https://github.com/open-ibc/vibc-core-smart-contracts/blob/b50844c6925d6780d110bbddb3c47d0797f57c7a/contracts/examples/Mars.sol#L172) contract. 
 
@@ -119,7 +119,6 @@ Below is the template to define your application callback or receiving function:
 ```
 
 In the above:
-
 - The dispatcher on the destination chain uses the returned `AckPacket` to emit a `WriteAckPacket` event.
 - If you wish to avoid any acknowledgments, simply have your dapp return a  `skipAck` value of  false in the `onRecvPacket` callback.
 

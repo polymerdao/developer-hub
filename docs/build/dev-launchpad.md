@@ -17,7 +17,7 @@ You can use channels and ports as your own application bridge over the underlyin
 
 :::
 
-See and example:
+See an example:
 ![image (44)](https://github.com/user-attachments/assets/17c2089c-c558-4384-8f87-44352945e597)
 
 - **Source Port Address and Destination Port Address**: These are your smart contracts, prefixed by the chain given contract is deployed on (e.g. "polyibc.optimism."). Only these smart contracts can send messages over the channels they've done a successful channel handshake with.  Note: channelIds are always encoded as utf8 encoded bytes, and are usually prefixed with "channel-" in bytes, which is  "0x6368616e6e656c2d".
