@@ -21,7 +21,7 @@ In this scenario:
 
 This means that depending on their L1 origins, different L2s might be operating with different views of the Ethereum chain. They are either "in the past", “in the future” or "in the same time" relative to one another depending on where they are anchored in the L1 history.
 
-## Uniting Ethereum Blockspace 
+## Uniting Rollup Blockspace 
 
 To ensure that rollups communicating within the finality gap are on the correct fork of Ethereum, Polymer Hub operates as a rollup on Ethereum itself. Being a rollup allows it to be directly connected to both Ethereum and other rollups, ensuring consistency and alignment across the network.
 
