@@ -8,7 +8,7 @@ sidebar_label: 'Features'
 :::info Polymer Hub’s feature set includes but is not limited to:
 
  1. Speed (~10-50 seconds)
- 2. 1st party security standards
+ 2. 1st party security standards (Rollup grade)
  3. Ethereum fork protected w/ on-chain validation
 
 :::
