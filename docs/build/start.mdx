@@ -110,7 +110,7 @@ To send a packet between the XCounterUC contract on Base Sepolia to OP Sepolia a
 
 There is a quick guide available that helps you send packets over a custom/private IBC channel. The channel is established through a session setup process, known as a handshake, which typically takes less than five minutes to complete. Once established, the private channel provides fault isolation from other applications, ensuring that only your contracts can communicate with each other, unlike universal channels.
 
-To have your application be compatible with custom IBC channels, have it inherit the [CustomChanIbcApp](./contracts/base/CustomChanIbcApp.sol) base contract.
+To have your application be compatible with custom IBC channels, have it inherit the [CustomChanIbcApp](https://github.com/open-ibc/ibc-app-solidity-template/blob/main/contracts/base/CustomChanIbcApp.sol) base contract.
 
 Run the following command to go through a full E2E sweep of the project, using the default XCounter.sol contract:
 
