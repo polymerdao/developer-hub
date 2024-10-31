@@ -34,7 +34,7 @@ This design addresses the challenges posed by the finality gap and fosters a mor
 
 :::tip
 
-Polymer Hub ensures that all state shared between rollups adheres to these constraints, allowing rollups and application developers to interoperate in secounds (near block times) without relying on arbitrary confirmation blocks.
+Polymer Hub ensures that all state shared between rollups adheres to these constraints, allowing rollups and application developers to interoperate in secounds (near block times) without relying on arbitrary confirmation blocks on rollups.
 
 :::
 
