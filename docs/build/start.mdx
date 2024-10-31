@@ -5,7 +5,7 @@ sidebar_label: 'Quickstart'
 
 # ⛓️🔗⛓️ Template for IBC enabled Solidity contracts
 
-This [IBC app in Solidity template repo](https://github.com/open-ibc/ibc-app-solidity-template/tree/main) provides a starter project to build [IBC](https://github.com/cosmos/ibc) enabled Solidity contracts that connect rollups to one another Polymer Hub, through the [vIBC core contracts](https://github.com/open-ibc/vibc-core-smart-contracts).
+This [IBC app in Solidity template repo](https://github.com/open-ibc/ibc-app-solidity-template/tree/main) provides a starter project that serves as a starting point for building multichain smart contracts that leverage Polymer Hub to connect across rollups through our [vIBC core contracts](https://github.com/open-ibc/vibc-core-smart-contracts).
 
 The repository is a _GitHub template_ repository so you can click "Use this template" to create your own project repository without having the entire commit history of the template.
 
@@ -37,7 +37,7 @@ From the root directory run:
 just install
 ```
 
-to install the [vIBC core smart contracts](https://github.com/open-ibc/vibc-core-smart-contracts) as a dependency.
+to install the [vIBC core smart contracts](https://github.com/open-ibc/vibc-core-smart-contracts) and the [Polymer registry](https://github.com/polymerdao/polymer-registry) as a dependency.
 
 Additionally Hardhat will be installed as a dev dependency with some useful plugins. Check `package.json` for an exhaustive list.
 
@@ -85,7 +85,7 @@ The account associated with your private key must have both Base Sepolia and Opt
 
 ## 🏃🏽🏃🏻‍♀️ Quickstart
 
-The project comes with a built-in dummy application called x-counter (which synchronizes a counter across two contracts on remote chains). You can find the contracts in the `/contracts` directory as XCounterUC.sol and XCounter.sol (the former when using the universal channel, the latter when creating a custom IBC channel).
+The project comes with a built-in dummy application called x-counter (which syncrhonizes a counter across two contracts on remote chains). You can find the contracts in the `/contracts` directory as XCounterUC.sol and XCounter.sol (the former when using the [universal channel](https://docs.polymerlabs.org/docs/build/executing-messages/universal-channels), the latter when creating a [custom/private channel](https://docs.polymerlabs.org/docs/build/executing-messages/private-channels)).
 
 ### Universal channels
 
@@ -94,11 +94,9 @@ The project comes with a built-in dummy application called x-counter (which sync
 <div style={{position: 'relative', paddingBottom: '59.31830676195712%', height: 0}}><iframe src="https://www.loom.com/embed/dd04f573bc664646820937751dc6466e?sid=8e518f29-9aae-4bc9-a32a-ee172274963c" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}></iframe></div>
 :::
 
-Universal channels are the easiest way to get started. A universal channel is an IBC channel where the port is owned by Polymer's Universal channel middleware contracts on each chain.
+The easiest way to get onboarded is to use Universal channels. Universal channel is like an open port already deployed by Polymer to allow anyone to call a remote contracts. Universal channels utilize a contract which is known as Universal channel handler (UCH).
 
-When a user deploys a Universal channel compatible contract (this means inheriting the [UniversalChanIbcApp](https://github.com/open-ibc/ibc-app-solidity-template/blob/main/contracts/base/UniversalChanIbcApp.sol) base contract), it will be able to connect to the Universal Channel middleware, define Universal packets which will then be wrapped into an IBC packet by the Universal Channel Handler and unwrapped by its counterpart on the destination chain (rollup). The Universal channel middleware on the destination will then unwrap the IBC packet and send the data through to you application on the destination.
-
-Find out more about universal channels in the [documentation](https://docs.polymerlabs.org/docs/build/ibc-solidity/universal-channel).
+Users can utilize universal channels through deploying a Universal channel compatible contract. This can be done either from deploying a contract which inherits the [UniversalChanIbcApp](./contracts/base/UniversalChanIbcApp.sol) base contract) or implements the [IbcUniversalPacketReceiver and IbcUniversalPacketSender interfaces](https://github.com/open-ibc/vibc-core-smart-contracts/blob/main/contracts/interfaces/IbcMiddleware.sol#L100-L112). Once deployed, the dapp will be able to connect to the Universal Channel handler, define Universal packets which will then be wrapped into a regular IBC packet by the Universal Channel Handler and unwrapped by its counterparty on the destination chain. The Universal channel handler on the destination will then unwrap the the packet and send the data to defined address.
 
 The configuration file that comes as default in the template repository, allows to quickly send a packet by running:
 
@@ -108,15 +106,11 @@ just send-packet base
 
 To send a packet between the XCounterUC contract on Base Sepolia to OP Sepolia and vice versa.
 
-You can find the universal channel middleware details [in the documentation](https://docs.polymerlabs.org/docs/build/supp-networks).
-
-Check if the packet got through on the [Polymer IBC explorer](https://sepolia.polymer.zone/packets).
-
 ### Custom IBC channel
 
-There's also a just recipe that quickly enables to try to send packets over a custom IBC channel. A Custom IBC channel requires a channel handshake to open a private IBC channel (which can take a while depending on the client latency) but then gives complete control over a private IBC channel that enables fault isolation from other applications, compared to universal channels.
+There is a quick guide available that helps you send packets over a custom/private IBC channel. The channel is established through a session setup process, known as a handshake, which typically takes less than five minutes to complete. Once established, the private channel provides fault isolation from other applications, ensuring that only your contracts can communicate with each other, unlike universal channels.
 
-To have your application be compatible with custom IBC channels, have it inherit the [CustomChanIbcApp](https://github.com/open-ibc/ibc-app-solidity-template/blob/main/contracts/base/CustomChanIbcApp.sol) base contract.
+To have your application be compatible with custom IBC channels, have it inherit the [CustomChanIbcApp](./contracts/base/CustomChanIbcApp.sol) base contract.
 
 Run the following command to go through a full E2E sweep of the project, using the default XCounter.sol contract:
 
@@ -140,27 +134,17 @@ do-it:
 
 It makes sure you've got the correct contracts set, deploys new instances, creates a channel and sends a packet over the channel once created.
 
-> Note: by default the sim-client is used to improve latency. This is useful for iterative development and testing BUT also insecure as it involves no proofs. Make sure to move to the client **with proofs** by running another just command...
-
-```bash
-# Usage: just switch-client
-just switch-client
-```
-
-Check if the packet got through on the [Polymer IBC explorer](https://sepolia.polymer.zone/packets).
-
-
 ## 💻 Develop your custom application
 
 The main work for you as a developer is to develop the contracts that make up your cross-chain logic.
 
 You can use the contracts in the "/contracts/base" directory as base contracts for creating IBC enabled contracts that can either send packets over the universal channel or create their own channel to send packets over.
 
-A complete walkthrough on how to develop these contracts is provided in the [official Polymer documentation](https://docs.polymerlabs.org/docs/build/ibc-solidity/).
+A complete walkthrough on how to develop these contracts is provided in the [Developer Launchpad](https://docs.polymerlabs.org/docs/build/dev-launchpad).
 
 ## 🕹️ Interaction with the contracts
 
-When the contracts are ready, you can go ahead and interact with the contracts through scripts. There is a Justfile to for the most common commands, with the underlying scripts in the /scripts folder.
+When the contracts are ready, you can go ahead and interact with the contracts through scripts. There is a Justfile to for the most common commands, with the underlying scripts in the `/scripts` folder.
 
 The `/private` folder within the scripts folder has scripts that you're unlikely to need to touch. The only scripts you'll (potentially) be interacting with are:
 
@@ -182,7 +166,7 @@ For most of the actions above and more, there are just recipes that combine rela
 
 :::
 
-Before deploying, make sure to update the config.json with your contract type to deploy for each of the chain you wish to deploy to.
+Before deploying, make sure to update the config.json with your contract type to deploy for each of the chains you wish to deploy to.
 
 #### Set contracts to config
 
@@ -252,8 +236,6 @@ This creates a channel between base and optimism. Note that the **ORDER MATTERS*
 
 The script will take the output of the channel creation and update the config file with all the relevant information.
 
-Check out the [channel tab in the explorer](https://sepolia.polymer.zone/channels) to find out if the correct channel-id's related to your contracts were updated in the config.
-
 ### Send packets
 
 Finally Run:
@@ -264,51 +246,4 @@ just send-packet optimism
 ```
 
 to send a packet over a channel (script looks at the config's isUniversal flag to know if it should use the custom or universal packet). You can pick either optimism or base to send the packet from.
-
-## Verify, don't trust
-
-:::note Video walkthrough: Switching to the client with proofs
-
-<div style={{position: 'relative', paddingBottom: '59.31830676195712%', height: 0}}><iframe src="https://www.loom.com/embed/5275bdf612144e8fa91ac1e4aa3573f5?sid=49a7e2ba-7a14-4058-b4c2-da0a9bc9a80c" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}></iframe></div>
-
-:::
-
-As a starter value, the sim-client is used to improve latency. **The sim-client is useful for iterative development and testing BUT also insecure as it involves no proofs**. Make sure to move to the client **with proofs** by running another just command...
-
-```bash
-# Usage: just switch-client
-just switch-client
-```
-
-This will use the op-stack client with proofs, making sure that the relayer is proving what is being submitted every step along the way, ensuring there's no trust assumption on the relayer.
-
-An overview of the different clients can be found in `ibc.json`:
-```json
-{
-    "optimism": {
-        "sim-client": {
-            "canonConnFrom": "connection-0",
-            "canonConnTo": "connection-1",
-            "universalChannel": "channel-10"
-        },
-        "op-client": {
-            "canonConnFrom": "connection-8",
-            "canonConnTo": "connection-9",
-            "universalChannel": "channel-16"
-        }
-    },
-    "base": {
-        "sim-client" : {
-            "canonConnFrom": "connection-4",
-            "canonConnTo": "connection-5",
-            "universalChannel": "channel-11"
-        },
-        "op-client": {
-            "canonConnFrom": "connection-10",
-            "canonConnTo": "connection-11",
-            "universalChannel": "channel-17"
-        }
-    }
-}
-```
 
