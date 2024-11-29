@@ -48,4 +48,4 @@ Polymer Hub is the first protocol to leverage 1st party standards due to its des
 
 
 ## Ethereum Fork Protected
-Polymer Hub also ensures that the transactions in a given L2 block are mapped against a consistent L1 (Ethereum) view ensuring that both transactions will either succeed or fail together. This is incredibly important in the case of a re-org with non finalized transactions, making Polymer is re-org resistant for all transactions. Polymer is the first protocol to offer this at subfinality levels (Block creation < 20 mins).
+Polymer Hub also ensures that the transactions in a given L2 block are mapped against a consistent L1 (Ethereum) view, ensuring that both transactions will either succeed or fail together. This is incredibly important in the case of a re-org with non-finalized transactions, making Polymer re-org resistant for all transactions. Polymer is the first protocol to offer this at subfinality levels (Block creation < 20 mins).
