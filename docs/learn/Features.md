@@ -25,7 +25,7 @@ Polymer Hub gathers state from source rollups using a light-client approach, dif
 
 :::
 <br/>
-The interop space, within the Ethereum landscape, is full of tradeoffs and recently it has mostly come down to speed vs security. Polymer aims to debunk that.
+The interoperability space within the Ethereum ecosyste, is full of tradeoffs and recently it has mostly come down to speed vs security. Polymer aims to debunk that.
 
 ## Polymer Hub is Real-Time (Fast)
 When being able to read directly from a rollup’s sequencer, it enables Polymer Hub to be as fast as a given chain can operate (real-time). Meaning Polymer Hub can send messages as fast as they are produced on the rollups (seconds). It’s immediately reading from the sequencer, the very engine that propels each rollup.
@@ -48,4 +48,4 @@ Polymer Hub is the first protocol to leverage 1st party standards due to its des
 
 
 ## Ethereum Fork Protected
-Polymer Hub also ensures that the transactions in a given L2 block are mapped against a consistent L1 (Ethereum) view ensuring that both transactions will either succeed or fail together. This is incredibly important in the case of a re-org with non finalized transactions, making Polymer re-org resistant for all transactions. Polymer is the first protocol to offer this at subfinality levels (Block creation < 20 mins).
+Polymer Hub also ensures that the transactions in a given L2 block are mapped against a consistent L1 (Ethereum) view ensuring that both transactions will either succeed or fail together. This is incredibly important in the case of a re-org with non finalized transactions, making Polymer is re-org resistant for all transactions. Polymer is the first protocol to offer this at subfinality levels (Block creation < 20 mins).
