@@ -20,7 +20,7 @@ Here's a quick overview of our documentation, depending on what your goals are:
 
 - [**Start testing Polymer's features with quickstart tutorials**](./category/quickstart/
 
-    Go to [`Tutorials`](./category/quickstart/ to quickly experience a cross-chain dApp leveraging Polymer with ready-made demo applications.
+    Go to [`Tutorials`](./category/quickstart/ to quickly experience a cross-chain that dApp leveraging Polymer with ready-made demo applications.
 
 - [**Evaluate why to build cross-chain using Polymer**](./category/why-polymer/
 
