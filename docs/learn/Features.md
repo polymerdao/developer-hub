@@ -25,7 +25,7 @@ Polymer Hub gathers state from source rollups using a light-client approach, dif
 
 :::
 <br/>
-The interoperability space within the Ethereum ecosyste, is full of tradeoffs and recently it has mostly come down to speed vs security. Polymer aims to debunk that.
+The interoperability space within the Ethereum ecosystem is full of tradeoffs, and recently, it has mostly come down to speed vs security. Polymer aims to debunk that.
 
 ## Polymer Hub is Real-Time (Fast)
 When being able to read directly from a rollup’s sequencer, it enables Polymer Hub to be as fast as a given chain can operate (real-time). Meaning Polymer Hub can send messages as fast as they are produced on the rollups (seconds). It’s immediately reading from the sequencer, the very engine that propels each rollup.
