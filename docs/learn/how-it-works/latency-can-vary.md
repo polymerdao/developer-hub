@@ -21,8 +21,8 @@ This is practical example with Base and Optimism on Ethereum mainnet. Both have 
 
 :::
 
-### Implecations
-- **Rollup Knowledge:** Optimism references Ethereum up to 11 blocks deep, while Base references up to 16 blocks. This mean the Optimism lacks the knowledge of Ethereum beyond the 11th block and for Base this is even larger i.e the first 16 Ethereum blocks.
+### Implications
+- **Rollup Knowledge:** Optimism references Ethereum up to 11 blocks deep, while Base references up to 16 blocks.  This means that Optimism lacks the knowledge of Ethereum beyond the 11th block and for Base this is even larger i.e the first 16 Ethereum blocks.
 
 ![image (37)](https://github.com/user-attachments/assets/20128dcb-59e0-415b-b1f4-99eec6128452)
 
