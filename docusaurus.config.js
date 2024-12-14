@@ -123,8 +123,8 @@ const config = {
                 href: 'https://discord.gg/hvMQp4qcM6',
               },
               {
-                label: 'Twitter',
-                href: 'https://twitter.com/Polymer_Labs',
+                label: 'X',
+                href: 'https://x.com/Polymer_Labs',
               },
             ],
           },
