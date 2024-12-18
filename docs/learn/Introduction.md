@@ -13,7 +13,7 @@ sidebar_label: 'Introduction'
 
 :::
 
-##Prove any action, cross-chain.
+## Prove any action, cross-chain.
 
 Polymer is a rollup purpose-built for rollup interoperability, removing the need for cross-chain messaging. Anyone can execute and verify actions across any chain in real-time, the fastest latency available.
 
