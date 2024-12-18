@@ -6,7 +6,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Polymer Hub Docs',
-  tagline: 'Connecting Infinity.',
+  tagline: 'Prove any action, cross-chain.',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
