@@ -5,7 +5,7 @@ sidebar_label: 'Introduction'
 
 # Evolving Interop Past Messaging
 
-:::Key Highlights:
+:::info Key Highlights:
 
  1. **Latency:** 6-10 seconds
  2. **Security Standards:** First-party, rollup-grade security
