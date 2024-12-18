@@ -13,8 +13,8 @@ During submission, the proof is passed to the application contract where it inte
 This setup gives you complete flexibility to design your own send and receive-side APIs and function calls tailored to your application’s needs.
 
 :::tip Prove API streamlines the developer journey with just two key steps:
-1.** Requesting Proof:** Use the open API to obtain a proof for a user action performed on an external rollup.
-2. **Submitting Proof:** Submit the proof to your application’s contract on the executing chain (typically known as destination), where it uses CrossL2Prover to validate with a single function call.
+1.**Requesting Proof:** Use the open API to obtain a proof for a user action performed on an external rollup.
+2.**Submitting Proof:** Submit the proof to your application’s contract on the executing chain (typically known as destination), where it uses CrossL2Prover to validate with a single function call.
 :::
 
 <img width="1253" alt="Screenshot 2024-12-18 at 6 50 04 PM" src="https://github.com/user-attachments/assets/1f1d2a81-0996-4224-a578-8845e4eed139" />
