@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-sidebar_label: 'The Problems with Messaging'
+sidebar_label: 'Problems w/Messaging'
 ---
 
 # The Problems with Messaging
