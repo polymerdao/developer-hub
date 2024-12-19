@@ -106,7 +106,7 @@ const config = {
               },
               {
                 label: 'Learn',
-                href: 'https://docs.polymerlabs.org/docs/learn/Intro',
+                href: 'https://docs.polymerlabs.org/docs/learn/intro',
               },
             ],
           },
