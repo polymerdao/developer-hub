@@ -1,0 +1,32 @@
+---
+sidebar_position: 1
+sidebar_label: 'API Endpoints'
+---
+
+# Prove API
+
+## API Endpoints
+
+### 1. Request Receipt Proof
+
+**Endpoint:** `proof.sepolia.polymer.zone`
+
+**Method:** `POST`
+
+#### Request Header
+```
+Authorization: Bearer <token>
+```
+
+#### Request Body
+```
+{
+  “jsonrpc”: “2.0”,
+  “id”:      1,
+  "method":  "receipt_requestProof",
+  "params":  [uint32, uint32, uint64, uint32]
+}
+```
+
+#### Request Parameters in order
+
