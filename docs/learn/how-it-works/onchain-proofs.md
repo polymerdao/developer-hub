@@ -5,13 +5,17 @@ sidebar_label: 'On-chain Proofs'
 
 # How on-chain proofs work
 
+## Native Proofs
 Native proofs, such as receipt or storage proofs, are foundational blockchain components. These concepts, introduced in Bitcoin’s whitepaper, faced scalability challenges that limited their widespread adoption—until rollups utilized them for settling back to Ethereum. Rollups submit their state outputs, which attest to token holdings by accessing storage slots.
 
 <img width="1408" alt="Screenshot 2024-12-19 at 8 09 30 AM" src="https://github.com/user-attachments/assets/16d82f35-9dee-4e4c-bb7e-10364994c854" />
 
+<br/>
 Since Polymer performs light-client updates, it has access to information within headers, including state roots and receipt roots. Thus can validate storage, receipts, or even logs within receipts.
 
-:::tip You can prove anything on-chain if you have the root and a proof path leading to the data being validated. [Here](https://medium.com/coinmonks/ethereum-data-transaction-receipt-trie-and-logs-simplified-30e3ae8dc3cf)’s an excellent resource to learn more about trie structures and Merkle proof paths:
+:::tip
+
+You can prove anything on-chain if you have the root and a proof path leading to the data being validated. [Here](https://medium.com/coinmonks/ethereum-data-transaction-receipt-trie-and-logs-simplified-30e3ae8dc3cf)’s an excellent resource to learn more about trie structures and Merkle proof paths:
 
 _“(Data to Validate) — Merkle Proof Path —> Root == True if Correct”_
 
