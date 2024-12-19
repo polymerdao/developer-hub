@@ -1,9 +1,9 @@
 ---
-sidebar_position: 3
-sidebar_label: 'How It Works'
+sidebar_position: 0
+sidebar_label: 'Leveraging State'
 ---
 
-# How It Works
+# Leveraging State
 
 ## Understanding this new interop primitive
 Polymer extends the concept of rollups, much like how rollups efficiently batch user transactions and submit them to Ethereum for speed and scalability. Unlike traditional rollups that focus on transaction batching, Polymer bundles entire rollup states and propagates them across the network in real time.
