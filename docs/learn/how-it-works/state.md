@@ -21,5 +21,5 @@ Under the hood, the Polymer state acts as a superRoot for all connected rollups.
 - **Rollup Block Headers:** Developers can use an IAVL proof to verify a rollup's block header (at any given height) is present within Polymer’s block.
 - **Arbitrary On-chain Claim:** Once the block header is verified, developers can further prove the existence of specific receipts, events, or storage slots within the rollup block using a simple Merkle proof.
 
-_“The **Prove API** streamlines the proof generation process by encapsulating the entire validation path, till the transaction receipt - like a **superProof**. _
+_“The **Prove API** streamlines the proof generation process by encapsulating the entire validation path, till the transaction receipt - like a **superProof**._
 _This eliminates the need for developers to interact with multiple chains to construct these proofs, reducing complexity and overhead in cross-chain applications.”_
