@@ -24,7 +24,7 @@ We plan to support more claims like `validateStorage` or `validateSrcHeader` as 
 
 For applications validating specific events emitted by their contracts on a given origin chain, these methods provide a straightforward, plug-and-play solution. Validate any event with a single call.
 
-- `validateEvent`
+1. `validateEvent`
 
 Validates a cross-chain event from a counterparty chain and returns the event along with event identifiers. The function will revert if the validation fails.
 
@@ -53,7 +53,7 @@ validateEvent(uint256 ,logIndex, bytes calldata proof) returns (bytes32 chainId,
 
 For applications building advanced systems, such as batching multiple logs under a single receipt, these methods offer all the foundational tools needed to validate receipts and parse them for event data access. This approach optimizes proving costs by allowing developers to validate a single receipt and then iterate through and process each log independently, enhancing efficiency.
 
-- `validateReceipt`
+1. `validateReceipt`
 
 Validates a cross-chain receipt from a counterparty chain. The function will revert if the validation fails.
 
@@ -71,7 +71,9 @@ validateReceipt(bytes calldata proof) public view returns (bytes32 chainID, byte
 | `chainId` | Chain ID of the emitting chain. _(identifier)_ |
 | `rlpEncodedBytes` | The raw RLP encoded bytes of the whole receipt object we are trying to prove, this is the value stored in the MMPT.|
 
-- `parseLog`
+<br/>
+
+2. `parseLog`
 
 A utility function for parsing log data from a receipt given an `logIndex` (within the transaction).
 ```
