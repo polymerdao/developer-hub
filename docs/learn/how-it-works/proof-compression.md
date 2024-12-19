@@ -35,7 +35,7 @@ Proofs can become large and contribute to call data overhead. However, since Pol
 
 ![AD_4nXeI-clxXEMAEo8wgdHZZ9_BTpyEGPxH64NfUXMczK4M14oZIuha8IQbkxVhDdeHkaEohRXDdEs0LBwImllWLnoqrUO7cTZABALTTk9viEmpiMsmKX0iu448j0IYWalQAVev_NVc](https://github.com/user-attachments/assets/e31b8784-719b-43b0-b8d1-c2105278d26f)
 
-<br/>
+
 Polymer enables batching of multiple events emitted by an application over time into a single IAVL proof. This approach can achieve up to 90% savings in call data size, dramatically improving efficiency for developer
 
 ### Off-chain data worker?
