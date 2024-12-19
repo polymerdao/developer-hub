@@ -36,7 +36,7 @@ Logs are structured within the transaction receipt but not a part of the blockch
 
 To prove the existence of a specific receipt, a **Merkle proof** can be used. The proof ensures the integrity and inclusion of a receipt in the block, which allows validation of any associated logs or events.
 
-## Simplifying Log Validation with the Polymer’s Prover Contract
+### Simplifying Log Validation with the Polymer’s Prover Contract
 
 The Polymer Prover contract abstracts away the complexities of log validation, allowing developers to focus on application logic. Here's how it simplifies the process:
 
