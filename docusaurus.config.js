@@ -102,7 +102,7 @@ const config = {
             items: [
               {
                 label: 'Build',
-                href: 'https://docs.polymerlabs.org/docs/build/key-info',
+                href: 'https://docs.polymerlabs.org/docs/build/start',
               },
               {
                 label: 'Learn',
