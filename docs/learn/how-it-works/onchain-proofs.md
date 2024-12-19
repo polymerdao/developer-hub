@@ -3,7 +3,7 @@ sidebar_position: 1
 sidebar_label: 'On-chain Proofs'
 ---
 
-# How on-chain proofs work?
+# How on-chain proofs work
 
 Native proofs, such as receipt or storage proofs, are foundational blockchain components. These concepts, introduced in Bitcoin’s whitepaper, faced scalability challenges that limited their widespread adoption—until rollups utilized them for settling back to Ethereum. Rollups submit their state outputs, which attest to token holdings by accessing storage slots.
 
