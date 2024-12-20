@@ -8,7 +8,7 @@ sidebar_label: 'Introduction'
 :::info Key Highlights:
 
  1. **Latency:** 6-10 seconds
- 2. **Security Standards:** First-party, rollup-grade security
+ 2. **Security:** Sequencer preconfs
  3. **Rollup Integration:** Add support for new rollups within minutes
 
 :::
