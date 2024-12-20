@@ -98,7 +98,7 @@ Polymer superRoot Height -> IAVL proof -> srcChain height -> receiptRoot -> MMPT
 
 #### Note
 - The application relayer or solver does not need to perform any action to submit the `proof` to the application contract.
-- If you wish to prove a single log, you will also need to provide an `logIndex` of the desired event within the receipt. See the method details below for further information.
+- If you wish to prove a single log, you will also need to provide a `logIndex` of the desired event within the receipt. See the method details below for further information.
 - The current version (V0) of the Proof API typically takes around 6-10 seconds to return a response with the proof, as lazy updates are performed. You can immediately execute your function once you get the proof. This delay is to ensure that the latest rollup states are propagated all the way to the desired destination chain and successfully updated, the major bottleneck is rollup block times.
 - All of the proofs described above can be built using public RPCs. The primary function of the Prove API is to provide convenience and manage the coordination across multiple chain RPCs.
 
