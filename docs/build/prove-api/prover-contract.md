@@ -27,7 +27,7 @@ For applications validating specific events emitted by their contracts on a give
 Validates a cross-chain event from a counterparty chain and returns the event along with event identifiers. The function will revert if the validation fails.
 
 ```
-validateEvent(uint256 ,logIndex, bytes calldata proof) returns (bytes32 chainId, address emittingContract, bytes[] memory topics, bytes memory eventData)
+validateEvent(uint256 ,logIndex, bytes calldata proof) returns (bytes32 chainId, address emittingContract, bytes[] memory topics, bytes memory unindexedData)
 ```
 
 | Inputs           | Description           |
@@ -40,7 +40,7 @@ validateEvent(uint256 ,logIndex, bytes calldata proof) returns (bytes32 chainId,
 | `chainId` | Chain ID of the emitting chain. _(identifier)_ |
 | `emittingContract` | The contract which emitted the event. _(identifier)_ |
 | `topics` | The topics array from the emitted event i.e. indexed data. |
-| `eventData` | The ABI-encoded event data for the matched log i.e. unindexed data. |
+| `unindexedData` | The ABI-encoded event data for the matched log i.e. unindexed data. |
 
 
 
@@ -75,7 +75,7 @@ validateReceipt(bytes calldata proof) public view returns (bytes32 chainID, byte
 
 A utility function for parsing log data from a receipt given an `logIndex` (within the transaction).
 ```
-parseLog(uint256 logIndex, bytes calldata rlpEncodedBytes) returns (address emittingContract, bytes[] memory topics, bytes memory eventData)
+parseLog(uint256 logIndex, bytes calldata rlpEncodedBytes) returns (address emittingContract, bytes[] memory topics, bytes memory unindexedData)
 
 ```
 
@@ -88,4 +88,4 @@ parseLog(uint256 logIndex, bytes calldata rlpEncodedBytes) returns (address emit
 | ----------------- | --------------------- |
 | `emittingContract` | The contract which emitted the event. _(identifier)_ |
 | `topics` | The topics array from the emitted event i.e. indexed data. |
-| `eventData` | The ABI-encoded event data for the matched log i.e. unindexed data. |
+| `unindexedData` | The ABI-encoded event data for the matched log i.e. unindexed data. |
