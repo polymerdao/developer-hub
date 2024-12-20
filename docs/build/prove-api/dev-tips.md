@@ -18,7 +18,8 @@ sidebar_label: 'Developer Tips'
   - Once a receipt has been successfully proven, you can iterate through and execute each log independently by using `parseLog`.
 
 
-
+<br/>
+<br/>
 
 
 - Currently, the proof size is large, which increases the L1 fees paid on L2. Despite this, the overall cost of proving a packet remains lower than standard messaging protocols. (Refer to the fee comparison below.)
