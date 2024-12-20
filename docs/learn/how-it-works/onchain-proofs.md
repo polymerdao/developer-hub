@@ -27,13 +27,11 @@ Transaction receipts are the final, provable records of a transaction's success,
 
 These events are emitted by smart contracts during execution but are not stored in the blockchain directly (its historical data). Instead, transaction receipts store the information needed to prove logs and events within those logs.
 
-![AD_4nXdP4g1sp70jNFnRKShanaDzY4p4GrUfSvHrz4F1CB8Bba8A7WTGCZXQYeW3WMRy0UM4fYAX_Lq7199rQcOpjQBkgn7uaU2Y9jvRKhENFjqMNUwLAs5-ClTVehYNfejl_vRobYuE9w](https://github.com/user-attachments/assets/3f28c4dc-8d89-41db-87e5-1c43e1c1b166)
+### Understanding Logs
 
-### Understanding Logs and Events
-
-Logs serve as a unique identifier of events emitted by smart contracts during transaction execution. To validate events, developers need two key components:
+Logs serve as a unique identifier of specific event data emitted by smart contracts during transaction execution. To validate events, developers need two key components:
 - **Origin Contract Address:** The address of the contract that emitted the event.
-- **Topics:** The method which was called to emit the said event. It is indexed parameters (up to four) that categorize logs and allow for efficient searching.
+- **Topics:** It is indexed parameters (first four) that categorize logs and allow for efficient searching.
 - **Data:** This is the array of all the events emitted by the contract. 
 
 Logs are structured within the transaction receipt but not a part of the blockchain itself because they are not required for consensus. However, they are verified by the blockchain since transaction receipt hashes, which include logs, are stored inside blocks.
@@ -51,7 +49,23 @@ The Polymer Prover contract abstracts away the complexities of log validation, a
      - Along with the event identifier, which includes:
          - **Origin Chain:** The source blockchain of the event.
          - **Emitter Contract:** The contract address that emitted the event.
-         - **Method:** The specific method that triggered the event by checking topics.
 
 “By leveraging the Polymer Prover contract, developers eliminate manual proof construction and log validation, streamlining cross-chain event verification and enhancing application efficiency.”
+
+### Example: Transaction Receipt and Logs Structure
+
+Here is a simple example to illustrate the above. Check out this transaction on [Optimism Sepolia Blockscout](https://optimism-sepolia.blockscout.com/tx/0x6f0ceb3035173924e5ed1df05b241403de64471fc92b82957357b56db305d5b7?tab=logs).
+
+#### Exploring the Transaction
+Once you open the link in your explorer, you will notice that the transaction emits a number of logs. The following image demonstrates the `eth_getTransactionReceipt` call made to an RPC.
+
+![image](https://github.com/user-attachments/assets/11d3948e-d3d4-489a-b3d3-e1193b980aa0)
+
+- **Transaction Index**: This transaction was the 5th transaction in the block, meaning it has a transaction index of `4` (indices are 0-based).
+
+#### Log Details
+- **Log Index in Block**: On the right side of each log, you can see the `logIndex` within the block. For example, the logs in this transaction start from `38` onward. The first four transactions in the block emitted the first 38 logs.
+- **Log Index in Transaction**: Within the specific transaction/receipt, logs have their own indices starting from `0`. For instance, the first log in this transaction is indexed as `0` relative to this transaction's logs. This will act as the input in Prover Contract. 
+
+This structure highlights how logs are uniquely indexed both globally within a block and locally within a transaction for accurate referencing.
 

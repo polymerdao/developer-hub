@@ -10,7 +10,7 @@ Polymer extends the concept of rollups, much like how rollups efficiently batch 
 
 This state-level approach ensures developers can verify any action done on-chain like events, and storage slots seamlessly, all while leveraging a unified proof system.
 
-<img width="1147" alt="Screenshot 2024-12-19 at 8 02 48 AM" src="https://github.com/user-attachments/assets/1e138c39-7c2b-4027-bc49-62ec14e38512" />
+![image](https://github.com/user-attachments/assets/95cd7f13-6c69-49cb-b86f-5f8d4c42d572)
 
 1. **State updates via Light CXlients:** Polymer uses light clients to receive the latest rollup updates and stores them efficiently in IAVL trees. This enables lightweight verification and optimized state packing.
 2. **Polymer’s State:** Once a block is built on Polymer, its state is gossiped across the network, propagating the most recent rollup updates.
