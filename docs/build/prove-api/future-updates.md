@@ -9,31 +9,31 @@ sidebar_label: 'Future Updates'
 
 ### Your feedback is valuable to prioritize these features
 
-<br/>
+<br />
 
 **Passive Event Indexing (Proof cost << 100k)** 
 
 Passive Event/Receipt Indexing compresses the proof size to a single IAVL proof, reducing the cost of verification well below 100k and significantly reducing L1 gas fee. This is achieved by pre-verifying them on the Polymer hub with MMPT and then committing it to our state, so that it is directly accessible via the App-hash.
 
-<br/>
+<br />
 
 **Proving storage**
 
 We plan to support more claims like validateStorage or validateSrcHeader as well as more methods like executeMessage that will send the safe payload to a defined address.
 
-<br/>
+<br />
 
 **Active Event Indexing** 
 
 Active Event Indexing involves pre-registering your contract to generate proofs faster. However, it could result in unnecessary work if the solver does not request the event proofs.
 
-<br/>
+<br />
 
 **Batched IAVL Proving (Proof cost << 40k)**
 
 Batched IAVL Proving enables efficient packing of multiple events in an IAVL tree. For IAVL trees, each individual proof size is like O(log(N)) hashes for the depth of the tree (N = number of nodes). 
 
-<br/>
+<br />
 
 For 'k' individual event proofs, it would be k * O(log(N)). For batched proof, the proof size is like O(log(N)) + k, which leads to savings of k * O(log(N)) - (O(log(N)) + k).
 
@@ -43,7 +43,7 @@ Example:
 - With batching: log2(1024) + 10 = 10 + 10 = 20 hashes.
 - Savings: 100 - 20 = 80% reduction.
 
-<br/>
+<br />
 
 **Batched ZK Proving** 
 
