@@ -12,10 +12,10 @@ This state-level approach ensures developers can verify any action done on-chain
 
 ![image](https://github.com/user-attachments/assets/95cd7f13-6c69-49cb-b86f-5f8d4c42d572)
 
-1. **State updates via Light CXlients:** Polymer uses light clients to receive the latest rollup updates and stores them efficiently in IAVL trees. This enables lightweight verification and optimized state packing.
+1. **State updates via Light Clients:** Polymer uses light clients to receive the latest rollup updates and stores them efficiently in IAVL trees. This enables lightweight verification and optimized state packing.
 2. **Polymer’s State:** Once a block is built on Polymer, its state is gossiped across the network, propagating the most recent rollup updates.
 
-_Polymer State as the SuperRoot_
+_Polymer State as the SuperRoot!_
 
 Under the hood, the Polymer state acts as a superRoot for all connected rollups. It serves as a verification anchor for:
 - **Rollup Block Headers:** Developers can use an IAVL proof to verify a rollup's block header (at any given height) is present within Polymer’s block.
