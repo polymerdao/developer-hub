@@ -76,8 +76,8 @@ The response contains a `jobID` that uniquely identifies your request.
   “jsonrpc”: “2.0”,
   “id”:      1,
   "result":  {
-      “jobID”:        int64,
-      “proof”:        []byte (hex string encoded),
+      “jobID”:        [int64],
+      “proof”:        []byte [base64],
    	 “status”: “complete” | “error” | “pending”
   }
 }
@@ -87,8 +87,10 @@ The response contains a `jobID` that uniquely identifies your request.
 | Name                             | Description |
 | -------------------------------- | --------------------------- |
 | `jobID` _[uint64]_          | Unique identifier for the API request. |
-| `proof` _[hex string encoded]_          | Byte payload containing the full proof path to use against the app-hash to prove a given receipt (as part of the bytes). |
+| `proof` _[base64]_          | Byte payload containing the full proof path to use against the app-hash to prove a given receipt (as part of the bytes). |
 | `status`     | Indicates the current status of the proof (`complete`, `error`, `pending`). |
+
+Note: `proof` bytes are base64 encodes at the moment, application must decode and then convert to hex in order to pass it as call data to the application contract on-chain.
 
 The `proof` returned includes the necessary information to verify the receipt in question:
 
