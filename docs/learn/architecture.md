@@ -42,7 +42,7 @@ By having the entire header, Polymer’s unified state provides access to all on
 
 :::
 
-### Step 2: Polymer to Desitination Rollup
+### Step 2: Polymer to Destination Rollup
 
 After Polymer Rollup builds its own block, it distributes the data further:
 
