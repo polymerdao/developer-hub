@@ -5,7 +5,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Polymer Hub Docs',
+  title: 'Polymer Docs',
   tagline: 'Prove any action, cross-chain.',
   favicon: 'img/favicon.ico',
 
