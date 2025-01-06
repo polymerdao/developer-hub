@@ -1,6 +1,6 @@
 ---
 sidebar_position: 0
-sidebar_label: 'For Multi-Rollup App'
+sidebar_label: 'For Multi-Rollup Apps'
 ---
 
 
