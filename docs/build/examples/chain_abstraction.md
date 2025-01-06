@@ -13,8 +13,7 @@ The critical element here is repayment. Solvers are only repaid if the user oper
 **Openfort** is one of the first teams leveraging the Prove API, pushing the boundaries of chain abstraction. Openfort extends ERC4337 by incorporating an invoice manager and settlement system, enabling cross-chain functionality with Polymer. (See the [Openfort Chain Abstraction repository](https://github.com/openfort-xyz/openfort-chain-abstraction)).
 
 
-https://github.com/user-attachments/assets/34cf828f-27e2-4f61-b86a-626f46cf0892
-
+https://github.com/user-attachments/assets/8428846b-f228-4193-95b8-d42a099d48f4
 
 
 ### End-to-End Overview
