@@ -17,6 +17,7 @@ To understand the end-to-end flow, consider the following example: an applicatio
 
 <div style={{position: 'relative', paddingBottom: '59.31830676195712%', height: 0}}><iframe src="https://github.com/user-attachments/assets/e30bc067-5ef0-4338-8d02-be455181aabb" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}></iframe></div>
 
+<br/>
 
 **Steps:**
 
@@ -219,8 +220,9 @@ Not only is this approach more straightforward, but it is also significantly mor
 
 #### End-to-End Demonstration
 
+<div style={{position: 'relative', paddingBottom: '59.31830676195712%', height: 0}}><iframe src="https://github.com/user-attachments/assets/2182629a-4545-46af-8507-bdf148cb0553" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}></iframe></div>
 
-https://github.com/user-attachments/assets/2182629a-4545-46af-8507-bdf148cb0553
+<br/>
 
 
 - Once a transaction is sent, the relayer detects the event on the origin chain.
