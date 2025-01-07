@@ -15,7 +15,7 @@ Applications that embrace the "fat app" thesis are leveraging rollups as servers
 To understand the end-to-end flow, consider the following example: an application sets a key-value pair on one chain and then proves and updates this key-value pair on another chain. In this setup, the key-value pairs are stored against a sender address, which acts as a namespace, similar to AWS Redis.
 
 
-https://github.com/user-attachments/assets/e30bc067-5ef0-4338-8d02-be455181aabb
+<div style={{position: 'relative', paddingBottom: '59.31830676195712%', height: 0}}><iframe src="https://github.com/user-attachments/assets/e30bc067-5ef0-4338-8d02-be455181aabb" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}></iframe></div>
 
 
 **Steps:**
