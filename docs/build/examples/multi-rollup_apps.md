@@ -26,7 +26,7 @@ https://github.com/user-attachments/assets/e30bc067-5ef0-4338-8d02-be455181aabb
 
 <br/>
 
-**Origin Contract - Emit**
+#### Origin Contract - Emit
 
 Once the transaction on optimism is sent, the contract emits an event when the value is set.
 
@@ -54,7 +54,7 @@ function setValue(string calldata key, bytes calldata value) external {
 
 <br/>
 
-**Relayer - Indexing, Requesting Prove API and Polling for Proof**
+#### Relayer - Indexing, Requesting Prove API and Polling for Proof
 
 Once the destination chain is defined, the application relayer requests the Prove API for proof of the event by providing the transaction index within the block. Since the relayer listens for the latest events, it already has the necessary information of the `ValueSet` event.
 
@@ -153,7 +153,7 @@ while (!proofResponse?.data || !proofResponse?.data?.result?.proof) {
 
 <br/>
 
-**Execution** 
+#### Execution
 
 Once the relayer receives the proof from the Prove API, it directly calls the application contract on the destination chain to execute the logic with the `logIndex` and `proof`.
 
@@ -200,13 +200,16 @@ function setValueFromSource(
 
 **Note:** The contract stores a unique hash to prevent replay attacks. Applications can customize this mechanism based on their logic.
 
+<br/>
+<br/>
+
 ### Advanced Use-Case of State Sync
 
 Applications can submit key-value pairs to any chain, and the relayer automatically synchronizes the event across other contracts. This capability of the Prove API eliminates the need for predefined source-destination pairs. Once a contract emits an event, it becomes accessible across the Ethereum ecosystem.
 
 <br/>
 
-**Compared to Messaging**
+#### Compared to Messaging
 
 One of the standout features of the Prove API is its ability to decouple applications from restrictive source and destination pairs. Once a contract emits an event, it can be utilized across all of Ethereum, reinforcing the vision of a unified Ethereum ecosystem.
 
@@ -214,7 +217,7 @@ Not only is this approach more straightforward, but it is also significantly mor
 
 <br/>
 
-**End-to-End Demonstration**
+#### End-to-End Demonstration
 
 
 https://github.com/user-attachments/assets/2182629a-4545-46af-8507-bdf148cb0553
