@@ -28,6 +28,8 @@ Applications using Openfort’s WalletSDK can abstract their application instanc
 3. **Proof Request**: Openfort’s backend requests a proof for the `invoiceID` event from the Prove API.
 4. **Repayment**: Using the execution proof, the backend calls the repay function to settle the `invoiceID` and repay the sponsor tokens.
 
+<br/>
+
 **Emitting InvoiceID in Post Operations**
 
 The following code demonstrates how an `invoiceID` is emitted during a `postOp`:
@@ -53,6 +55,8 @@ function _postOp(PostOpMode mode, bytes calldata context, uint256 actualGasCost,
 ```
 
 In future iterations, we plan to push all postOps to a settlement contract, where multiple invoices will be stored and batch-emitted to pack multiple invoiceID events under a single receipt.
+
+<br/>
 
 **Settling Repayment on the Vault chain** 
 
@@ -139,5 +143,15 @@ The key advantage here is that Polymer validates the entire receipt and every lo
 Since the context is also maintained by the Invoice Manager and the invoiceID, it ensures end-to-end mapping of the UserOp. In the future, this will enable any solver to request settlement without requiring the Openfort backend to perform transactions.
 
 Additionally, the Invoice Manager maintains a record of already paid invoiceIDs, effectively preventing double-spend attacks.
+
+<br/>
+
+**Compared to messaging**
+
+This chain abstraction example demonstrates a fairly complex use case, with different contracts handling various aspects of the overall protocol. Adding a messaging protocol to this intricate design significantly increases developer overhead:
+- Developers must modify all contracts to interface with bridge contracts for sending messages.
+- Messaging systems using DVNs, Plug, or ISM for verification can complicate contracts further, disrupting the end-to-end flow whenever a developer makes changes.
+- These factors collectively make debugging the application considerably more challenging.
+- Sending a cross-chain message for every UserOp—requiring two transactions on each chain and additional costs for relaying infrastructure—gets very expensive, especially with no clear batching strategy in place.
 
 You can check out complete demo - [here](https://www.youtube.com/watch?v=L0Jmdw_XQX0).
