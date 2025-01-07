@@ -146,7 +146,7 @@ Additionally, the Invoice Manager maintains a record of already paid invoiceIDs,
 
 <br/>
 
-**Compared to messaging**
+**Compared to Messaging**
 
 This chain abstraction example demonstrates a fairly complex use case, with different contracts handling various aspects of the overall protocol. Adding a messaging protocol to this intricate design significantly increases developer overhead:
 - Developers must modify all contracts to interface with bridge contracts for sending messages.
