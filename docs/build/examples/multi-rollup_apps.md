@@ -200,7 +200,7 @@ function setValueFromSource(
 
 **Note:** The contract stores a unique hash to prevent replay attacks. Applications can customize this mechanism based on their logic.
 
-### Advanced Use Case of State Sync
+### Advanced Use-Case of State Sync
 
 Applications can submit key-value pairs to any chain, and the relayer automatically synchronizes the event across other contracts. This capability of the Prove API eliminates the need for predefined source-destination pairs. Once a contract emits an event, it becomes accessible across the Ethereum ecosystem.
 
