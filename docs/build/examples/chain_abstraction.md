@@ -15,6 +15,7 @@ The critical element here is repayment. Solvers are only repaid if the user oper
 
 https://github.com/user-attachments/assets/34cf828f-27e2-4f61-b86a-626f46cf0892
 
+<br/>
 
 ### End-to-End Overview
 
@@ -30,7 +31,7 @@ Applications using Openfort’s WalletSDK can abstract their application instanc
 
 <br/>
 
-**Emitting InvoiceID in Post Operations**
+#### Emitting InvoiceID in Post Operations
 
 The following code demonstrates how an `invoiceID` is emitted during a `postOp`:
 
@@ -58,7 +59,7 @@ In future iterations, we plan to push all postOps to a settlement contract, wher
 
 <br/>
 
-**Settling Repayment on the Vault chain** 
+#### Settling Repayment on the Vault chain
 
 The following code illustrates how repayment is processed on the vault chain, which calls another `verifyInvoice` to validate the `InvoiceID` against the proof Polymer provided. 
 
@@ -146,7 +147,7 @@ Additionally, the Invoice Manager maintains a record of already paid invoiceIDs,
 
 <br/>
 
-**Compared to Messaging**
+#### Compared to Messaging
 
 This chain abstraction example demonstrates a fairly complex use case, with different contracts handling various aspects of the overall protocol. Adding a messaging protocol to this intricate design significantly increases developer overhead:
 - Developers must modify all contracts to interface with bridge contracts for sending messages.
