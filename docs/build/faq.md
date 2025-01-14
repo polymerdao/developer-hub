@@ -55,12 +55,12 @@ In short, the bottleneck is waiting for **rollup block times** to confirm that r
 
 ## 5. Where is the proof generated, and where do I submit it? Also, what is the cost?
 **Proof Generation**  
+- Application contracts on source directly emit the event, no 3-party contract integration is required to emit events. Applications can now use their own Contract APIs cross-chain. 
 - Proofs are built from **public data** by querying both the source rollup and Polymer rollup.  
-- No special 3rd-party contracts are required just to generate these proofs.
 
 **Proof Submission**  
 - On the destination chain, include the proof as **call data** in the function you want to invoke.  
-- Your application contract (or backend) calls the **CrossL2Prover** contract to validate the proof.  
+- Your application contract calls the **CrossL2Prover** contract to validate the proof.  
 - Once verified, the proof reveals log details (like chain and contract of origin, event topics, and unindexed data).
 
 **Costs**  
