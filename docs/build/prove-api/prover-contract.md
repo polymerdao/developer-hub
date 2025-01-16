@@ -27,7 +27,7 @@ For applications validating specific events emitted by their contracts on a give
 Validates a cross-chain event from a counterparty chain and returns the event along with event identifiers. The function will revert if the validation fails.
 
 ```
-validateEvent(uint256 logIndex, bytes calldata proof) returns (bytes32 chainId, address emittingContract, bytes[] memory topics, bytes memory unindexedData)
+validateEvent(uint256 logIndex, bytes calldata proof) returns (string memory chainId, address emittingContract, bytes[] memory topics, bytes memory unindexedData)
 ```
 
 | Inputs           | Description           |
