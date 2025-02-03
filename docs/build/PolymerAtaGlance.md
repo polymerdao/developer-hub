@@ -18,3 +18,5 @@ Polymer directly sources block headers from rollup sequencers via their P2P goss
 ### **Why Use a Dedicated Rollup for This?**
 
 Polymer itself is an OP-Go rollup purpose-built to bundle rollup headers efficiently. Verifying rollup states directly between chains point-to-point is expensive and not scalable. Instead, Polymer’s rollup consolidates this into a single, low-latency, verifiable database—where a single Polymer block header contains the state updates of all connected rollups.
+
+Furthermore, this rollup can be used to perform transformations on top of the verified data. For example, it can parse application events and store them under a dedicated tree to reduce proof cost and size on EVM rollups, batch transactions from multiple chains into a single app-specific root, or even execute arbitrary computations—such as computing net payables to solvers after validating their fills. 
