@@ -1,12 +1,12 @@
 ---
-sidebar_position: 8
+sidebar_position: 9
 sidebar_label: 'FAQ'
 ---
 
 # Frequently Asked Questions (FAQ)
 
 ## 1. What is a transaction receipt, and how is it related to my event?
-A **transaction receipt** is a record that details the outcome of a blockchain transaction. It includes the transaction’s status, gas used, logs, and a **logs bloom** (used for efficient log filtering). Each transaction on a chain has exactly one corresponding receipt, stored in a **Merkle trie** within the block’s state database.
+A **transaction receipt** is a record that details the outcome of a blockchain transaction. It includes the transaction’s status, gas used, logs, and a logs bloom (used for efficient log filtering). Each transaction on a chain has exactly one corresponding receipt, stored in a **Merkle trie** within the block’s state database.
 
 While developers often rely on **contract events** for dApp functionality, events themselves aren’t permanently stored in the blockchain’s historical data. Instead, **transaction receipts** are used to prove the existence and authenticity of those events.
 
