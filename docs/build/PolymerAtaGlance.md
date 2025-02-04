@@ -3,7 +3,7 @@ sidebar_position: 1
 sidebar_label: 'At A Glance'
 ---
 
-## Polymer at a Glance
+# Polymer at a Glance
 
 At the core of **Polymer’s security model** is the aggregation of **rollup state (block headers)** onto a **publicly verifiable rollup**. Instead of relying solely on arbitrary cross-chain messaging, Polymer bundles entire block headers from multiple rollups into its L2, acting as the **meta-state** for all Ethereum rollups. This meta-state is then shared with connected rollups, allowing Polymer to provide a cryptographic source of truth for verifying **events**, **receipts**, and **storage slot** claims—**all within seconds.**
 
