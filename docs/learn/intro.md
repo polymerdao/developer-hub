@@ -15,7 +15,7 @@ sidebar_label: 'Introduction'
 
 ### Prove any action, cross-chain.
 
-Polymer is a rollup purpose-built for rollup interoperability, removing the need for cross-chain messaging. Anyone can execute and verify actions across any chain in real-time, the fastest latency available.
+Polymer is a rollup purpose-built for interoperability between rollups, removing the need for cross-chain messaging. Anyone can execute and verify actions across any chain in real-time, the fastest latency available.
 
 Interoperability protocols have existed for over three years—an extensive period in crypto terms. Yet, cross-chain applications remain uncommon due to inherent limitations in traditional approaches. Traditional interop relies on rigid, opinionated messaging standards that slow developers and limit innovation. 
 
