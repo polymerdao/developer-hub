@@ -18,21 +18,21 @@ Here's a quick overview of our documentation, depending on what your goals are:
 
 :::note I want to ...
 
-- [**Start testing Polymer's features with quickstart tutorials**](./category/quickstart/
+- [**Start testing Polymer's features with quickstart tutorials**](./category/quickstart/)
 
-    Go to [`Tutorials`](./category/quickstart/ to quickly experience a cross-chain dApp leveraging Polymer with ready-made demo applications.
+    Go to [`Tutorials`](./category/quickstart/) to quickly experience a cross-chain dApp leveraging Polymer with ready-made demo applications.
 
-- [**Evaluate why to build cross-chain using Polymer**](./category/why-polymer/
+- [**Evaluate why to build cross-chain using Polymer**](./category/why-polymer/)
 
-    Go to [`Why Polymer`](./category/why-polymer/ to understand the context around the interoperability space, why it's an important issue to tackle and why the current landscape leaves a hole for Polymer to fill.
+    Go to [`Why Polymer`](./category/why-polymer/) to understand the context around the interoperability space, why it's an important issue to tackle and why the current landscape leaves a hole for Polymer to fill.
 
-- [**Learn the foundations of Polymer, IBC and virtual IBC**](./category/learn/
+- [**Learn the foundations of Polymer, IBC and virtual IBC**](./category/learn/)
 
-    Go to [`Concepts`](./category/learn/ to dive deep into the concepts making up the Polymer protocol. IBC, virtual IBC as well as the stack to build the Polymer L2 are reviewed.
+    Go to [`Concepts`](./category/learn/) to dive deep into the concepts making up the Polymer protocol. IBC, virtual IBC as well as the stack to build the Polymer L2 are reviewed.
 
-- [**Learn how to build dApps that are compatible with Polymer**](./category/build-ibc-dapps/
+- [**Learn how to build dApps that are compatible with Polymer**](./category/build-ibc-dapps/)
 
-    Go to [`Build`](./category/build to find out how to build IBC-enabled Solidity smart contracts and how to find the vIBC core contracts deployed by Polymer that relayers listen to.
+    Go to [`Build`](./category/build) to find out how to build IBC-enabled Solidity smart contracts and how to find the vIBC core contracts deployed by Polymer that relayers listen to.
 
 <!-- - [**Run infrastructure**](./category/run-infrastructure/)
 
