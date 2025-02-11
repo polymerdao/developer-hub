@@ -13,27 +13,20 @@ We deploy a contract known as the `CrossL2Prover` ([contract info](https://docs.
 
 We plan to support more claims like `validateStorage` or `validateSrcHeader` as well as more methods like executeMessage that will send the safe payload to a defined address.
 
-#### Current Capabilities:
-
-- **Polymer State Validation:** Validates the state root of the Polymer rollup for a given block height, as attested by the sequencer. Ensures that the state root serves as the single source of truth within the network.
-- **Log Validation:** Exposes a predefined validation method that allows applications to verify logs using a provided proof. Enables applications to confirm the authenticity of a log and retrieve detailed log information securely.
-- **Proof Inspection:** Provides methods for applications to perform static calls to the contract to inspect different components of a proof. Enhances transparency by allowing applications to analyze proof data before submission.
-
 ### Methods
 
-For applications validating specific events emitted by their contracts on a given origin chain, these methods provide a straightforward, plug-and-play solution. Validate any event with a single call.
+**Validate any event with a single call.** For applications validating specific events emitted by their contracts on a given origin chain, these methods provide a straightforward, plug-and-play solution. 
 
 1. `validateEvent`
 
 Validates a cross-chain event from a counterparty chain and returns the event along with event identifiers. The function will revert if the validation fails.
 
 ```
-validateEvent(uint256 logIndex, bytes calldata proof) returns (string memory chainId, address emittingContract, bytes[] memory topics, bytes memory unindexedData)
+validateEvent(bytes calldata proof) returns (uint32 chainId, address emittingContract, bytes memory topics, bytes memory unindexedData)
 ```
 
 | Inputs           | Description           |
 | ---------------- | --------------------- |
-| `logIndex` | The index of the event in the logs array of the receipt. NOTE: This is not the log index within the block, only the log index within the receipt.|
 | `proof` | The proof provided by Polymer's Proof API. This is an opaque byte object constructed via ABI encoding the fields of the EventProof struct.|
 
 | Returns           | Description           |
