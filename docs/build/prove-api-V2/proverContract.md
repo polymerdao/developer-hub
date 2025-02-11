@@ -27,7 +27,7 @@ validateEvent(bytes calldata proof) returns (uint32 chainId, address emittingCon
 
 | Inputs           | Description           |
 | ---------------- | --------------------- |
-| `proof` | Byte payload containing IAVL proof to application's log stored in Polymer Rollup and also the Sequencer attested State root and Block height of the same.|
+| `proof` | A byte payload containing the IAVL proof of the application's log stored in the Polymer Rollup, along with the Sequencer-attested state root and corresponding block height.|
 
 | Returns           | Description           |
 | ----------------- | --------------------- |
@@ -35,8 +35,6 @@ validateEvent(bytes calldata proof) returns (uint32 chainId, address emittingCon
 | `emittingContract` | The contract which emitted the event. _(identifier)_ |
 | `topics` | The topics array from the emitted event i.e. indexed data. |
 | `unindexedData` | The ABI-encoded event data for the matched log i.e. unindexed data. |
-
-
 
 
 <br/>
@@ -47,9 +45,11 @@ These methods were introduced to enhance transparency for applications that need
 
 They enable applications to perform static calls to the contract, allowing them to examine various components of a proof—such as the corresponding origin chain transaction—to match against API inputs. Additionally, applications can inspect the Sequencer-attested root and block height, ensuring consistency with the public RPC.
 
+<br/>
+
 1. `inspectLogIdentifier`
 
-Inspect the origin transaction that a given proof corresponds to.
+Inspect the origin transaction that a given proof corresponds to-checked against API inputs.
 
 ```
 inspectLogIdentifier(bytes calldata proof) returns (uint32 srcChain, uint64 blockNumber, uint16 receiptIndex, uint8 logIndex)
@@ -57,30 +57,32 @@ inspectLogIdentifier(bytes calldata proof) returns (uint32 srcChain, uint64 bloc
 
 | Inputs           | Description           |
 | ---------------- | --------------------- |
-| `proof` | Byte payload containing IAVL proof to application's log stored in Polymer Rollup and also the Sequencer attested State root and Block height of the same.|
+| `proof` | A byte payload containing the IAVL proof of the application's log stored in the Polymer Rollup, along with the Sequencer-attested state root and corresponding block height.|
 
 | Returns           | Description           |
 | ----------------- | --------------------- |
-| `chainId` | Chain ID of the emitting chain. _(identifier)_ |
-| `rlpEncodedBytes` | The raw RLP encoded bytes of the whole receipt object we are trying to prove, this is the value stored in the MMPT.|
+| `srcChain`     | Source chain that emitted the log. |
+| `blockNumber`      | Block number on the source chain where the log was emitted. |
+| `receiptIndex`             | Index of the transaction (receipt belongs to) in the array of all transactions in that block. |
+| `logIndex`      | Index of the event in the logs array of the receipt i.e local to your transaction. _Note: This is not the global log index._  |
 
 <br/>
 
-2. `parseLog`
+2. `inspectPolymerState`
 
-A utility function for parsing log data from a receipt given an `logIndex` (within the transaction).
+Inspect the root and the corresponding block height, verifying them against the public RPC endpoint.
+
 ```
-parseLog(uint256 logIndex, bytes calldata rlpEncodedBytes) returns (address emittingContract, bytes[] memory topics, bytes memory unindexedData)
+inspectPolymerState(bytes calldata proof) returns (bytes32 stateRoot, uint64 height, bytes calldata signature)
 
 ```
 
 | Inputs           | Description           |
 | ---------------- | --------------------- |
-| `logIndex` | The index of the event in the logs array of the receipt. NOTE: This is not the log index within the block, only the log index within the receipt.|
-| `proof` | This is returned from Polymer's proof API. This is generally an opaque bytes object but it is constructed through ABI encoding the proof fields from the above EventProof struct in this interface.|
+| `proof` | A byte payload containing the IAVL proof of the application's log stored in the Polymer Rollup, along with the Sequencer-attested state root and corresponding block height.|
 
 | Returns           | Description           |
 | ----------------- | --------------------- |
-| `emittingContract` | The contract which emitted the event. _(identifier)_ |
-| `topics` | The topics array from the emitted event i.e. indexed data. |
-| `unindexedData` | The ABI-encoded event data for the matched log i.e. unindexed data. |
+| `stateRoot` | Represents the state of the Polymer Rollup, serving as the single source of truth. |
+| `height` | The block height corresponding to the state, used for querying the public RPC. |
+| `signature` | The sequencer's attestation, committing to the root and its associated block height. |
