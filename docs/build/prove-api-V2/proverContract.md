@@ -43,20 +43,21 @@ validateEvent(bytes calldata proof) returns (uint32 chainId, address emittingCon
 
 ### More Advanced Methods (optional)
 
-For applications building advanced systems, such as batching multiple logs under a single receipt, these methods offer all the foundational tools needed to validate receipts and parse them for event data access. This approach optimizes proving costs by allowing developers to validate a single receipt and then iterate through and process each log independently, enhancing efficiency.
+These methods were introduced to enhance transparency for applications that need to inspect the contents of a proof rather than blindly trusting opaque bytes. 
 
-1. `validateReceipt`
+They enable applications to perform static calls to the contract, allowing them to examine various components of a proof—such as the corresponding origin chain transaction—to match against API inputs. Additionally, applications can inspect the Sequencer-attested root and block height, ensuring consistency with the public RPC.
 
-Validates a cross-chain receipt from a counterparty chain. The function will revert if the validation fails.
+1. `inspectLogIdentifier`
+
+Inspect the origin transaction that a given proof corresponds to.
 
 ```
-validateReceipt(bytes calldata proof) public view returns (bytes32 chainID, bytes memory rlpEncodedBytes)
-
+inspectLogIdentifier(bytes calldata proof) returns (uint32 srcChain, uint64 blockNumber, uint16 receiptIndex, uint8 logIndex)
 ```
 
 | Inputs           | Description           |
 | ---------------- | --------------------- |
-| `proof` | This is returned from Polymer's proof API. This is generally an opaque bytes object but it is constructed through ABI encoding the proof fields from the above EventProof struct in this interface.|
+| `proof` | Byte payload containing IAVL proof to application's log stored in Polymer Rollup and also the Sequencer attested State root and Block height of the same.|
 
 | Returns           | Description           |
 | ----------------- | --------------------- |
