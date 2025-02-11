@@ -1,0 +1,92 @@
+---
+sidebar_position: 2
+sidebar_label: 'Prover Contract'
+---
+
+# Prove API
+
+## Prover Contract
+
+### Overview
+
+We deploy a contract known as the `CrossL2Prover` ([contract info](https://docs.polymerlabs.org/docs/build/start/)), taking inspiration from Superchain interop's [CrossL2Inbox](https://specs.optimism.io/interop/predeploys.html#crossl2inbox). Since we strongly believe in on-chain proofs, we have modified some methods to validate logs.
+
+We plan to support more claims like `validateStorage` or `validateSrcHeader` as well as more methods like executeMessage that will send the safe payload to a defined address.
+
+#### Current Capabilities:
+
+- **Polymer State Validation:** Validates the state root of the Polymer rollup for a given block height, as attested by the sequencer. Ensures that the state root serves as the single source of truth within the network.
+- **Log Validation:** Exposes a predefined validation method that allows applications to verify logs using a provided proof. Enables applications to confirm the authenticity of a log and retrieve detailed log information securely.
+- **Proof Inspection:** Provides methods for applications to perform static calls to the contract to inspect different components of a proof. Enhances transparency by allowing applications to analyze proof data before submission.
+
+### Methods
+
+For applications validating specific events emitted by their contracts on a given origin chain, these methods provide a straightforward, plug-and-play solution. Validate any event with a single call.
+
+1. `validateEvent`
+
+Validates a cross-chain event from a counterparty chain and returns the event along with event identifiers. The function will revert if the validation fails.
+
+```
+validateEvent(uint256 logIndex, bytes calldata proof) returns (string memory chainId, address emittingContract, bytes[] memory topics, bytes memory unindexedData)
+```
+
+| Inputs           | Description           |
+| ---------------- | --------------------- |
+| `logIndex` | The index of the event in the logs array of the receipt. NOTE: This is not the log index within the block, only the log index within the receipt.|
+| `proof` | The proof provided by Polymer's Proof API. This is an opaque byte object constructed via ABI encoding the fields of the EventProof struct.|
+
+| Returns           | Description           |
+| ----------------- | --------------------- |
+| `chainId` | Chain ID of the emitting chain. _(identifier)_ |
+| `emittingContract` | The contract which emitted the event. _(identifier)_ |
+| `topics` | The topics array from the emitted event i.e. indexed data. |
+| `unindexedData` | The ABI-encoded event data for the matched log i.e. unindexed data. |
+
+
+
+
+<br/>
+
+### More Advanced Methods (optional)
+
+For applications building advanced systems, such as batching multiple logs under a single receipt, these methods offer all the foundational tools needed to validate receipts and parse them for event data access. This approach optimizes proving costs by allowing developers to validate a single receipt and then iterate through and process each log independently, enhancing efficiency.
+
+1. `validateReceipt`
+
+Validates a cross-chain receipt from a counterparty chain. The function will revert if the validation fails.
+
+```
+validateReceipt(bytes calldata proof) public view returns (bytes32 chainID, bytes memory rlpEncodedBytes)
+
+```
+
+| Inputs           | Description           |
+| ---------------- | --------------------- |
+| `proof` | This is returned from Polymer's proof API. This is generally an opaque bytes object but it is constructed through ABI encoding the proof fields from the above EventProof struct in this interface.|
+
+| Returns           | Description           |
+| ----------------- | --------------------- |
+| `chainId` | Chain ID of the emitting chain. _(identifier)_ |
+| `rlpEncodedBytes` | The raw RLP encoded bytes of the whole receipt object we are trying to prove, this is the value stored in the MMPT.|
+
+<br/>
+
+2. `parseLog`
+
+A utility function for parsing log data from a receipt given an `logIndex` (within the transaction).
+```
+parseLog(uint256 logIndex, bytes calldata rlpEncodedBytes) returns (address emittingContract, bytes[] memory topics, bytes memory unindexedData)
+
+```
+
+| Inputs           | Description           |
+| ---------------- | --------------------- |
+| `logIndex` | The index of the event in the logs array of the receipt. NOTE: This is not the log index within the block, only the log index within the receipt.|
+| `proof` | This is returned from Polymer's proof API. This is generally an opaque bytes object but it is constructed through ABI encoding the proof fields from the above EventProof struct in this interface.|
+
+| Returns           | Description           |
+| ----------------- | --------------------- |
+| `emittingContract` | The contract which emitted the event. _(identifier)_ |
+| `topics` | The topics array from the emitted event i.e. indexed data. |
+| `unindexedData` | The ABI-encoded event data for the matched log i.e. unindexed data. |
