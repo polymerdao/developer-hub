@@ -85,7 +85,7 @@ The response contains a int64 (`jobID`) that uniquely identifies your request.
 | Name                             | Description |
 | -------------------------------- | --------------------------- |
 | `jobID` _[uint64]_          | Unique identifier for the API request. |
-| `proof` _[base64]_          | Byte payload containing IAVL proof to application's log stored in Polymer Rollup and also the Sequencer attested State root and Block height of the same. |
+| `proof` _[base64]_          | A byte payload containing the IAVL proof of the application's log stored in the Polymer Rollup, along with the Sequencer-attested state root and corresponding block height. |
 | `status`     | Indicates the current status of the proof (`complete`, `error`, `pending`). |
 
 Note: `proof` bytes are base64 encodes at the moment, application must decode and then convert to hex in order to pass it as call data to the application contract on-chain.
