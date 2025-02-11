@@ -32,6 +32,6 @@ We deploy a contract known as the `CrossL2Prover` ([contract info](https://docs.
 3. **Proof Inspection:** Provides methods for applications to perform static calls to the contract to inspect different components of a proof. Enhances transparency by allowing applications to analyze proof data before submission.
 
 
-<br>
+<br/>
 
 **Note:** Polymer is a rollup that continuously builds blocks and updates its state. As a result, proofs are most cost-effective within a recent time window. Currently, for testing purposes, we provide proofs for the last 3–4 hours, as proof retrieving data deeper in the rollup trie becomes increasingly expensive.
