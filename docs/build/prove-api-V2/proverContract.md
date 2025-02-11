@@ -27,7 +27,7 @@ validateEvent(bytes calldata proof) returns (uint32 chainId, address emittingCon
 
 | Inputs           | Description           |
 | ---------------- | --------------------- |
-| `proof` | The proof provided by Polymer's Proof API. This is an opaque byte object constructed via ABI encoding the fields of the EventProof struct.|
+| `proof` | Byte payload containing IAVL proof to application's log stored in Polymer Rollup and also the Sequencer attested State root and Block height of the same.|
 
 | Returns           | Description           |
 | ----------------- | --------------------- |
