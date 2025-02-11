@@ -1,0 +1,97 @@
+---
+sidebar_position: 1
+sidebar_label: 'API Endpoints'
+---
+
+# Prove API V2
+
+## API Endpoints
+
+### 1. Request Receipt Proof
+
+**Endpoint:** `proof.testnet.polymer.zone`
+
+**Method:** `POST`
+
+#### Request Header
+```
+Authorization: Bearer <token>
+```
+
+#### Request Body
+```
+{
+  “jsonrpc”: “2.0”,
+  “id”:      1,
+  "method":  "log_requestProof",
+  "params":  [uint32, uint32, uint64, uint32]
+}
+```
+
+#### Request Parameters in order
+
+| Name                             | Description |
+| -------------------------------- | --------------------------- |
+| `srcChainId` _[uint32]_          | The chain ID of the chain that emitted the log. |
+| `srcBlockNumber` _[uint64]_      | Block number on the source chain where the log was emitted. |
+| `txIndex` _[uint32]_             | Index of the transaction (receipt belongs to) in the array of all transactions in that block. |
+| `localLogIndex` _[uint32]_      | Index of the event in the logs array of the receipt i.e local to your transaction. _Note: This is not the global log index._  |
+
+#### Response Body (Success)
+```
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": int64
+}
+```
+The response contains a int64 (`jobID`) that uniquely identifies your request.
+
+### 2. Query Receipt Proof
+
+**Endpoint:** `proof.testnet.polymer.zone`
+
+**Method:** `POST`
+
+#### Request Body
+
+```
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "log_queryProof",
+  "params": [int64]
+}
+```
+#### Response Fields
+| Name                             | Description |
+| -------------------------------- | --------------------------- |
+| `jobID` _[int64]_          | The jobID returned by the proof request. |
+
+#### Response Body (Success)
+```
+{
+  “jsonrpc”: “2.0”,
+  “id”:      1,
+  "result":  {
+      “jobID”:        [int64],
+      “proof”:        []byte [base64],
+   	 “status”: “complete” | “error” | “pending”
+  }
+}
+```
+#### Response Fields
+
+| Name                             | Description |
+| -------------------------------- | --------------------------- |
+| `jobID` _[uint64]_          | Unique identifier for the API request. |
+| `proof` _[base64]_          | A byte payload containing the IAVL proof of the application's log stored in the Polymer Rollup, along with the Sequencer-attested state root and corresponding block height. |
+| `status`     | Indicates the current status of the proof (`complete`, `error`, `pending`). |
+
+Note: `proof` bytes are base64 encodes at the moment, application must decode and then convert to hex in order to pass it as call data to the application contract on-chain.
+
+#### Note
+- All of the proofs described above can be built using public RPCs. The primary function of the Prove API is to provide convenience and manage the coordination across multiple chain RPCs.
+
+
+
