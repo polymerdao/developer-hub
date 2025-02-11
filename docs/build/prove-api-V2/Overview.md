@@ -3,7 +3,7 @@ sidebar_position: 0
 sidebar_label: 'Overview'
 ---
 
-# Prove API V2
+# Prove API
 
 ## Overview
 
