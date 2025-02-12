@@ -74,7 +74,6 @@ Inspect the root and the corresponding block height, verifying them against the 
 
 ```
 inspectPolymerState(bytes calldata proof) returns (bytes32 stateRoot, uint64 height, bytes calldata signature)
-
 ```
 
 | Inputs           | Description           |
