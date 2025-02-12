@@ -23,7 +23,7 @@ Find info [here](https://docs.polymerlabs.org/docs/build/start/) to:
 
 ### On-chain Contract for Validating Proofs 
 
-We deploy a contract known as the `CrossL2Prover` ([contract info](https://docs.polymerlabs.org/docs/build/start/)), taking inspiration from Superchain interop's [CrossL2Inbox](https://specs.optimism.io/interop/predeploys.html#crossl2inbox).
+We deploy a contract known as the `CrossL2ProverV2` ([contract info](https://docs.polymerlabs.org/docs/build/start/)), which handles on-chain proof validation. This contract can be deployed permissionlessly on any EVM chain, enabling seamless access to Polymer and the ability to read data from all supported chains in the network.
 
 #### Current Capabilities:
 
