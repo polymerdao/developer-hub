@@ -9,7 +9,7 @@ sidebar_label: 'Prover Contract'
 
 ### Overview
 
-We deploy a contract known as the `CrossL2Prover` ([contract info](https://docs.polymerlabs.org/docs/build/start/)), taking inspiration from Superchain interop's [CrossL2Inbox](https://specs.optimism.io/interop/predeploys.html#crossl2inbox). Since we strongly believe in on-chain proofs, we have modified some methods to validate logs.
+We deploy a contract known as the `CrossL2ProverV2` ([contract info](https://docs.polymerlabs.org/docs/build/start/)), taking inspiration from Superchain interop's [CrossL2Inbox](https://specs.optimism.io/interop/predeploys.html#crossl2inbox). Since we strongly believe in on-chain proofs, we have modified some methods to validate logs.
 
 We plan to support more claims like `validateStorage` or `validateSrcHeader` as well as more methods like executeMessage that will send the safe payload to a defined address.
 
