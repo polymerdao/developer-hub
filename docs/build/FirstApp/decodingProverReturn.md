@@ -64,7 +64,7 @@ The Polymer prover returns four key pieces of information:
 
 - `sourceChainId`: The chain ID where the event originated
 - `sourceContract`: The contract address that emitted the event
-- `topics`: A concatenated byte array of event topics (1-4 x 32 bytes)
+- `topics`: A concatenated bytes of event topics (1-4 x 32 bytes)
 - `unindexedData`: ABI-encoded non-indexed event parameters
 
 ## 2. Topics Decoding
@@ -92,9 +92,6 @@ The topics array contains:
 2. `topicsArray[1]`: Indexed sender address (padded to 32 bytes)
 3. `topicsArray[2]`: Indexed hashedKey
 
-### Why Assembly?
-
-We use assembly for efficient memory operations when splitting the concatenated topics. This avoids multiple memory allocations and copies that would occur with regular Solidity array operations.
 
 ## 3. Event Signature Verification
 
@@ -149,6 +146,7 @@ The `unindexedData` contains ABI-encoded parameters that weren't indexed:
 This is a demonstration implementation. For production-ready applications, additional security measures are crucial:
 
 1. **Source Chain Validation**:
+    - Safeguards against event duplication from a different chain.
     - Maintain a whitelist of allowed source chains
     - Validate `sourceChainId` against this whitelist
     - Example:
@@ -158,6 +156,7 @@ This is a demonstration implementation. For production-ready applications, addit
         ```
         
 2. **Source Contract Validation**:
+    -Safeguards against event duplication from a different contract address on a given source chain.
     - Maintain a mapping of authorized contracts per chain
     - Verify the `sourceContract` address is authorized
     - Example:
