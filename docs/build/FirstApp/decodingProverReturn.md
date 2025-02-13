@@ -64,7 +64,7 @@ The Polymer prover returns four key pieces of information:
 
 - `sourceChainId`: The chain ID where the event originated
 - `sourceContract`: The contract address that emitted the event
-- `topics`: A concatenated byte array of event topics (3 x 32 bytes)
+- `topics`: A concatenated byte array of event topics (1-4 x 32 bytes)
 - `unindexedData`: ABI-encoded non-indexed event parameters
 
 ## 2. Topics Decoding
