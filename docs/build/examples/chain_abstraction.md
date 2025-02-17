@@ -17,49 +17,45 @@ The critical element here is repayment. Solvers are only repaid if the user oper
 <br/>
 
 
-### End-to-End Overview
+## End-to-End Overview
 
 Applications using Openfort’s WalletSDK can abstract their application instances deployed across various chains and allow users to instantly interact with their application. 
-![Chain Abstraction Protocols Image](https://github.com/user-attachments/assets/5ef4d54a-4613-44c7-bac4-8292e343b446)
+![image](https://github.com/user-attachments/assets/dcf2aac7-d45e-4966-84ad-5ec90cca05d7)
+
 
 **Steps**
 
 1. **User Interaction**: When a user interacts with the application, a UserOp is created containing details about the tokens the user will pay with and the sponsor token chain. This data is sent to an ERC4337-compatible Paymaster as `paymasterAndData`.
-2. **Invoice Creation**: Once the user request is fronted by a solver or the application’s excess liquidity, a `postOp` generates and emits an `invoiceID`. This globally unique identifier secures repayments.
+2. **Invoice Creation**: Once the user request is fronted by a solver or the application’s excess liquidity, a `createInvoice` generates and emits an `invoiceID` in the post operation. This globally unique identifier secures repayments.
 3. **Proof Request**: Openfort’s backend requests a proof for the `invoiceID` event from the Prove API.
 4. **Repayment**: Using the execution proof, the backend calls the repay function to settle the `invoiceID` and repay the sponsor tokens.
 
 <br/>
 
-#### Emitting InvoiceID in Post Operations
+### Emitting InvoiceID in Post Operations
 
-The following code demonstrates how an `invoiceID` is emitted during a `postOp`:
+The following code demonstrates how an `invoiceID` is emitted during postOp:
 
 ```jsx
-function _postOp(PostOpMode mode, bytes calldata context, uint256 actualGasCost, uint256 actualUserOpFeePerGas)
-        internal
-        virtual
+/// @inheritdoc IInvoiceManager
+    function createInvoice(uint256 nonce, address account, bytes32 invoiceId)
+        external
         override
+        onlyPaymaster(account)
     {
-        bytes32 invoiceId = bytes32(context[:32]);
-        bytes calldata sponsorTokenData = context[32:];
+        // check if the invoice already exists
+        require(invoices[invoiceId].account == address(0), "InvoiceManager: invoice already exists");
+        // store the invoice
+        invoices[invoiceId] = Invoice(account, nonce, msg.sender, block.chainid);
 
-        (uint8 sponsorTokenLength, SponsorToken[] memory sponsorTokens) = parseSponsorTokenData(sponsorTokenData);
-        for (uint8 i = 0; i < sponsorTokenLength; i++) {
-            SponsorToken memory sponsorToken = sponsorTokens[i];
-            IERC20(sponsorToken.token).approve(sponsorToken.spender, 0);
-        }
-        // TODO: Batch Proving Optimistation -> write in settlement contract on `opSucceeded`
-        if (mode == PostOpMode.opSucceeded) {
-            emit InvoiceCreated(invoiceId);
-        }
+        // event InvoiceCreated(bytes32 indexed invoiceId, address indexed account, address indexed paymaster)
+        emit InvoiceCreated(invoiceId, account, msg.sender);
+    }
 ```
-
-In future iterations, we plan to push all postOps to a settlement contract, where multiple invoices will be stored and batch-emitted to pack multiple invoiceID events under a single receipt.
 
 <br/>
 
-#### Settling Repayment on the Vault chain
+### Settling Repayment on the Vault chain
 
 The following code illustrates how repayment is processed on the vault chain, which calls another `verifyInvoice` to validate the `InvoiceID` against the proof Polymer provided. 
 
@@ -88,7 +84,7 @@ The following code illustrates how repayment is processed on the vault chain, wh
     }
 ```
 
-The invoiceID, as defined by the ERC4337 spec, encapsulates the UserOp. It is essentially a hash derived from the account, payment (contract that emitted the invoice), sponsorChainID, and TokenInfo.
+The invoiceID, as defined by the ERC4337 spec, encapsulates the UserOp. It is essentially a hash derived from the account, paymaster (contract that emitted the invoice), sponsorChainID, and TokenInfo.
 
 ```jsx
 /// @inheritdoc IInvoiceManager
@@ -103,14 +99,15 @@ The invoiceID, as defined by the ERC4337 spec, encapsulates the UserOp. It is es
     }
 ```
 
-Before calling `validateLog` to `CrossL2Prover`, the invoice manager verifies the invoice by calling getInvoiceID.
+Before calling `validateEvent` to `CrossL2ProverV2`, the invoice manager verifies the invoice by calling getInvoiceID.
 
 ```jsx
-function verifyInvoice(
+/// @inheritdoc IPaymasterVerifier
+    function verifyInvoice(
         bytes32 _invoiceId,
         IInvoiceManager.InvoiceWithRepayTokens calldata _invoice,
         bytes calldata _proof
-    ) external virtual override returns (bool) {
+    ) external virtual override returns (bool success) {
         bytes32 invoiceId = invoiceManager.getInvoiceId(
             _invoice.account,
             _invoice.paymaster,
@@ -120,22 +117,20 @@ function verifyInvoice(
         );
 
         if (invoiceId != _invoiceId) return false;
+        (,, bytes memory topics,) = crossL2Prover.validateEvent(_proof);
 
-        (uint256 logIndex, bytes memory proof) = abi.decode(_proof, (uint256, bytes));
-        (,, bytes[] memory topics,) = crossL2Prover.validateEvent(logIndex, proof);
-        bytes[] memory expectedTopics = new bytes[](2);
-        expectedTopics[0] = abi.encode(InvoiceCreated.selector);
-        expectedTopics[1] = abi.encode(invoiceId);
-
-        if (!LibBytes.eq(abi.encode(topics), abi.encode(expectedTopics))) {
-            return false;
+        // event InvoiceCreated(bytes32 indexed invoiceId, address indexed account, address indexed paymaster)
+        assembly {
+            let topic0 := mload(add(topics, 0x20))
+            let topic1 := mload(add(topics, 0x40))
+            // IInvoiceManager.InvoiceCreated.selector
+            let selector := 0x5243d6c5479d93025de9e138a29c467868f762bb78591e96299fb3f437afcc04
+            success := and(eq(topic0, selector), eq(topic1, invoiceId))
         }
-        emit InvoiceVerified(invoiceId);
-        return true;
     }
 ```
 
-The key advantage here is that Polymer validates the entire receipt and every log within it, providing the application with a complete context of the event, including:
+The key advantage here is that Polymer validates the log with a single call and provides the application with a complete context of that event, including:
 
 - The emitting chain
 - The emitting contract (in this case, the paymaster)
@@ -145,9 +140,7 @@ Since the context is also maintained by the Invoice Manager and the invoiceID, i
 
 Additionally, the Invoice Manager maintains a record of already paid invoiceIDs, effectively preventing double-spend attacks.
 
-<br/>
-
-#### Compared to Messaging
+## Compared to Messaging
 
 This chain abstraction example demonstrates a fairly complex use case, with different contracts handling various aspects of the overall protocol. Adding a messaging protocol to this intricate design significantly increases developer overhead:
 - Developers must modify all contracts to interface with bridge contracts for sending messages.
