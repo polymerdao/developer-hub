@@ -5,20 +5,36 @@ sidebar_label: 'At A Glance'
 
 # Polymer at a Glance
 
-At the core of **Polymer’s security model** is the aggregation of **rollup state (block headers)** onto a **publicly verifiable rollup**. Instead of relying solely on arbitrary cross-chain messaging, Polymer bundles entire block headers from multiple rollups into its L2, acting as the **meta-state** for all Ethereum rollups. This meta-state is then shared with connected rollups, allowing Polymer to provide a cryptographic source of truth for verifying **events**, **receipts**, and **storage slot** claims—**all within seconds.**
+<img 
+  src="https://github.com/user-attachments/assets/90029f96-df63-4ef6-8ace-164155be9a38" 
+  alt="Description" 
+  style="width: 60%; display: block; margin: auto;" 
+/>
 
-> Every rollup connected to Polymer maintains an always-updated awareness of the state of all other rollups within the network.  
 
-#### **Why State (Block Headers)?**
+### Off-chain API for Requesting Proofs
+The Prove API takes inspiration from Superchain's native interop to define an identifier. This version of the API is designed to prove individual logs.
 
-Block headers contain critical state information for a blockchain, including the Merkle Trie roots of all transactions, receipts, state, and previous block hashes. By relaying these instead of just messages, Polymer ensures that cross-chain interactions are cryptographically verified, rather than relying on trust-based relays.
+#### Current Capabilities:
+Before an on-chain message can be sent, the "Appplication relayer" or "solver" must first query the Prove API.
+1. **Request Proof:** Use the `log_requestProof` method to request a proof, which returns a `jobID`.
+2. **Poll for Proof:** Use the `log_queryProof` method with the `jobID` to poll for proof responses.
 
-#### **How Does Polymer Gather Rollup State?**
 
-Polymer directly sources block headers from rollup sequencers via their P2P gossip network (Sequencer Pre-Confirmations). This approach makes rollup state instantly available as soon as a block is produced—eliminating additional trusted intermediaries and ensuring real-time interoperability.
+Find info [here](https://docs.polymerlabs.org/docs/build/start/) to:
+- Access the functions with POST requests to API end point
+- Submit requests and experience the API
+- Track your request from the our explorer
 
-#### **Why Use a Dedicated Rollup for This?**
+### On-chain Contract for Validating Proofs 
 
-Polymer itself is an OP-Go rollup purpose-built to bundle rollup headers efficiently. Verifying rollup states directly between chains point-to-point is expensive and not scalable. Instead, Polymer’s rollup consolidates this into a single, low-latency, verifiable database—where a single Polymer block header contains the state updates of all connected rollups. This header is then shared back to the whole network allowing dApps to prove any action cross-chain via this reference point.
+We deploy a contract known as the `CrossL2ProverV2` ([contract info](https://docs.polymerlabs.org/docs/build/start/)), which handles on-chain proof validation. This contract can be deployed permissionlessly on any EVM chain, enabling seamless access to Polymer and the ability to read data from all supported chains in the network.
 
-Furthermore, this rollup can be used to perform transformations on top of the verified data. For example, it can parse application events and store them under a dedicated tree to reduce proof cost and size on EVM rollups, batch transactions from multiple chains into a single app-specific root, or even execute arbitrary computations—such as computing net payables to solvers after validating their fills. 
+#### Current Capabilities:
+
+1. **Polymer State Validation:** Validates the state root of the Polymer rollup for a given block height, as attested by the sequencer. Ensures that the state root serves as the single source of truth within the network.
+2. **Log Validation:** Exposes a predefined validation method that allows applications to verify logs using a provided proof. Enables applications to confirm the authenticity of a log and retrieve detailed log information securely.
+3. **Proof Inspection:** Provides methods for applications to perform static calls to the contract to inspect different components of a proof. Enhances transparency by allowing applications to analyze proof data before submission.
+
+
+**Note:** Polymer is a rollup that continuously builds blocks and updates its state. As a result, proofs are most cost-effective within a recent time window. Currently, for testing purposes, we provide proofs for the last 3–4 hours, as proof retrieving data deeper in the rollup trie becomes increasingly expensive.
