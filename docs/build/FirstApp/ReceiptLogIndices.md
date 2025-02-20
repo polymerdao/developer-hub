@@ -1,6 +1,6 @@
 ---
 sidebar_position: 0
-sidebar_label: 'Decoding Prover Return'
+sidebar_label: 'Understanding Receipts and Logs'
 ---
 
 # Understanding Receipt and Log Indices
