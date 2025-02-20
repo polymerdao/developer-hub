@@ -1,6 +1,6 @@
 ---
 sidebar_position: 0
-sidebar_label: 'Decoding Prover Return'
+sidebar_label: 'Understanding Receipts and Logs'
 ---
 
 # Understanding Receipt and Log Indices
@@ -12,6 +12,7 @@ Let’s analyzes the transaction receipt structure from the [StateSync example](
 The receipt data is fetched using the `eth_getTransactionReceipt` RPC method.
 
 ![Receipt and Local Log Index](https://github.com/user-attachments/assets/1b0c6ad2-5f95-4bb8-a8cb-859558b367d6)
+
 (In green box: Inputs required for Prove API)
 
 ## Contract Events
