@@ -7,7 +7,7 @@ sidebar_label: 'Introduction'
 
 :::info Key Highlights:
 
- 1. **Latency:** 2-3 seconds (Nearing block time!)
+ 1. **Latency:** 2-3 seconds (Near block time)
  2. **Security:** Block headers sourced from Sequencer preconfs
  3. **Rollup Integration:** Add support for new rollups within minutes
 
