@@ -5,8 +5,6 @@ sidebar_label: 'For 7683 x TheCompact'
 
 # ERC7683 x TheCompact
 
-## Overview
-
 Intents have evolved into a well-defined sub-class in interoperability, with contributions from multiple teams, aiming to standardize intent-settlement and facilitate fast deployments. This documentation serves as a contribution from Polymer Labs to support the broader goal of simplifying intent-settlement processes.
 
 This example will cover various components from different smart contracts that interact with the intent settlement framework:
