@@ -6,8 +6,6 @@ sidebar_label: 'Decoding Prover Return'
 
 # Prover Return Decoding Guide
 
-## Overview
-
 This document explains how to interpret the returns from `CrossL2ProverV2` Contract with the following [example](https://docs.polymerlabs.org/docs/build/examples/multi-rollup_apps).
 
 The `setValueFromSource` function takes in a proof from Prove API and uses it to validate and replicate a state change from a source chain to the destination chain. The process involves several steps of data validation and decoding.
