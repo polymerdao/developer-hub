@@ -5,8 +5,6 @@ sidebar_label: 'Understanding Receipts and Logs'
 
 # Understanding Receipt and Log Indices
 
-## Overview
-
 Let’s analyzes the transaction receipt structure from the [StateSync example](https://docs.polymerlabs.org/docs/build/examples/multi-rollup_apps/), specifically focusing on how events are emitted and structured in the transaction logs.
 
 The receipt data is fetched using the `eth_getTransactionReceipt` RPC method.
