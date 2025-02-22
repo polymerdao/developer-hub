@@ -5,8 +5,6 @@ sidebar_label: 'Intent Batched Settlement'
 
 # Settlement Batcher Example
 
-## Overview
-
 Many intent protocols track a unique hash of user intents or user operations, often referred to as **invoiceIDs** or **orderIDs**, which are hashed over various parameters that define how the intent or operation is fulfilled. 
 
 These protocols need to confirm these invoice hashes back on the source chain (the user-side lockup) in order to repay the solver for fronting capital on the destination chain.
