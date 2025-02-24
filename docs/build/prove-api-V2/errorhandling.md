@@ -3,6 +3,8 @@ sidebar_position: 2
 sidebar_label: 'Error Handling'
 ---
 
+#Error Handling
+
 This section outlines the error handling behavior of the proof generation API, specifically for the `log_requestProof` and `log_queryProof` methods. It details common validation errors, their error codes, messages, and failure reasons, based on tests conducted for chain ID, block number, receipt index, and log index validation.
 
 ### **API Methods Covered**
