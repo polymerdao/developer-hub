@@ -102,7 +102,7 @@ For successful requests that later fail during processing, the error details are
     ```
     
 - **Error Code**: -32000 (Server error)
-- **Message**: "chain ID not supported: <chainId>"
+- **Message**: "chain ID not supported: chainId"
 - **Condition**: The chainId parameter does not match any supported chain.
 
 **Handling Tip**: Verify the chainId against the list of supported chains before making the request.
@@ -164,7 +164,7 @@ For successful requests that later fail during processing, the error details are
     }
     ```
     
-- **Failure Reason**: "src block number (<blockNumber>) greater than latest block number (<latestBlock>)"
+- **Failure Reason**: "src block number (x) greater than latest block number (y)"
 - **Condition**: The blockNumber is in the future relative to the chain’s latest block height.
 
 **Handling Tip**: Check the latest block number on the target chain before requesting a proof. Retry the request once the block is mined.
@@ -227,7 +227,7 @@ For successful requests that later fail during processing, the error details are
     }
     ```
     
-- **Failure Reason**: "invalid receipt index (<receiptIndex>) for block number (<blockNumber>) with <numReceipts> receipts"
+- **Failure Reason**: "invalid receipt index (x) for block number (y) with # receipts"
 - **Condition**: The receiptIndex exceeds the number of transaction receipts in the block.
 
 **Handling Tip**: Validate the receiptIndex against the block’s transaction count before submitting the request.
@@ -289,7 +289,7 @@ For successful requests that later fail during processing, the error details are
     }
     ```
     
-- **Failure Reason**: "invalid log index (<logIndex>) for receipt (<receiptIndex>) on block number (<blockNumber>) with <numLogs> logs"
+- **Failure Reason**: "invalid log index (x) for receipt (y) on block number (z) with # logs"
 - **Condition**: The logIndex exceeds the number of logs in the specified receipt.
 
 **Handling Tip**: Confirm the number of logs in the target receipt before requesting a proof.
