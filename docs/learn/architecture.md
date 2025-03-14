@@ -25,10 +25,24 @@ Furthermore, this rollup can be used to perform transformations on top of the ve
 
 ### Trust Considerations
 
-This model relies on rollup state directly from the sequencer, inherently trusting the sequencer. Faster confirmations depend on the sequencer ensuring data availability.
+When using Polymer’s Prove API for Ethereum proving, it’s important to understand the trust model and potential risks involved. Our system is designed to prioritize efficiency, and there are key aspects—like sequencer behavior and data availability—that we want to transparently address.
 
-- **Sequencer Risks:** The model fails if the entity running the sequencer (e.g., OP Labs) acts maliciously or censors transactions.
-- **Data Availability Risks:** If a rollup ceases submitting data batches to Ethereum, it could lead to a long-term reorg.
+#### **Understanding the Trust Model for fetching Rollup State**
 
-To mitigate trust in Polymer’s sequencer, we are collaborating with Lagrange to provide zk-proofs of rollup states derived from Ethereum-posted data.
+Polymer’s proving system depends on the rollup state provided by the sequencer, which introduces some trust considerations:
 
+- **Sequencer Integrity:** We rely on the sequencer to deliver accurate and timely state updates before final confirmation. If the entity operating the sequencer (e.g., OP Labs) were to act dishonestly or censor transactions, it could impact the proving process.
+- **Data Availability:** Fast confirmations hinge on the sequencer making data available. If a rollup stops submitting data batches to Ethereum, it might lead to a longer-term rreorg, which could temporarily disrupt proving.
+
+For rollups without strong sequencer pre-confirmed blocks, we’ve partnering with Lit Protocol to enhance security:
+
+- **Verifiable RPC Outputs**: Lit Protocol uses a Trusted Execution Environment (TEE) network to cross-check block state from multiple reputed RPC providers. By verifying outputs this way, we reduce dependency on any single source and strengthen the reliability of the data used in proving.
+
+#### **Enhancing Polymer Rollup Security** 
+
+To further reduce reliance on Polymer sequencer and bolster trust, we’re actively looking into migrating our rollups to a TEE. This shift brings significant improvements:
+
+- **Validation Guarantees**: A TEE ensures the sequencer’s actions are verifiable and tamper-proof, offering greater confidence in the system.
+- **Equivocation Guarantees**: It confirms that data availability (DA) submissions are accurate and unchanged, preventing discrepancies.
+
+Once complete, this migration will allow verifier nodes to independently reconstruct the full rollup state and validate our verifiable database of Ethereum meta-state. This is a major step forward in making the system more secure and remove an intermediary in verification process.
