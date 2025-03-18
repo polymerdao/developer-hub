@@ -157,6 +157,6 @@ For N invoices:
 | --- | --- | --- | --- |
 | 1 | 150,000 | 16,250 | <$0.004 |
 | 5 | 162,000 | 18,000 | <$0.001 |
-| 10 | 176,000 | 20,200 | <$0.0004 |
+| 10 | 176,000 | 20,200 | <$0.0005 |
 
 Check out all sample transcations [here](https://docs.google.com/document/d/1ctt-eengG13NK_WS7V2ZkaQ9xeo_frYuzQSj24d0fG4/edit?tab=t.0#heading=h.jy36tgl3kknu).
