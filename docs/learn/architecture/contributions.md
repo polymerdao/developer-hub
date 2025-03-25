@@ -19,7 +19,7 @@ Beyond these, we’ve proposed several RIPs that are gaining traction—especial
 
 **Authors**: Ian Norden, Bo Du, Christian Angelopoulos , Mark Tyneway
 
-We know how tricky it can be to sync up rollups with Ethereum’s state in a reliable way. That’s why [RIP-7589](https://github.com/ethereum/RIPs/blob/master/RIPS/rip-7859.md) proposes standardizing a trusted L1 view that each rollup follows. This makes native interoperability via Ethereum smoother and sets the stage for proposals like RIP-7789. F
+We know how tricky it can be to sync up rollups with Ethereum’s state in a reliable way. That’s why [RIP-7589](https://ethereum-magicians.org/t/rip-7859-expose-l1-origin-information-inside-l2-execution-environment/22855) proposes standardizing a trusted L1 view that each rollup follows. This makes native interoperability via Ethereum smoother and sets the stage for proposals like RIP-7789. F
 
 or example, OP Stack rollups already use EIP-4788 to store the last 27 hours of Ethereum block hashes—giving them a consistent window into L1.
 
