@@ -22,7 +22,7 @@ Not every rollup offers pre-confirmations for block headers or full blocks via s
 
 For rollups lacking this, Polymer avoids internalizing trust or running full nodes—which isn’t scalable and often opaque. Instead, we’re teaming up with [**Lit Protocol**](https://www.litprotocol.com/) to build a **verifiable RPC client**. It uses a consensus of reputed RPC providers, checked within Lit’s TEE network, to keep things reliable and shifting trust outside Polymer for greater reliability.
 
-### **Polymer Rollup the State Database**
+## Polymer Rollup the State Database
 
 Being a rollup, the default advantage we get is that teams can always leverage verifier nodes to rebuilt polymer state from the data submitted to DA and connecting the to the sequencer - this retrospective verifiability is great but given the latencies at which apps develop on us - we want to provide stronger in run time guarantees. 
 
