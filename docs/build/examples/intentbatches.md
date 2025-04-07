@@ -55,7 +55,7 @@ This simple yet highly efficient use case highlights the power of app-level inte
             bytes32[] invoices
         );
     
-    // This transcation will be proved on the destination via Prove API 
+    // This transaction will be proved on the destination via Prove API 
     
     ```
     
