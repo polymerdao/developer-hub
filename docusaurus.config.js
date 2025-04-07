@@ -67,8 +67,8 @@ const config = {
         hideOnScroll: false,
         logo: {
           alt: 'Polymer Logo',
-          src: '![Image](https://github.com/user-attachments/assets/1f1cadc4-ab26-4bf8-9fe9-472d0e992dfb)',
-          srcDark: '![Image](https://github.com/user-attachments/assets/84e7650b-eefc-4868-8d1c-54e541b29f0b)',
+          src: 'img/logo-png-black.png',
+          srcDark: 'img/logo-png-white.png',
         },
         items: [
            {
