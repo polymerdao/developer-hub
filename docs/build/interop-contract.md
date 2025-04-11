@@ -3,11 +3,11 @@ sidebar_position: 2
 sidebar_label: 'Interoperable Contracts'
 ---
 
-# **Building Interoperable Contracts**
+# Make YOUR existing contracts interoperable
 
 Ethereum has grown from a single-chain network to a multi-chain world with many rollups. This shift changes how developers build scalable applications. The old ways of achieving multi-chain functionality—replicating entire application across chains or using messaging bridges.
 
-## **The Old Way: Messaging Bridges**
+## Outdated Messaging
 
 ![image](https://github.com/user-attachments/assets/0c5ea318-be74-4c9d-8f76-392b3097e20a)
 
@@ -24,12 +24,12 @@ This approach involves:
 - **High engineering cost** — weeks or even months to implement and debug.
 - **Single-source-to-single-destination limitation** — additional chains require more messages and more gas.
 - **Infra overhead** — fees estimations by bridges often exceed 10x of execution costs.
-    - LZ typical fee: $0.10–$0.25
-    - HL typical fee: $0.50–$0.80
+    - LZ typical fee: ~$0.30
+    - HL typical fee: ~$1.0
 - **Manual reconfiguration** — adding new chains requires bridge updates on all existing instances.
 
-## **Natively Interoperable Apps (Fat Apps)**
-With Polymer, we introduce interoperable contracts that enable—a simpler, more flexible way to build multi-chain applications that puts developers first.
+## Natively Interoperable Apps (Phat Apps)
+With Polymer, we enable the smart contracts you already use to be crosschain—a simpler, more flexible way to build multi-chain applications that puts developers first.
 
 :::info 
 
