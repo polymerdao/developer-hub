@@ -31,6 +31,12 @@ This approach involves:
 ## **Natively Interoperable Apps (Fat Apps)**
 With Polymer, we introduce interoperable contracts that enable—a simpler, more flexible way to build multi-chain applications that puts developers first.
 
+:::info 
+
+With Polymer, developers can now treat interoperability as a byproduct of execution within your application contracts— not a separate architecture to manage.
+
+:::
+
 ### How interoperable contracts work 
 
 ![image](https://github.com/user-attachments/assets/54e41d66-1cb3-46b1-a0b6-accd32b3a7eb)
@@ -43,7 +49,6 @@ With Polymer, we introduce interoperable contracts that enable—a simpler, more
     - Proof validation is hyper efficient with on-chain gas costs of under a cent.
 - **Custom logic control** — execute your app-specific validations before processing.
 
-With Polymer, developers can now treat interoperability as a byproduct of execution within your application contracts— not a separate architecture to manage.
 
 #### Benefits of interoperable contracts 
 
