@@ -18,7 +18,7 @@ This example will cover various components from different smart contracts that i
   - *Note*: TheCompact does not define the intent interface; this decision is left to the Arbiter.
   - *Reference*: [TheCompact GitHub](https://github.com/Uniswap/the-compact/blob/5a5b649ec39ab8f0e84289e6333df5960d6ed65a/src/TheCompact.sol)
 - **CrossL2Prover**: A contract developed by Polymer Protocol to validate cross-chain events without sending explicit messages. It stores the latest superRoot, which is the state of the Polymer rollup, enabling faster and more cost-effective Merkle proofs.
-  - *Reference*: [CrossL2Prover Docs](https://docs.polymerlabs.org/docs/build/prove-api/prover-contract)
+  - *Reference*: [CrossL2Prover Docs](https://docs.polymerlabs.org/docs/build/prove-api-v2/provercontract/)
 - **Arbiter**: The Arbiter contract is responsible for verifying and submitting settlement claims. It interacts with solvers to settle claims against TheCompact contract, acting as a bridge in the process.
   - *Reference*: [Arbiter Contract GitHub](https://github.com/polymerdao/arbiters/blob/bo/polyarbiter/src/PolymerArbiter.sol)
 - **Tribunal**: Tribunal provides a framework where settlement logic can be trusted and governed by signatures (via EIP-712 typed data). It is designed to handle cross-chain swap settlements, taking into account gas-price dynamics on priority gas auction (PGA) chains like Ethereum.
