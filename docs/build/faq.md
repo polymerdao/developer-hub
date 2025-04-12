@@ -55,7 +55,7 @@ This setup gives developers a **bird’s-eye view** of multiple rollups, allowin
 - There are no extra fees purely for generating the proof (beyond standard querying costs).
 
 > **Learn more**  
-> [Prover Contract Methods (Polymer Labs Docs)](https://docs.polymerlabs.org/docs/build/prove-api/prover-contract#methods)
+> [Prover Contract Methods (Polymer Labs Docs)](https://docs.polymerlabs.org/docs/build/prove-api-V2/proverContract#methods)
 
 ---
 
