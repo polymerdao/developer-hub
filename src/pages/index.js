@@ -32,7 +32,7 @@ export default function Home() {
   return (
       <Layout
           title={`${siteConfig.title}`}
-          description=" Explore Polymer x IBC <head />">
+          description="Explore Polymer - Make your contracts interopable">
           <HomepageHeader />
           <main>
               <HomepageFeatures list={FeatureList("docs")} />
