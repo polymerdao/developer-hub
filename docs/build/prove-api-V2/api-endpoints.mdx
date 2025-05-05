@@ -92,13 +92,10 @@ To query the status of a proof job, use the `polymer_queryProof` method:
 
 | Parameter                             | Description |
 | -------------------------------- | --------------------------- |
-| `proof` | Basee64 Encoded bytes payload containing the IAVL proof of the application's log stored in the Polymer Rollup, along with the Sequencer-attested state root and corresponding block height. |
+| `proof` | Basee64 Encoded bytes payload containing the IAVL proof of the application's log stored in the Polymer Rollup. |
 | `status`     | Indicates the current status of the proof (`complete`, `error`, `pending`). |
 
 Note: **Proof** bytes are `base64` encodes at the moment, application must decode and then convert to `hex` in order to pass it as call data to the application contract on-chain.
-
-#### Note
-- All of the proofs described above can be built using public RPCs. The primary function of the Prove API is to provide convenience and manage the coordination across multiple chain RPCs.
 
 ## Usage Example
 
