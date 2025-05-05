@@ -100,5 +100,32 @@ Note: **Proof** bytes are `base64` encodes at the moment, application must decod
 #### Note
 - All of the proofs described above can be built using public RPCs. The primary function of the Prove API is to provide convenience and manage the coordination across multiple chain RPCs.
 
+## Usage Example
 
+```jsx
+const response = await axios.post(
+  "<https://proof.testnet.polymer.zone/>",
+  {
+    jsonrpc: "2.0",
+    id: 1,
+    method: "polymer_requestProof",
+    params: [{
+      srcChainId: 11155420,
+      srcBlockNumber: 26421705,
+      globalLogIndex: 15
+    }]
+  },
+  {
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  }
+);
+
+const jobId = response.data.result;
+console.log(`Job ID: ${jobId}`);
+
+```
 
