@@ -72,9 +72,9 @@ To query the status of a proof job, use the `polymer_queryProof` method:
 ```
 
 #### Response Fields
-| Name                             | Description |
-| -------------------------------- | --------------------------- |
-| `jobID` _[int64]_          | The jobID returned by the proof request. |
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `jobID` | _int64_          | The jobID returned by the proof request. |
 
 #### Response Body (Success)
 ```
@@ -89,10 +89,9 @@ To query the status of a proof job, use the `polymer_queryProof` method:
 ```
 #### Response Fields
 
-| Name                             | Description |
+| Parameter                             | Description |
 | -------------------------------- | --------------------------- |
-| `jobID` _[uint64]_          | Unique identifier for the API request. |
-| `proof` _[base64]_          | A byte payload containing the IAVL proof of the application's log stored in the Polymer Rollup, along with the Sequencer-attested state root and corresponding block height. |
+| `proof` | Basee64 Encoded bytes payload containing the IAVL proof of the application's log stored in the Polymer Rollup, along with the Sequencer-attested state root and corresponding block height. |
 | `status`     | Indicates the current status of the proof (`complete`, `error`, `pending`). |
 
 Note: **Proof** bytes are `base64` encodes at the moment, application must decode and then convert to `hex` in order to pass it as call data to the application contract on-chain.
