@@ -21,21 +21,26 @@ Authorization: Bearer <token>
 #### Request Body
 ```
 {
-  “jsonrpc”: “2.0”,
-  “id”:      1,
-  "method":  "log_requestProof",
-  "params":  [uint32, uint64, uint32, uint32]
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "polymer_requestProof",
+  "params": [{
+    "srcChainId": 11155420,
+    "srcBlockNumber": 26421705,
+    "globalLogIndex": 15
+  }]
 }
 ```
 
 #### Request Parameters in order
 
-| Name                             | Description |
-| -------------------------------- | --------------------------- |
-| `srcChainId` _[uint32]_          | The chain ID of the chain that emitted the log. |
-| `srcBlockNumber` _[uint64]_      | Block number on the source chain where the log was emitted. |
-| `txIndex` _[uint32]_             | Index of the transaction (receipt belongs to) in the array of all transactions in that block. |
-| `localLogIndex` _[uint32]_      | Index of the event in the logs array of the receipt i.e local to your transaction. _Note: This is not the global log index._  |
+The parameters are now enclosed in a single object (instead of an array of separate values):
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `srcChainId` | Integer | Source chain ID where the event occurred |
+| `srcBlockNumber` | Integer | Block number on the source chain containing the event |
+| `globalLogIndex` | Integer | Index of the log in the block (as per standard API response) |
 
 #### Response Body (Success)
 ```
@@ -47,7 +52,7 @@ Authorization: Bearer <token>
 ```
 The response contains a int64 (`jobID`) that uniquely identifies your request.
 
-### 2. Query Log Proof
+### 2. Query Proof Status
 
 **Endpoint:** `proof.testnet.polymer.zone`
 
@@ -55,14 +60,17 @@ The response contains a int64 (`jobID`) that uniquely identifies your request.
 
 #### Request Body
 
-```
+To query the status of a proof job, use the `polymer_queryProof` method:
+
+```json
 {
   "jsonrpc": "2.0",
   "id": 1,
-  "method": "log_queryProof",
-  "params": [int64]
+  "method": "polymer_queryProof",
+  "params": ["jobID"]
 }
 ```
+
 #### Response Fields
 | Name                             | Description |
 | -------------------------------- | --------------------------- |
@@ -71,12 +79,11 @@ The response contains a int64 (`jobID`) that uniquely identifies your request.
 #### Response Body (Success)
 ```
 {
-  “jsonrpc”: “2.0”,
-  “id”:      1,
-  "result":  {
-      “jobID”:        [int64],
-      “proof”:        []byte [base64],
-   	 “status”: “complete” | “error” | “pending”
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "status": "complete",
+    "proof": "base64EncodedProofData..."
   }
 }
 ```
