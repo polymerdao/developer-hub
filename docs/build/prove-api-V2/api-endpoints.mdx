@@ -47,10 +47,16 @@ The parameters are now enclosed in a single object (instead of an array of separ
 {
   "jsonrpc": "2.0",
   "id": 1,
-  "result": int64
+  "result": jobID
 }
 ```
-The response contains a int64 (`jobID`) that uniquely identifies your request.
+The response contains a jobID that uniquely identifies your request.
+
+#### Response Fields
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `jobID` | _int64_          | The jobID returned by the proof request. |
+
 
 ### 2. Query Proof Status
 
@@ -70,11 +76,6 @@ To query the status of a proof job, use the `polymer_queryProof` method:
   "params": ["jobID"]
 }
 ```
-
-#### Response Fields
-| Parameter | Type | Description |
-| --- | --- | --- |
-| `jobID` | _int64_          | The jobID returned by the proof request. |
 
 #### Response Body (Success)
 ```
