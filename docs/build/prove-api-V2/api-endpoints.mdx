@@ -21,21 +21,26 @@ Authorization: Bearer <token>
 #### Request Body
 ```
 {
-  “jsonrpc”: “2.0”,
-  “id”:      1,
-  "method":  "log_requestProof",
-  "params":  [uint32, uint64, uint32, uint32]
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "polymer_requestProof",
+  "params": [{
+    "srcChainId": 11155420,
+    "srcBlockNumber": 26421705,
+    "globalLogIndex": 15
+  }]
 }
 ```
 
 #### Request Parameters in order
 
-| Name                             | Description |
-| -------------------------------- | --------------------------- |
-| `srcChainId` _[uint32]_          | The chain ID of the chain that emitted the log. |
-| `srcBlockNumber` _[uint64]_      | Block number on the source chain where the log was emitted. |
-| `txIndex` _[uint32]_             | Index of the transaction (receipt belongs to) in the array of all transactions in that block. |
-| `localLogIndex` _[uint32]_      | Index of the event in the logs array of the receipt i.e local to your transaction. _Note: This is not the global log index._  |
+The parameters are now enclosed in a single object (instead of an array of separate values):
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `srcChainId` | _int64_ | Source chain ID where the event occurred |
+| `srcBlockNumber` | _int64_ | Block number on the source chain containing the event |
+| `globalLogIndex` | _int64_ | Index of the log in the block (as per standard API response) |
 
 #### Response Body (Success)
 ```
@@ -47,7 +52,7 @@ Authorization: Bearer <token>
 ```
 The response contains a int64 (`jobID`) that uniquely identifies your request.
 
-### 2. Query Log Proof
+### 2. Query Proof Status
 
 **Endpoint:** `proof.testnet.polymer.zone`
 
@@ -55,37 +60,38 @@ The response contains a int64 (`jobID`) that uniquely identifies your request.
 
 #### Request Body
 
-```
+To query the status of a proof job, use the `polymer_queryProof` method:
+
+```json
 {
   "jsonrpc": "2.0",
   "id": 1,
-  "method": "log_queryProof",
-  "params": [int64]
+  "method": "polymer_queryProof",
+  "params": ["jobID"]
 }
 ```
+
 #### Response Fields
-| Name                             | Description |
-| -------------------------------- | --------------------------- |
-| `jobID` _[int64]_          | The jobID returned by the proof request. |
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `jobID` | _int64_          | The jobID returned by the proof request. |
 
 #### Response Body (Success)
 ```
 {
-  “jsonrpc”: “2.0”,
-  “id”:      1,
-  "result":  {
-      “jobID”:        [int64],
-      “proof”:        []byte [base64],
-   	 “status”: “complete” | “error” | “pending”
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "status": "complete",
+    "proof": "base64EncodedProofData..."
   }
 }
 ```
 #### Response Fields
 
-| Name                             | Description |
+| Parameter                             | Description |
 | -------------------------------- | --------------------------- |
-| `jobID` _[uint64]_          | Unique identifier for the API request. |
-| `proof` _[base64]_          | A byte payload containing the IAVL proof of the application's log stored in the Polymer Rollup, along with the Sequencer-attested state root and corresponding block height. |
+| `proof` | Basee64 Encoded bytes payload containing the IAVL proof of the application's log stored in the Polymer Rollup, along with the Sequencer-attested state root and corresponding block height. |
 | `status`     | Indicates the current status of the proof (`complete`, `error`, `pending`). |
 
 Note: **Proof** bytes are `base64` encodes at the moment, application must decode and then convert to `hex` in order to pass it as call data to the application contract on-chain.
@@ -93,5 +99,32 @@ Note: **Proof** bytes are `base64` encodes at the moment, application must decod
 #### Note
 - All of the proofs described above can be built using public RPCs. The primary function of the Prove API is to provide convenience and manage the coordination across multiple chain RPCs.
 
+## Usage Example
 
+```jsx
+const response = await axios.post(
+  "<https://proof.testnet.polymer.zone/>",
+  {
+    jsonrpc: "2.0",
+    id: 1,
+    method: "polymer_requestProof",
+    params: [{
+      srcChainId: 11155420,
+      srcBlockNumber: 26421705,
+      globalLogIndex: 15
+    }]
+  },
+  {
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  }
+);
+
+const jobId = response.data.result;
+console.log(`Job ID: ${jobId}`);
+
+```
 
