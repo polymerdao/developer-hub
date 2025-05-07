@@ -126,3 +126,41 @@ console.log(`Job ID: ${jobId}`);
 
 ```
 
+### Advanced Methods
+
+**Endpoint:** `proof.testnet.polymer.zone`
+
+**Request Method:** `POST` 
+
+**Proof Request Body:**
+
+```
+{
+  “jsonrpc”: “2.0”,
+  “id”:      1,
+  "method":  "log_requestProof",
+  "params":  [uint32, uint64, uint32, uint32]
+}
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `srcChainId`  | *unit32* | The chain ID of the chain that emitted the log. |
+| `srcBlockNumber`  | *unit32* | Block number on the source chain where the log was emitted. |
+| `txIndex`  | *unit32* | Index of the transaction (receipt belongs to) in the array of all transactions in that block. |
+| `localLogIndex`  | *unit32* | Index of the event in the logs array of the receipt i.e local to your transaction. *Note: This is not the global log index.* |
+
+**Query Proof Body**
+
+```
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "log_queryProof",
+  "params": [jobID]
+}
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `jobID`  | *int64* | The jobID returned by the proof request. |
