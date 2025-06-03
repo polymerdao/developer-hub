@@ -64,12 +64,6 @@ Unindexed Data: Match
 
 ```
 
-### Address Formats
-
-- TRON addresses start with `41` (hex) or are base58 encoded starting with `T`
-- When contract methods return addresses, they'll be in TRON's hex format (`41...`)
-- To convert between formats:
-
 ### Return Value Notes
 
 1. **Chain ID**:
@@ -92,9 +86,8 @@ Unindexed Data: Match
 
 - TRON explorer shows base58 addresses with ‘T’ prefix
 - Raw event data contains hex addresses without '0x' prefix ([Reference](https://developers.tron.network/docs/event#log) and output below)
-- Base/EVM always uses '0x' prefix
+- Whereas Base/EVM always uses '0x' prefix
 - Data values (like amounts) are identical in hex
-- Concatenated topics are automatically split and normalized
 
 ```tsx
 === TRON Transaction Raw Logs ===
@@ -126,15 +119,16 @@ Raw Result Object:
 ### Address Formats
 
 - **TRON Explorer Format**: `TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf` (Base58)
+- **TRON Raw Log Format**: `eca9bc828a3005b9a3b909f2cc5c2a54794de05f` 
 - **Base Prover Returns**: `0xECa9bC828A3005B9a3b909f2cc5c2a54794DE05F` (EVM Hex)
-- **Note**: These are the same address in different formats. TRON uses base58 with 'T' prefix for display.
+- **Note**: These are the same address in different formats. TRON uses base58 with 'T' prefix for display in explorer.
 
 ### Event Signature (Topic 0)
 
-- **TRON Explorer shows:** ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef
+- **TRON Explorer and Raw Log shows:** ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef
 - **EVM Prover returned:**  0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef
 - **Meaning:** The only difference is that Base/EVM adds the 0x prefix when displaying addresses, but the underlying  address parameter format  is identical. Standard ERC20/TRC20 Transfer event signature.
-- **Note**: This is identical on both networks as it's a keccak256 hash
+- **Note**: This is identical on both networks as it's a keccak256 hash.
 
 ## Topics Handling and Unpacking
 
@@ -171,25 +165,10 @@ topics: [
     - **bytes32**: Maintained as-is, '0x' added
     - **bool**: Padded to 32 bytes, '0x' added
 
-### Address Formats in Topics
-
-1. **From Address (Topic 1)**
-- TRON Format: `413701e24fabdec5be006d04331b977d974a0e64c8` (41 prefix)
-- Base Format: Will show as `0x3701e24fabdec5be006d04331b977d974a0e64c8`
-- Note: TRON adds '41' prefix instead of '0x'
-
-1. **To Address (Topic 2)**
-- TRON Format: `41d3ba0080540dd44a65e299d215c594a89c820fc5` (41 prefix)
-- Base Format: Will show as `0xd3ba0080540dd44a65e299d215c594a89c820fc5`
-- Note: Same pattern as From Address
-
-1. **Value Data**
-- Both Networks: `0x0000000000000000000000000000000000000000000000000000000000989680`
-- Note: Identical representation as it's a pure number (hex)
 
 ## Tron Contract Interactions with TronWeb
 
-### Method 1: Using [contract.at](http://contract.at/)()
+### Method 1: Using contract.at()
 
 ```jsx
 const tronWeb = new TronWeb({
