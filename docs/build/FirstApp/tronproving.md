@@ -90,21 +90,37 @@ Unindexed Data: Match
 
 ![image](https://github.com/user-attachments/assets/d22d3d0d-1af0-4d42-b7d7-aab8665dcccd)
 
-- TRON explorer shows base58 addresses
-- Raw event data contains hex addresses with '41' prefix
+- TRON explorer shows base58 addresses with ‘T’ prefix
+- Raw event data contains hex addresses without '0x' prefix ([Reference](https://developers.tron.network/docs/event#log) and output below)
 - Base/EVM always uses '0x' prefix
 - Data values (like amounts) are identical in hex
 - Concatenated topics are automatically split and normalized
 
 ```tsx
-// Validating above Event Proof on Base/EVM chain
+=== TRON Transaction Raw Logs ===
 
---- Base Sepolia Validation Results ---
-Chain ID: 3448148188
-Emitting Contract (EVM Hex): 0xECa9bC828A3005B9a3b909f2cc5c2a54794DE05F
-Topics:
-  [0]: 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef...
-Unindexed Data: 0x0000000000000000000000000000000000000000000000000000000000989680
+Complete Raw Log Object:
+[
+  {
+    "address": "eca9bc828a3005b9a3b909f2cc5c2a54794de05f",
+    "topics": [
+      "ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+      "0000000000000000000000003701e24fabdec5be006d04331b977d974a0e64c8",
+      "000000000000000000000000d3ba0080540dd44a65e299d215c594a89c820fc5"
+    ],
+    "data": "0000000000000000000000000000000000000000000000000000000000989680"
+  }
+]
+
+=== Raw Base Sepolia Validation Result ===
+
+Raw Result Object:
+[
+  "3448148188",
+  "0xECa9bC828A3005B9a3b909f2cc5c2a54794DE05F",
+  "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef0000000000000000000000003701e24fabdec5be006d04331b977d974a0e64c8000000000000000000000000d3ba0080540dd44a65e299d215c594a89c820fc5",
+  "0x0000000000000000000000000000000000000000000000000000000000989680"
+]
 ```
 
 ### Address Formats
@@ -117,7 +133,7 @@ Unindexed Data: 0x00000000000000000000000000000000000000000000000000000000009896
 
 - **TRON Explorer shows:** ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef
 - **EVM Prover returned:**  0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef
-- **Meaning**: The only difference is that Base/EVM adds the 0x prefix, but the actual signature is identical. Standard ERC20/TRC20 Transfer event signature
+- **Meaning:** The only difference is that Base/EVM adds the 0x prefix when displaying addresses, but the underlying  address parameter format  is identical. Standard ERC20/TRC20 Transfer event signature.
 - **Note**: This is identical on both networks as it's a keccak256 hash
 
 ## Topics Handling and Unpacking
@@ -125,7 +141,11 @@ Unindexed Data: 0x00000000000000000000000000000000000000000000000000000000009896
 **Raw TRON Topic Format (Concatenated)**
 
 ```
-0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef000000000000000000000000413701e24fabdec5be006d04331b977d974a0e64c8000000000000000000000000d3ba0080540dd44a65e299d215c594a89c820fc5
+topics: [
+      "ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+      "0000000000000000000000003701e24fabdec5be006d04331b977d974a0e64c8",
+      "000000000000000000000000d3ba0080540dd44a65e299d215c594a89c820fc5"
+    ]
 ```
 
 **After Unpacking Proof on Base**
@@ -133,8 +153,8 @@ Unindexed Data: 0x00000000000000000000000000000000000000000000000000000000009896
 ```jsx
 topics: [
     "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
-    "0x3701e24fabdec5be006d04331b977d974a0e64c8",  // '41' prefix removed, '0x' added
-    "0xd3ba0080540dd44a65e299d215c594a89c820fc5"   // '41' prefix removed, '0x' added
+    "0x3701e24fabdec5be006d04331b977d974a0e64c8",  
+    "0xd3ba0080540dd44a65e299d215c594a89c820fc5"   
 ]
 ```
 
