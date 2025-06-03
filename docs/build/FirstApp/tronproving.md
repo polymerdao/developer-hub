@@ -20,7 +20,6 @@ With proper format conversion, the same proof can be validated successfully on b
 | Chain ID | 3448148188 | 728126428 |
 | Public RPC | [https://nile.trongrid.io](https://nile.trongrid.io/) | https://api.trongrid.io/jsonrpc |
 | Explorer  | [nile.tronscan.org](https://nile.tronscan.org/#/) | [tronscan.org](https://tronscan.org/#/) |
-| Confirmation Depth | 15 | 15 |
 | Prover Address  | [TD39R92XN4HqXUQCPmtnZV1mhcgMy7Qbn8](https://nile.tronscan.org/#/contract/TD39R92XN4HqXUQCPmtnZV1mhcgMy7Qbn8/code) | [TVNUrgAy1wqgn3y8mjSkpJJBnhSxoX8Lve](https://tronscan.org/#/contract/TVNUrgAy1wqgn3y8mjSkpJJBnhSxoX8Lve/code) |
 
 This guide will show you how to validate cross-chain proofs on TRON compared to standard EVM chains with examples.
