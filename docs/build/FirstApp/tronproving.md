@@ -168,7 +168,9 @@ topics: [
 
 ## Tron Contract Interactions with TronWeb
 
-### Method 1: Using contract.at()
+### Static call 
+
+#### Method 1: Using contract.at()
 
 ```jsx
 const tronWeb = new TronWeb({
@@ -188,7 +190,7 @@ const result = await contract.validateEvent(proofHex).call();
 // }
 ```
 
-### Method 2: Using triggerConstantContract
+#### Method 2: Using triggerConstantContract
 
 ```jsx
 const functionSelector = 'validateEvent(bytes)';
@@ -203,4 +205,92 @@ const result = await tronWeb.transactionBuilder.triggerConstantContract(
 // Need to decode the raw result
 const decodedTypes = ['uint32', 'address', 'bytes', 'bytes'];
 const decoded = tronWeb.utils.abi.decodeParams(decodedTypes, result.constant_result[0]);
+```
+
+### **Submitting Transactions**
+
+#### **Method 1: Using contract.methodName().send()**
+
+```jsx
+const tronWeb = new TronWeb({
+    fullHost: "https://nile.trongrid.io",
+    privateKey: "your_private_key_here"  // Required for sending transactions
+});
+
+// Get contract instance
+const contract = await tronWeb.contract().at("TContractAddress123");
+
+// Send transaction
+const tx = await contract.transfer(recipientAddress, amount).send({
+    feeLimit: 100_000_000,  // 100 TRX max fee
+    callValue: 0,           // TRX to send with transaction
+    shouldPollResponse: false // Don't wait for confirmation
+});
+
+// tx is the transaction ID (string)
+console.log("Transaction ID:", tx);
+```
+
+#### **Method 2: Using triggerSmartContract (Recommended)**
+
+```jsx
+// More control and better error handling
+const transaction = await tronWeb.transactionBuilder.triggerSmartContract(
+    "TContractAddress123",              // Contract address (base58)
+    "transfer(address,uint256)",        // Full function signature
+    {
+        feeLimit: 100_000_000,         // In SUN (1 TRX = 1,000,000 SUN)
+        callValue: 0                   // TRX value to send
+    },
+    [
+        {type: 'address', value: recipientAddress},
+        {type: 'uint256', value: amount}
+    ],
+    tronWeb.defaultAddress.base58      // Sender address
+);
+
+// Check if transaction was built successfully
+if (!transaction.result || !transaction.result.result) {
+    throw new Error('Transaction build failed: ' + transaction.result.message);
+}
+
+// Sign the transaction
+const signedTx = await tronWeb.trx.sign(transaction.transaction);
+
+// Broadcast the signed transaction
+const receipt = await tronWeb.trx.sendRawTransaction(signedTx);
+console.log("Transaction ID:", receipt.txid);
+```
+
+**Note:**
+
+1.TRON uses Energy & Bandwidth instead of gas
+
+```jsx
+// TRON uses Energy & Bandwidth instead of gas
+// Check account resources before sending
+const account = await tronWeb.trx.getAccountResources(address);
+console.log("Energy:", account.EnergyLimit - account.EnergyUsed);
+console.log("Bandwidth:", account.freeNetLimit - account.freeNetUsed);
+
+// Set appropriate feeLimit (in SUN)
+// 1 TRX = 1,000,000 SUN
+const feeLimit = 100_000_000; // 100 TRX
+```
+
+2. TRON requires explicit type definitions
+
+```jsx
+// TRON requires explicit type definitions
+const args = [
+    {type: 'address', value: "TAddress123"},     // TRON addresses
+    {type: 'uint256', value: "1000000"},         // Numbers as strings
+    {type: 'bytes', value: "0x1234abcd"},        // Hex data
+    {type: 'string', value: "Hello TRON"},       // Strings
+    {type: 'bool', value: true}                  // Booleans
+];
+
+// Common type conversions
+// EVM address to TRON: Use TronWeb.address.fromHex("0x...")
+// TRON to hex: TronWeb.address.toHex("T...")
 ```
