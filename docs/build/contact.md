@@ -7,4 +7,4 @@ sidebar_label: 'Contact Us'
 
 For any mainnet inquiries contact Head of Product on telegram -> handle = **tommyoc0** 
 
-Please include your **reason for reaching out** for us to respond.
+Please include your **reason for reaching out** for us to respond. 
