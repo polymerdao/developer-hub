@@ -61,7 +61,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
-      image: 'img/poly-socialcard.jpg',
+      image: 'img/Gradient + Transparent BG.png',
       navbar: {
         title: 'Docs',
         hideOnScroll: false,
