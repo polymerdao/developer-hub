@@ -43,9 +43,9 @@ For events/logs (equivalent to Ethereum events):
 - **Return Data**: Programs can return data that gets included in transaction results
 - **Account State Changes**: Before/after snapshots of affected accounts
 
-<aside>
-Polymer prioritizes event proofs for EVM chains, given their developer experience and proving costs. For consistency, we follow a similar approach with Solana by using Program Log verification with Confirmation proofs. (See Trust Considerations below)
-</aside>
+:::info
+Polymer prioritizes event proofs for EVM chains, given their developer experience and proving costs. For consistency, we follow a similar approach with Solana by using Program Log verification with Confirmation proofs. 
+:::
 
 ### How EVM Log Proof Work
 
