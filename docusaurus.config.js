@@ -6,8 +6,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Polymer Docs',
-  tagline: 'Prove any action, cross-chain.',
-  favicon: 'img/favicon.ico',
+  tagline: 'Make your contracts interopable.',
+  favicon: 'img/faviconnew.ico',
 
   // Set the production url of your site here
   url: 'https://docs.polymerlabs.org',
@@ -67,8 +67,8 @@ const config = {
         hideOnScroll: false,
         logo: {
           alt: 'Polymer Logo',
-          src: 'img/logo-png-black.png',
-          srcDark: 'img/logo-png-white.png',
+          src: 'img/Gradient + Transparent BG.png',
+          srcDark: 'img/Gradient + Transparent BG.png',
         },
         items: [
            {
