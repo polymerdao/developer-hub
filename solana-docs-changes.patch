@@ -1,0 +1,693 @@
+From 81ad26e6a7a3f0048883065140ae2c3192614981 Mon Sep 17 00:00:00 2001
+From: Devain Pal Bansal <dpbmaverick98@Devains-MacBook-Pro-2.local>
+Date: Mon, 9 Jun 2025 23:45:01 +0530
+Subject: [PATCH] Add Solana documentation: Solana light client guide and
+ Solana proving documentation - Added comprehensive Solana light client
+ documentation with overview and integration guide - Added Solana proving
+ documentation with proof generation and validation guides - Reorganized build
+ documentation structure with new prover integration section - Removed
+ outdated FirstApp documentation - Updated architecture category configuration
+
+---
+ .../_category_.json                           |   0
+ .../decodingProverReturn.md                   |   0
+ .../tronproving.md                            |   0
+ docs/build/SolanaProving/_category_.json      |   7 +
+ docs/build/SolanaProving/solanaEVMProving.md  | 101 ++++++++++++
+ .../build/SolanaProving/solanaProofRequest.md |  88 ++++++++++
+ .../SolanaProving/solanaProofValidation.md    | 153 ++++++++++++++++++
+ .../learn/Solana Light Client/_category_.json |   7 +
+ .../solanaConsiderations.md                   | 138 ++++++++++++++++
+ docs/learn/Solana Light Client/solanaIntro.md |  91 +++++++++++
+ docs/learn/architecture/_category_.json       |  10 +-
+ 11 files changed, 590 insertions(+), 5 deletions(-)
+ rename docs/build/{FirstApp => Prover integration}/_category_.json (100%)
+ rename docs/build/{FirstApp => Prover integration}/decodingProverReturn.md (100%)
+ rename docs/build/{FirstApp => Prover integration}/tronproving.md (100%)
+ create mode 100644 docs/build/SolanaProving/_category_.json
+ create mode 100644 docs/build/SolanaProving/solanaEVMProving.md
+ create mode 100644 docs/build/SolanaProving/solanaProofRequest.md
+ create mode 100644 docs/build/SolanaProving/solanaProofValidation.md
+ create mode 100644 docs/learn/Solana Light Client/_category_.json
+ create mode 100644 docs/learn/Solana Light Client/solanaConsiderations.md
+ create mode 100644 docs/learn/Solana Light Client/solanaIntro.md
+
+diff --git a/docs/build/FirstApp/_category_.json b/docs/build/Prover integration/_category_.json
+similarity index 100%
+rename from docs/build/FirstApp/_category_.json
+rename to docs/build/Prover integration/_category_.json
+diff --git a/docs/build/FirstApp/decodingProverReturn.md b/docs/build/Prover integration/decodingProverReturn.md
+similarity index 100%
+rename from docs/build/FirstApp/decodingProverReturn.md
+rename to docs/build/Prover integration/decodingProverReturn.md
+diff --git a/docs/build/FirstApp/tronproving.md b/docs/build/Prover integration/tronproving.md
+similarity index 100%
+rename from docs/build/FirstApp/tronproving.md
+rename to docs/build/Prover integration/tronproving.md
+diff --git a/docs/build/SolanaProving/_category_.json b/docs/build/SolanaProving/_category_.json
+new file mode 100644
+index 0000000..7680076
+--- /dev/null
++++ b/docs/build/SolanaProving/_category_.json
+@@ -0,0 +1,7 @@
++{
++    "label": "Solana Proving",
++    "position": 11,
++    "link": {
++      "type": "generated-index"
++    }
++  }
+diff --git a/docs/build/SolanaProving/solanaEVMProving.md b/docs/build/SolanaProving/solanaEVMProving.md
+new file mode 100644
+index 0000000..c706164
+--- /dev/null
++++ b/docs/build/SolanaProving/solanaEVMProving.md
+@@ -0,0 +1,101 @@
++---
++sidebar_position: 0
++sidebar_label: 'Proving Solana Logs on EVM'
++---
++
++# Solana Logs Verification Requirements
++
++This guide will walk you through the process of proving and verifying Solana program logs on EVM chains using Polymer's state proof system. By following these steps, you'll be able to emit logs on Solana and then cryptographically verify them on any EVM chain.
++
++This Solana documentation section will follow this example: [solana-polymer-prover-cpi](https://github.com/dpbmaverick98/solana-polymer-prover-cpi/blob/main/programs/my_anchor_project/src/lib.rs)
++
++### Overview
++
++1. Emit a log message on Solana with a specific format
++2. Generate a state proof using Polymer's API
++3. Verify the proof on an EVM chain using Polymer's prover contract
++
++## Log Format Requirements
++
++For logs to be properly recognized by the Light client on Polymer Rollup, you must:
++
++1. Use the `msg!` macro in your Solana program
++2. Include the `Prove:` prefix in your log messages
++3. **Include the runtime program ID in your log messages.** 
++4. Emit the log from the program that you want to validate
++
++Here's the required log format in Rust:
++
++```rust
++// Inside your Solana program
++pub fn log_key_value(ctx: Context<LogKeyValue>, key: String, value: String) -> Result<()> {
++    // Update state
++    let logger_account = &mut ctx.accounts.logger_account;
++    logger_account.nonce += 1;
++
++    // Get the actual runtime program ID
++    let program_id = ctx.program_id;
++
++    // Optional: Verify against expected ID for additional security
++    require!(program_id == &crate::ID, ErrorCode::ProgramIdMismatch);
++
++    // Emit properly formatted log with "Prove:" prefix and program ID
++    msg!("Prove: program: {}, Key: {}, Value: {}, Nonce: {}",
++         program_id,                    // ✅ Required: Runtime program ID
++         key,
++         value,
++         logger_account.nonce);
++
++    // You can emit multiple provable logs in one transaction
++    msg!("Prove: program: {}, Another log that can be verified!", program_id);
++
++    Ok(())
++}
++
++```
++
++**Standard Format Options:**
++
++```rust
++// Option 1: Comma-delimited format (NOTE)
++msg!("Prove: program: {}, EVENT_NAME: {}, user: {}, amount: {}, nonce: {}", 
++     ctx.program_id, "BRIDGE_DEPOSIT", user, amount, nonce);
++
++// Option 2: Simple event format
++msg!("Prove: program: {}, Key: {}, Value: {}, Nonce: {}", 
++     ctx.program_id, key, value, nonce);
++
++// Option 3: Compact format
++msg!("Prove: program: {}, action: {}, data: {}:{}:{}", 
++     ctx.program_id, "TRANSFER", user, amount, nonce);
++
++```
++
++## Important Notes for Log Emission
++
++- **Program Identity**: The logs must be emitted directly from the program you want to validate, not from a CPI call to another program.
++- **Runtime Program ID**: Always use `ctx.program_id` in your logs - this provides unforgeable program attribution and cannot be spoofed by attackers.
++    - **Comma Delimiter**: Use commas as the main delimiter to separate fields for easier parsing on EVM chains.
++- **Log Size**: Keep logs reasonably sized (< 500 bytes) to ensure they fit in the transaction receipt.
++- **Multiple Logs**: You can emit multiple logs with the "Prove:" prefix in a single transaction, but this increases proof payload size.
++- **Transaction Success**: Only logs from successful transactions can be proven.
++
++## Enhanced Security with Runtime Program ID
++
++Including the runtime program ID in your logs provides triple verification security:
++
++1. **Log-level**: Program ID embedded within the log message
++2. **Request-level**: Program ID specified in the proof request
++3. **Validation-level**: Program ID returned by Prover contract must match Program ID in logMessages
++
++### Why This is Required
++
++- `ctx.program_id` is provided by Solana's runtime and cannot be spoofed
++- Even if an attacker deploys identical code, they get a different program address
++- Creates cryptographic proof of which exact program emitted the log
++- Makes program impersonation attacks impossible, including CPI-based attacks
++- Comma delimiters enable clean parsing of program ID and event data on EVM chains
++
++:::info Security Note
++This runtime program ID verification makes Polymer's Solana light client significantly more robust against program impersonation and log attribution attacks. The comma-delimited format ensures reliable parsing and verification on EVM chains.
++:::
+diff --git a/docs/build/SolanaProving/solanaProofRequest.md b/docs/build/SolanaProving/solanaProofRequest.md
+new file mode 100644
+index 0000000..fe4e537
+--- /dev/null
++++ b/docs/build/SolanaProving/solanaProofRequest.md
+@@ -0,0 +1,88 @@
++---
++sidebar_position: 1
++sidebar_label: 'Request Solana Proof'
++---
++
++# Generating a Solana Log Proof
++
++After your transaction has been confirmed on Solana, you'll need to request a state proof from Polymer's Prove API.
++
++### Proof Request Endpoint
++
++The Prove API follows a JSON-RPC format:
++
++```
++POST <https://proof.testnet.polymer.zone>
++```
++
++### API Authentication
++
++Include your API key in the request header:
++
++```
++Authorization: Bearer YOUR_API_KEY
++```
++
++### Proof Request Format
++
++Here's the expected request format:
++
++```json
++{
++  "jsonrpc": "2.0",
++  "id": 1,
++  "method": "polymer_requestProof",
++  "params": [{
++    "srcChainId": 2, // Represents Solana within Polymer Network 
++    "txSignature": "YOUR_SOLANA_TRANSACTION_SIGNATURE",
++    "programID": "YOUR_SOLANA_PROGRAM_ID"
++  }]
++}
++
++```
++
++Parameters:
++
++- `srcChainId`: 2 (representing Solana in Polymer's chain ID system)
++- `txSignature`: The Solana transaction signature containing your log
++- `programID`: Your Solana program ID that emitted the log (Base58 encoded)
++
++### Proof Response and Polling
++
++The initial response will include a job ID:
++
++```json
++{
++  "jsonrpc": "2.0",
++  "id": 1,
++  "result": "167462"
++}
++
++```
++
++You'll need to poll for the proof using this job ID:
++
++```json
++{
++  "jsonrpc": "2.0",
++  "id": 1,
++  "method": "polymer_queryProof",
++  "params": ["167462"]
++}
++
++```
++
++The response will eventually include the proof when ready:
++
++```json
++{
++  "jsonrpc": "2.0",
++  "id": 1,
++  "result": {
++    "status": "complete",
++    "proof": "BASE64_ENCODED_PROOF_DATA"
++  }
++}
++
++```
++
+diff --git a/docs/build/SolanaProving/solanaProofValidation.md b/docs/build/SolanaProving/solanaProofValidation.md
+new file mode 100644
+index 0000000..c64cc45
+--- /dev/null
++++ b/docs/build/SolanaProving/solanaProofValidation.md
+@@ -0,0 +1,153 @@
++---
++sidebar_position: 2
++sidebar_label: 'Solana Prover Validation'
++---
++
++# Proving Solana Logs on EVM
++
++Once you have the proof, you can verify it on any EVM chain that has the Polymer validator contract deployed.
++
++## EVM Prover Contract Interface 
++
++The Polymer validator contract has a method to verify Solana logs:
++
++```solidity
++function validateSolLogs(bytes calldata proof)
++    external
++    view
++    returns (uint32 chainId, bytes32 programID, string[] memory logMessages)
++
++```
++
++**Parameters:**
++
++- `proof`: The base64-encoded proof converted to hex format (`0x` prefixed)
++
++**Returns:**
++
++- `chainId`: Source chain ID (2 for Solana)
++- `programID`: Your Solana program ID (converted to **bytes32/hex format**)
++    - **Program ID Format**: Your Solana program ID will be returned as a hex value (bytes32), not in Base58 format.
++    - This is added for consistency in prover contract interfaces for EVM and Solana.
++- `logMessages`: Array of proven log messages that had the "Prove:" prefix
++    - **Multiple Logs**: You can emit multiple logs with the "Prove:" prefix in a single transaction.
++
++## Log Format and Parsing
++
++**Solana Log Format:**
++
++```rust
++msg!("Prove: program: {}, Key: {}, Value: {}, Nonce: {}",
++     ctx.program_id, key, value, nonce);
++// Output: "Prove: program: J8T7..., Key: solana, Value: hello, Nonce: 3"
++```
++
++**After Polymer Processing (Prove: prefix removed):**
++
++```
++"program: J8T7Dg51zWifVfd4H4G61AaVtmW7GqegHx3h7a59hKSa, Key: solana, Value: hello, Nonce: 3"
++```
++
++**EVM Parsing Logic:**
++
++```solidity
++string[] memory parts = splitString(log, ",");
++// parts[0] = "program: J8T7..."  (extract program ID from this)
++// parts[1] = " Key: solana"
++// parts[2] = " Value: hello"
++// parts[3] = " Nonce: 3"
++
++// Extract program ID:
++string memory programPart = parts[0]; // "program: J8T7..."
++string memory programId = extractAfterColon(programPart); // "J8T7..."
++```
++
++## Example Transaction Flow
++
++1. **Emit a log on Solana**
++    - Your transaction signature: `5r4AtXVBkcDmxtBay7RCpNnGCMv4RzX4Z5yqP2axMTzYY85Q3Tt3PKGtdk3m4Sqsfy7rCAb2Qp1F9rGs3xAdbo8C`
++    - Your program ID: `J8T7Dg51zWifVfd4H4G61AaVtmW7GqegHx3h7a59hKSa`
++    - Your emitted log: `Prove: program: J8T7Dg51zWifVfd4H4G61AaVtmW7GqegHx3h7a59hKSa, Key: solana, Value: hello, Nonce: 3`
++2. **Request a proof from Polymer API**
++    - Job ID received: `167462`
++    - Proof data (base64 encoded) is returned
++3. **Verify proof on EVM chain**
++    - Prover contract for all EVM Chains: `0xabC91c12Bda41BCd21fFAbB95A9e22eE18C4B513`
++    - **Verification Results:**
++        - Source Chain ID: `2`
++        - Program ID (hex): `0xfe7f434fab7a0492fd8f969a0a7a20a136bcbc3d3730791e6340af32ecbb1cd3`
++        - Verified Log Message: `program: J8T7Dg51zWifVfd4H4G61AaVtmW7GqegHx3h7a59hKSa, Key: solana, Value: hello, Nonce: 3`
++
++## Example Verification Implementation
++
++To properly verify Solana logs with runtime program ID security, implement dual verification:
++
++```solidity
++contract SolanaBridgeVerifier {
++    IPolymerValidator public immutable polymerValidator;
++
++    // Store trusted programs in both formats
++    mapping(bytes32 => bool) public trustedPolymerIds;        // Polymer's bytes32 format
++    mapping(bytes32 => bool) public trustedProgramHashes;     // Hash of Base58 strings
++    mapping(bytes32 => bytes32) public polymerToHashMapping;  // Link the two formats
++
++    constructor(address _polymerValidator) {
++        polymerValidator = IPolymerValidator(_polymerValidator);
++
++        // Add trusted program in both formats
++        bytes32 polymerFormat = 0xfe7f434fab7a0492fd8f969a0a7a20a136bcbc3d3730791e6340af32ecbb1cd3;
++        bytes32 programHash = keccak256(abi.encodePacked("J8T7Dg51zWifVfd4H4G61AaVtmW7GqegHx3h7a59hKSa"));
++
++        trustedPolymerIds[polymerFormat] = true;
++        trustedProgramHashes[programHash] = true;
++        polymerToHashMapping[polymerFormat] = programHash;
++    }
++
++    function verifyUserAction(bytes calldata proof) external {
++        // Get validation results from Polymer
++        (uint32 chainId, bytes32 returnedProgramID, string[] memory logMessages) =
++            polymerValidator.validateSolLogs(proof);
++
++        // Verify chain ID is Solana
++        require(chainId == 2, "Must be from Solana");
++
++        // Step 1: Verify returned program ID is trusted
++        require(trustedPolymerIds[returnedProgramID], "Untrusted program ID");
++
++        // Step 2: Get expected hash for log verification
++        bytes32 expectedProgramHash = polymerToHashMapping[returnedProgramID];
++        require(expectedProgramHash != bytes32(0), "Missing program mapping");
++
++        // Step 3: Verify each log contains matching program ID
++        for (uint256 i = 0; i < logMessages.length; i++) {
++            if (_startsWith(logMessages[i], "program: ")) {
++                _verifyLogProgramId(logMessages[i], expectedProgramHash);
++            }
++        }
++    }
++
++    function _verifyLogProgramId(string memory log, bytes32 expectedHash) internal view {
++        // Input: "program: J8T7..., Key: solana, Value: hello, Nonce: 3"
++        // (Note: "Prove: " prefix already removed by Polymer)
++
++        // Split by comma - clean parsing
++        string[] memory parts = _splitString(log, ",");
++        require(parts.length >= 2, "Insufficient log parts");
++
++        // Extract program ID from first part: "program: J8T7..."
++        string memory programPart = parts[0];
++        string memory logProgramId = _extractAfterColon(programPart); // Gets "J8T7..."
++
++        // Hash the extracted program ID and compare
++        bytes32 logProgramHash = keccak256(abi.encodePacked(logProgramId));
++        require(logProgramHash == expectedHash, "Log program ID mismatch");
++    }
++
++    function _extractAfterColon(string memory str) internal pure returns (string memory) {
++        // Extract everything after ": " in "program: J8T7..."
++        string[] memory parts = _splitString(str, ": ");
++        require(parts.length >= 2, "No colon found");
++        return _trim(parts[1]);
++    }
++}
++```
+diff --git a/docs/learn/Solana Light Client/_category_.json b/docs/learn/Solana Light Client/_category_.json
+new file mode 100644
+index 0000000..99a2876
+--- /dev/null
++++ b/docs/learn/Solana Light Client/_category_.json	
+@@ -0,0 +1,7 @@
++{
++    "label": "Solana Light Client",
++    "position": 5,
++    "link": {
++      "type": "generated-index"
++    }
++  }
+diff --git a/docs/learn/Solana Light Client/solanaConsiderations.md b/docs/learn/Solana Light Client/solanaConsiderations.md
+new file mode 100644
+index 0000000..cee9ea9
+--- /dev/null
++++ b/docs/learn/Solana Light Client/solanaConsiderations.md	
+@@ -0,0 +1,138 @@
++---
++sidebar_position: 1
++sidebar_label: 'SolClient Considerations'
++---
++
++# Trust Considerations: Solana Light Client
++
++### Solana's Design Philosophy
++
++```
++Solana's Trade-off:
++├── Gain: Extreme performance (50,000+ TPS)
++├── Gain: Parallel execution
++├── Gain: Low latency confirmation (~400ms)
++└── Cost: No individual transaction provability
++```
++
++### Fundamental Architectural Differences
++
++While EVM provides two cryptographically provable methods (storage writes and event logs), Solana only supports account storage writes as a direct representation in the block hash. This creates fundamental differences in provability models.
++
++### Block Structure Comparison
++
++```
++// EVM: Dual Provability Paths
++Block Header
++├── State Root → Storage Slots (provable via merkle proof)
++└── Receipt Root → Event Logs (provable via merkle proof)
++
++// Solana: Single Provability Path
++Block Header
++└── Accounts Delta Hash → Account States (provable via consensus)
++    ❌ Transactions & Logs (not committed to header)
++
++```
++
++### Security Model Comparison
++
++```
++// EVM Log Path: Simple & Secure
++Transaction → Event Log → Receipt → Block Header
++     ↓           ↓          ↓          ↓
++  (signed)   (deterministic) (merkle)  (consensus)
++
++✅ Single atomic proof
++✅ Causal relationship preserved
++✅ Program authorization implicit
++✅ Timestamp precision
++✅ No state manipulation possible
++
++// Solana Account Path: Complex & Vulnerable
++??? Transaction → Account Write → Account State → Block Header
++     ↓              ↓              ↓             ↓
++  (unknown)    (unverifiable)   (provable)   (consensus)
++
++❌ Multiple attack vectors
++❌ Lost causal relationship
++❌ Program authorization separate concern
++❌ Coarse timestamp granularity
++❌ State manipulation possible
++
++```
++
++### Limitations of Account State Approach
++
++```rust
++// What you CAN Prove:
++✅ "Account X contained data Y at slot Z"
++✅ "Account state was committed in block header"
++✅ "Validators confirmed block with this account state"
++✅ "Data was written by specific program" (via account owner)
++
++// What you CANNOT Prove:
++❌ "Specific transaction wrote this data"
++❌ "Data was written at exact timestamp T"
++❌ "Transaction was atomic with state changes"
++❌ "Historical state wasn't overwritten"
++
++```
++
++### Trust Model Analysis
++
++### EVM Events: Zero Trust Required
++
++```
++User → Trust Level: 
++├── Cryptographic proofs (merkle trees)
++├── Mathematical certainty
++└── No external dependencies
++```
++
++### Solana Account Write: High Trust Required
++
++```
++User → Trust Level:
++├── Trust validator consensus 
++├── Trust program authorization (application overhead)
++├── Trust no state manipulation (overwriting risk)
++└── Trust account derivation (application overhead)
++
++// Security Gaps:
++❌ Account can exist but verification required for:
++   - Which program wrote it?
++   - Was it the authorized program?
++   - Was it a malicious impersonator?
++
++❌ Not Atomic with Transaction:
++   - Account write could succeed even if transfer/action fails
++   - Transfer/Action could succeed but account write fails
++
++❌ Integration Overhead:
++   - Requires dedicated source-side interfaces/programs
++   - Complex application logic to protect PDA
++
++```
++
++### Polymer's Solution: Light Client Derivation
++
++```
++User → Trust Level: 
++├── Trust validator consensus 
++└── Trust Light Client Derivation 
++
++✅ Atomic with transaction execution
++✅ Simple verification process
++✅ Immutable once included
++✅ Causal relationship preserved
++```
++
++Polymer's approach uses **light client derivation** that:
++
++1. **Verifies slot confirmations** to make sure it won’t reorg. 
++2. **Represents transactions** in a verifiable Ethereum-like trie structure
++3. **Publishes data** transparently on Polymer rollup and displays dashboard
++4. **Maintains protocol homogeneity** and scalability across chains
++
++This light client derivation keeps the protocol **homogeneous and scalable**. The next step is to **open-source this client derivation** so that anyone can independently verify and validate the committed roots, enhancing transparency and trust.
++
+diff --git a/docs/learn/Solana Light Client/solanaIntro.md b/docs/learn/Solana Light Client/solanaIntro.md
+new file mode 100644
+index 0000000..37930b5
+--- /dev/null
++++ b/docs/learn/Solana Light Client/solanaIntro.md	
+@@ -0,0 +1,91 @@
++---
++sidebar_position: 0
++sidebar_label: 'Intro to Solana'
++---
++
++# An EVM Developer's Guide to Solana Proving
++
++## Ethereum (EVM) Proof System
++
++In Ethereum, you have:
++
++- **State Root**: Merkle root of the entire state trie at a given block
++- **Receipt Root**: Merkle root of all transaction receipts in a block
++- **Merkle Proofs**: You can prove inclusion of any state or event by providing a merkle path
++
++This allows for **stateless verification** - you can prove something happened without having the full state.
++
++## Solana (SVM) Proof System
++
++Solana deliberately avoids merkleization for performance reasons, but provides proofs through different mechanisms:
++
++### 1. **Account State Proofs**
++
++Instead of a global state root, Solana uses:
++
++- **Account Hash**: Each account has a hash based on its data, lamports, owner, etc.
++- **Bank Hash**: A hash of all account states at a given slot
++- **Accounts Delta Hash**: Hash of state changes within a slot
++
++### 2. **Transaction Confirmation Proofs**
++
++For proving transactions occurred:
++
++- **Transaction Signatures**: Cryptographic proof the transaction was included
++- **Slot Confirmation**: Validators attest to the slot's validity
++- **Vote Records**: Validator consensus proofs stored on-chain
++
++### 3. **Program Log Verification**
++
++For events/logs (equivalent to Ethereum events):
++
++- **Program Logs**: Stored in transaction metadata
++- **Return Data**: Programs can return data that gets included in transaction results
++- **Account State Changes**: Before/after snapshots of affected accounts
++
++<aside>
++💡
++
++Polymer prioritizes event proofs for EVM chains, given their developer experience and proving costs. For consistency, we follow a similar approach with Solana by using Program Log verification with Confirmation proofs. (See Trust Considerations below)
++
++</aside>
++
++### How EVM Log Proof Work
++
++```
++
++Block Header
++├── Receipt Root (merkle root of all transaction receipts)
++│
++Transaction Receipts Trie
++├── Receipt 0
++│   ├── status, gasUsed, logsBloom
++│   └── logs: [
++│       {
++│         address: "0x123...",
++│         topics: ["0xEventHash", "0xIndexedParam1", ...],
++│         data: "0x..."
++│       }
++│   ]
++```
++
++### How SVM Log Proofs Work
++
++```
++Slot N (confirmed slot 2/3+ stake-weighted validators)
++├── Block Hash = hash(previous_hash, entries[], accounts_delta_hash)
++    └── Transaction[i] = {signatures[], message, meta}
++        └── TransactionMeta = {
++            err: Option<Error>,
++            logs: Vec<String>,           // ← Program-emitted logs
++            return_data: Option<Data>,   // ← Structured program output
++            pre_balances: Vec<u64>,
++            post_balances: Vec<u64>,
++            pre_token_balances: Vec<TokenBalance>,
++            post_token_balances: Vec<TokenBalance>
++        }
++            └── Log[j] = "Program {program_id} invoke [depth]" |
++                        "Program log: {custom_message}" |
++                        "Program {program_id} success/failed"
++```
++
+diff --git a/docs/learn/architecture/_category_.json b/docs/learn/architecture/_category_.json
+index db30762..11e15cb 100644
+--- a/docs/learn/architecture/_category_.json
++++ b/docs/learn/architecture/_category_.json
+@@ -1,7 +1,7 @@
+ {
+-    "label": "Architecture",
+-    "position": 4,
+-    "link": {
+-      "type": "generated-index"
+-    }
++  "label": "Architecture",
++  "position": 4,
++  "link": {
++    "type": "generated-index"
+   }
++}
+-- 
+2.39.5 (Apple Git-154)
+

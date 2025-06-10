@@ -3,9 +3,7 @@ sidebar_position: 1
 sidebar_label: 'Prover Contract'
 ---
 
-# Prove API
-
-## Prover Contract
+# Prover Contract
 
 ### Overview
 

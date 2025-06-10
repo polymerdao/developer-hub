@@ -8,7 +8,7 @@ sidebar_label: 'For Multi-Rollup Apps'
 
 Applications that embrace the "fat app" thesis are leveraging rollups as servers for their operations. These apps maintain contract instances on multiple chains, often requiring inter-contract communication for complex workflows.
 
-**State Sync** is an interesting example that allows applications to synchronize key-value pairs across multiple chains in seconds. Learn more at [Polymer State Sync](https://github.com/dpbmaverick98/polymer-state-sync).
+**State Sync** is an interesting example **built by our community** that allows applications to synchronize key-value pairs across multiple chains in seconds. Learn more at [Polymer State Sync](https://github.com/dpbmaverick98/polymer-state-sync).
 
 ### End-to-End Overview
 
@@ -82,38 +82,20 @@ Once the transaction on optimism is sent, the contract emits an event when the v
 
 Once the destination chain is defined, the application relayer requests the Prove API for proof of the event by providing the transaction index within the block. Since the relayer listens for the latest events, it already has the necessary information of the `ValueSet` event.
 
-### 1. Receipt and Log Index Discovery
-```javascript
-// Get transaction receipt
-const txReceipt = await provider.getTransactionReceipt(data.transactionHash);
+### 1. Polymer API Proof Request
 
-// Find local log index for ValueSet event
-const valueSetEventSignature = "ValueSet(address,string,bytes,uint256,bytes32,uint256)";
-const valueSetTopic = ethers.id(valueSetEventSignature);
-const localLogIndex = txReceipt.logs.findIndex(
-    log => log.topics[0] === valueSetTopic
-);
-```
-
-#### Key Components:
-- **Transaction Receipt**: Contains all events emitted during transaction
-- **Event Signature**: Keccak256 hash of the event definition
-- **Local Log Index**: Position of ValueSet event in the receipt's logs array
-
-### 2. Polymer API Proof Request
 ```javascript
 const proofRequest = await axios.post(
     POLYMER_API_URL,
     {
         jsonrpc: "2.0",
         id: 1,
-        method: "log_requestProof",
-        params: [
-            chainId,        // Source chain ID
-            blockNumber,    // Block containing the event
-            txIndex,        // Position of tx in block
-            localLogIndex   // Position of event in receipt
-        ]
+        method: "polymer_requestProof",
+        params: "params": [{
+            "srcChainId": 11155420,
+            "srcBlockNumber": 26421705,
+            "globalLogIndex": 15
+  }]
     },
     {
         headers: {
@@ -126,8 +108,7 @@ const proofRequest = await axios.post(
 #### Required Parameters:
 1. **Chain ID**: Source chain identifier
 2. **Block Number**: Block containing the transaction
-3. **Transaction Index**: Position in block
-4. **Log Index**: Position of event in receipt
+3. **Global Log Index**: Position of event in block (As returned by RPCs by default)
 
 ### 3. Proof Generation Process
 1. **Request Submission**
@@ -141,7 +122,7 @@ const proofRequest = await axios.post(
            POLYMER_API_URL,
            {
                jsonrpc: "2.0",
-               method: "log_queryProof",
+               method: "polymer_queryProof",
                params: [jobId]
            }
        );
