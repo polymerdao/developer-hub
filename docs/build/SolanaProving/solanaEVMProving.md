@@ -8,6 +8,7 @@ sidebar_label: 'Proving Solana Logs on EVM'
 This guide will walk you through the process of proving and verifying Solana program logs on EVM chains using Polymer's state proof system. By following these steps, you'll be able to emit logs on Solana and then cryptographically verify them on any EVM chain.
 
 This Solana documentation section will follow this example: [solana-polymer-prover-cpi](https://github.com/dpbmaverick98/solana-polymer-prover-cpi/blob/main/programs/my_anchor_project/src/lib.rs)
+You can learn more about Solana Light Client Implementation: [Here](https://docs.polymerlabs.org/docs/category/solana-light-client-1)
 
 ### Overview
 
@@ -20,8 +21,8 @@ This Solana documentation section will follow this example: [solana-polymer-prov
 For logs to be properly recognized by the Light client on Polymer Rollup, you must:
 
 1. Use the `msg!` macro in your Solana program
-2. Include the `Prove:` prefix in your log messages
-3. **Include the runtime program ID in your log messages.** 
+2. Include the `Prove: program: {}` prefix in your log messages
+3. Include the runtime program ID i.e `ctx.program_id` in your log messages.
 4. Emit the log from the program that you want to validate
 
 Here's the required log format in Rust:
@@ -35,9 +36,6 @@ pub fn log_key_value(ctx: Context<LogKeyValue>, key: String, value: String) -> R
 
     // Get the actual runtime program ID
     let program_id = ctx.program_id;
-
-    // Optional: Verify against expected ID for additional security
-    require!(program_id == &crate::ID, ErrorCode::ProgramIdMismatch);
 
     // Emit properly formatted log with "Prove:" prefix and program ID
     msg!("Prove: program: {}, Key: {}, Value: {}, Nonce: {}",
@@ -80,22 +78,27 @@ msg!("Prove: program: {}, action: {}, data: {}:{}:{}",
 - **Multiple Logs**: You can emit multiple logs with the "Prove:" prefix in a single transaction, but this increases proof payload size.
 - **Transaction Success**: Only logs from successful transactions can be proven.
 
+:::info Security Note:
+This runtime program ID verification makes Polymer's Solana log verification as secure as EVM event verification by eliminating trust assumptions and providing cryptographic program attribution. The comma-delimited format ensures reliable parsing and verification on EVM chains, completing the security parity with Ethereum's proven model.
+:::
+
 ## Enhanced Security with Runtime Program ID
+Including the runtime program ID in your logs bridges the security gap between Solana and EVM, providing EVM-level security guarantees for Solana log verification through triple verification:
 
-Including the runtime program ID in your logs provides triple verification security:
+- Log-level: Program ID embedded within the log message (unforgeable runtime signature)
+- Request-level: Program ID specified in the proof request (explicit program targeting)
+- Validation-level: Program ID returned by Prover contract must match Program ID in logMessages (cryptographic consistency)
 
-1. **Log-level**: Program ID embedded within the log message
-2. **Request-level**: Program ID specified in the proof request
-3. **Validation-level**: Program ID returned by Prover contract must match Program ID in logMessages
+### Why This Achieves EVM-Level Security
 
-### Why This is Required
+**EVM Security Model:**
+- Events are cryptographically bound to the contract that emitted them
+- Impossible to fake events from other contracts
+- Direct cryptographic proof of contract/program attribution
 
+**Security Properties Achieved with Runtime Program ID Verification:**
 - `ctx.program_id` is provided by Solana's runtime and cannot be spoofed
 - Even if an attacker deploys identical code, they get a different program address
 - Creates cryptographic proof of which exact program emitted the log
 - Makes program impersonation attacks impossible, including CPI-based attacks
 - Comma delimiters enable clean parsing of program ID and event data on EVM chains
-
-:::info Security Note
-This runtime program ID verification makes Polymer's Solana light client significantly more robust against program impersonation and log attribution attacks. The comma-delimited format ensures reliable parsing and verification on EVM chains.
-:::

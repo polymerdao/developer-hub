@@ -5,12 +5,12 @@ sidebar_label: 'Error Handling'
 
 # Error Handling
 
-This section outlines the error handling behavior of the proof generation API, specifically for the `log_requestProof` and `log_queryProof` methods. It details common validation errors, their error codes, messages, and failure reasons, based on tests conducted for chain ID, block number, receipt index, and log index validation.
+This section outlines the error handling behavior of the proof generation API, specifically for the `polymer_requestProof` and `polymer_queryProof` methods. It details common validation errors, their error codes, messages, and failure reasons, based on tests conducted for chain ID, block number, receipt index, and log index validation.
 
 ### **API Methods Covered**
 
-- **log_requestProof**: Requests proof generation for a given chain ID, block number, receipt index, and log index.
-- **log_queryProof**: Queries the status of a proof generation job by job ID.
+- **polymer_requestProof**: Requests proof generation for a given chain ID, block number, receipt index, and log index.
+- **polymer_queryProof**: Queries the status of a proof generation job by job ID.
 
 ### **General Error Format**
 
@@ -27,7 +27,7 @@ Errors are returned in the JSON-RPC 2.0 format:
 }
 ```
 
-For successful requests that later fail during processing, the error details are provided in the result field of the log_queryProof response:
+For successful requests that later fail during processing, the error details are provided in the result field of the polymer_queryProof response:
 
 ```json
 {
@@ -52,7 +52,7 @@ For successful requests that later fail during processing, the error details are
 
 ### **Polling Behavior**
 
-- **Duration**: Proof status is polled for 20secs after a log_requestProof call returns a job ID.
+- **Duration**: Proof status is polled for 20secs after a polymer_requestProof call returns a job ID.
 - **Success Case**: If the proof generation succeeds, the status will be "completed" (not shown in these error tests).
 - **Error Case**: If the proof fails, the status will be "error", accompanied by a failureReason.
 
@@ -65,7 +65,7 @@ For successful requests that later fail during processing, the error details are
     - Ensure blockNumber is not in the future.
     - Verify receiptIndex and logIndex against block data.
 2. **Handle Job IDs**:
-    - Store the result (job ID) from log_requestProof and poll log_queryProof to monitor status.
+    - Store the result (job ID) from polymer_requestProof and poll polymer_queryProof to monitor status.
 3. **Graceful Error Recovery**:
     - Retry requests for future blocks once they are mined.
     - Adjust invalid indices based on chain data.
@@ -78,14 +78,14 @@ For successful requests that later fail during processing, the error details are
 
 **Description**: Occurs when the provided chainId is not supported by the system.
 
-- **Method**: log_requestProof
+- **Method**: polymer_requestProof
 - **Request Example**:
     
     ```json
     {
       "jsonrpc": "2.0",
       "id": 1,
-      "method": "log_requestProof",
+      "method": "polymer_requestProof",
       "params": [123456789, 12345, 0, 0]
     }
     ```
@@ -113,14 +113,14 @@ For successful requests that later fail during processing, the error details are
 
 **Description**: Occurs when the requested blockNumber exceeds the latest block number on the chain. The request is accepted and assigned a job ID, but proof generation fails.
 
-- **Method**: log_requestProof
+- **Method**: polymer_requestProof
 - **Request Example**:
     
     ```json
     {
       "jsonrpc": "2.0",
       "id": 1,
-      "method": "log_requestProof",
+      "method": "polymer_requestProof",
       "params": [84532, 21927382, 0, 0]
     }
     ```
@@ -135,14 +135,14 @@ For successful requests that later fail during processing, the error details are
     }
     ```
     
-- **Polling Method**: log_queryProof
+- **Polling Method**: polymer_queryProof
 - **Polling Request**:
     
     ```json
     {
       "jsonrpc": "2.0",
       "id": 1,
-      "method": "log_queryProof",
+      "method": "polymer_queryProof",
       "params": [15327]
     }
     ```
@@ -175,14 +175,14 @@ For successful requests that later fail during processing, the error details are
 
 **Description**: Occurs when the requested receiptIndex is invalid for the specified block (e.g., exceeds the number of receipts). The request is accepted, but proof generation fails.
 
-- **Method**: log_requestProof
+- **Method**: polymer_requestProof
 - **Request Example**:json
     
     ```json
     {
       "jsonrpc": "2.0",
       "id": 1,
-      "method": "log_requestProof",
+      "method": "polymer_requestProof",
       "params": [84532, 21926372, 99999, 0]
     }
     ```
@@ -197,14 +197,14 @@ For successful requests that later fail during processing, the error details are
     }
     ```
     
-- **Polling Method**: log_queryProof
+- **Polling Method**: polymer_queryProof
 - **Polling Request**:
     
     ```json
     {
       "jsonrpc": "2.0",
       "id": 1,
-      "method": "log_queryProof",
+      "method": "polymer_queryProof",
       "params": [15329]
     }
     ```
@@ -238,14 +238,14 @@ For successful requests that later fail during processing, the error details are
 
 **Description**: Occurs when the requested logIndex is invalid for the specified receipt (e.g., exceeds the number of logs). The request is accepted, but proof generation fails.
 
-- **Method**: log_requestProof
+- **Method**: polymer_requestProof
 - **Request Example**:
     
     ```json
     {
       "jsonrpc": "2.0",
       "id": 1,
-      "method": "log_requestProof",
+      "method": "polymer_requestProof",
       "params": [84532, 21926372, 0, 999]
     }
     ```
@@ -260,14 +260,14 @@ For successful requests that later fail during processing, the error details are
     }
     ```
     
-- **Polling Method**: log_queryProof
+- **Polling Method**: polymer_queryProof
 - **Polling Request**:
     
     ```json
     {
       "jsonrpc": "2.0",
       "id": 1,
-      "method": "log_queryProof",
+      "method": "polymer_queryProof",
       "params": [15330]
     }
     ```

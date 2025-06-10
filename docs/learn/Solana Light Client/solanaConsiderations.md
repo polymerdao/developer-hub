@@ -5,7 +5,13 @@ sidebar_label: 'SolClient Considerations'
 
 # Trust Considerations: Solana Light Client
 
-### Solana's Design Philosophy
+:::info Security Breakthrough:
+Polymer's runtime program ID verification makes Solana log proving as secure as EVM event proving by eliminating trust assumptions and providing cryptographic program attribution equivalent to Ethereum's proven security model.
+:::
+
+You can read more details about implementation [here](https://docs.polymerlabs.org/docs/build/SolanaProving/solanaEVMProving).
+
+## Solana's Design Philosophy
 
 ```
 Solana's Trade-off:
@@ -13,13 +19,16 @@ Solana's Trade-off:
 ├── Gain: Parallel execution
 ├── Gain: Low latency confirmation (~400ms)
 └── Cost: No individual transaction provability
+
 ```
 
-### Fundamental Architectural Differences
+## Fundamental Architectural Differences
 
 While EVM provides two cryptographically provable methods (storage writes and event logs), Solana only supports account storage writes as a direct representation in the block hash. This creates fundamental differences in provability models.
 
-### Block Structure Comparison
+**However, Polymer's runtime program ID approach bridges this gap, making Solana log verification EVM-equivalent.**
+
+## Block Structure Comparison
 
 ```
 // EVM: Dual Provability Paths
@@ -32,9 +41,14 @@ Block Header
 └── Accounts Delta Hash → Account States (provable via consensus)
     ❌ Transactions & Logs (not committed to header)
 
+// Polymer Enhanced Solana: EVM-Like Provability
+Block Header
+└── Accounts Delta Hash → Account States (provable via consensus)
+    ✅ Program ID in Logs (EVM-equivalent program binding via runtime verification)
+
 ```
 
-### Security Model Comparison
+## Security Model Comparison
 
 ```
 // EVM Log Path: Simple & Secure
@@ -49,9 +63,9 @@ Transaction → Event Log → Receipt → Block Header
 ✅ No state manipulation possible
 
 // Solana Account Path: Complex & Vulnerable
-??? Transaction → Account Write → Account State → Block Header
+Transaction → Account Write → Account State → Block Header
      ↓              ↓              ↓             ↓
-  (unknown)    (unverifiable)   (provable)   (consensus)
+  (signed)    (unverifiable)   (provable)   (consensus)
 
 ❌ Multiple attack vectors
 ❌ Lost causal relationship
@@ -59,11 +73,22 @@ Transaction → Event Log → Receipt → Block Header
 ❌ Coarse timestamp granularity
 ❌ State manipulation possible
 
+// Polymer Solana Logs: EVM-Equivalent Security
+Transaction → Program ID + Log → Light Client → Verification
+     ↓             ↓               ↓               ↓
+  (signed)    (runtime-bound)   (consensus)  (cryptographic)
+
+✅ EVM-equivalent atomic proof
+✅ Causal relationship preserved (via runtime program ID)
+✅ Program authorization implicit (ctx.program_id)
+✅ Slot-level precision
+✅ No state manipulation possible
+
 ```
 
-### Limitations of Account State Approach
+## Limitations of Account State Approach
 
-```rust
+```
 // What you CAN Prove:
 ✅ "Account X contained data Y at slot Z"
 ✅ "Account state was committed in block header"
@@ -78,7 +103,7 @@ Transaction → Event Log → Receipt → Block Header
 
 ```
 
-### Trust Model Analysis
+## Trust Model Analysis
 
 ### EVM Events: Zero Trust Required
 
@@ -87,12 +112,13 @@ User → Trust Level:
 ├── Cryptographic proofs (merkle trees)
 ├── Mathematical certainty
 └── No external dependencies
+
 ```
 
 ### Solana Account Write: High Trust Required
 
 ```
-User → Trust Level:
+User → Trust Level: 
 ├── Trust validator consensus 
 ├── Trust program authorization (application overhead)
 ├── Trust no state manipulation (overwriting risk)
@@ -114,25 +140,40 @@ User → Trust Level:
 
 ```
 
-### Polymer's Solution: Light Client Derivation
+### Polymer's Enhanced Solana Logs: EVM-Equivalent Security
 
 ```
-User → Trust Level: 
-├── Trust validator consensus 
-└── Trust Light Client Derivation 
+User → Trust Level: (EVM-equivalent)
+├── Trust validator consensus (reduced via light client)
+└── Trust light client derivation (open source verifiable)
 
+// EVM-Equivalent Security Achieved:
+✅ Runtime program ID binding (equivalent to EVM contract binding)
 ✅ Atomic with transaction execution
 ✅ Simple verification process
 ✅ Immutable once included
 ✅ Causal relationship preserved
+✅ Program impersonation impossible
+
 ```
 
-Polymer's approach uses **light client derivation** that:
+## Polymer's Solution: Light Client Derivation with Program ID Verification
 
-1. **Verifies slot confirmations** to make sure it won’t reorg. 
-2. **Represents transactions** in a verifiable Ethereum-like trie structure
-3. **Publishes data** transparently on Polymer rollup and displays dashboard
-4. **Maintains protocol homogeneity** and scalability across chains
+Polymer's approach uses **light client derivation** enhanced with **runtime program ID verification** that:
 
-This light client derivation keeps the protocol **homogeneous and scalable**. The next step is to **open-source this client derivation** so that anyone can independently verify and validate the committed roots, enhancing transparency and trust.
+1. **Verifies slot confirmations** to ensure finality and prevent reorgs
+2. **Validates runtime program IDs** creating EVM-equivalent program binding
+3. **Represents transactions** in a verifiable Ethereum-like trie structure
+4. **Publishes data** transparently on Polymer rollup with public dashboard
+5. **Maintains protocol homogeneity** and scalability across chains
 
+### EVM-Equivalent Security Achievement
+
+By requiring `ctx.program_id` in logs, Polymer creates **cryptographic program binding** equivalent to EVM's contract-event relationship:
+
+- **EVM**: Events cryptographically bound to emitting contract
+- **Polymer Solana**: Logs cryptographically bound to emitting program via runtime ID
+
+This transforms Solana's trust-based log verification into **EVM-equivalent cryptographic verification**, achieving security parity between the two ecosystems.
+
+This light client derivation keeps Polymer protocol **homogeneous and scalable**. The next step is to **open-source this client derivation** so that anyone can independently verify and validate the committed roots, enhancing transparency and trust while maintaining EVM-like security guarantees.
