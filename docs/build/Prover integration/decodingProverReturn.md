@@ -137,6 +137,44 @@ The `unindexedData` contains ABI-encoded parameters that weren't indexed:
 3. `nonce` (uint256): Used for replay protection
 4. `version` (uint256): Used for version control
 
+<br/>
+
+## Common Mistakes
+
+The `validateEvent` function returns event topics as a single `bytes` array, **not** a `bytes32[]` array.
+
+```solidity
+// This is WRONG and will not work!
+( , , bytes memory topics, ) = crossL2Prover.validateEvent(proof);
+bytes32 eventSig = bytes32(topics[0]); // Incorrectly reads the first BYTE, not the first TOPIC.
+```
+
+### The Solution
+
+You **must** parse the `bytes` data into a `bytes32[]` array in memory before using it. Use this assembly snippet for a gas-efficient solution.
+
+```solidity
+// Example for an event with 3 topics
+require(topics.length == 3 * 32, "Invalid topics length");
+
+// 1. Create a memory array
+bytes32[] memory topicsArray = new bytes32[](3);
+
+// 2. Use assembly to parse the topics
+assembly {
+    let topicsPtr := add(topics, 32) // Skip bytes length
+    mstore(add(topicsArray, 32), mload(topicsPtr))
+    mstore(add(topicsArray, 64), mload(add(topicsPtr, 32)))
+    mstore(add(topicsArray, 96), mload(add(topicsPtr, 64)))
+}
+
+// 3. ✅ Use the new array for your logic
+bytes32 eventSig = topicsArray[0];
+// ... and so on
+```
+
+**Rule of Thumb:** Always parse the `topics` `bytes` variable into a `bytes32[]` array before use. 
+
  <br/>
 
 ### ⚠️ Important Security Considerations
