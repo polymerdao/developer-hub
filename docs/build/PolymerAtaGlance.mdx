@@ -5,32 +5,38 @@ sidebar_label: 'At A Glance'
 
 # Polymer at a Glance
 
+### App-Side Process
+
+The application workflow follows these key steps:
+
+- **Event Emission**: App emits custom event from their own contract (not Polymer's source-side contract)
+- **Proof Request**: App requests proof from backend using Prove API (RPC-like call)
+- **Proof Submission**: App relayer submits proof to destination chain contract (pre-configured with Polymer prover)
+- **Validation**: Single method call validates proof and returns complete event data as defined by app developer
+
+
 ![Image](https://github.com/user-attachments/assets/2ac23b0c-6533-4e4e-a269-c2502fe7429b)
 
 
-### Off-chain API for Requesting Proofs
-The Prove API takes inspiration from Superchain's native interop to define an identifier. This version of the API is designed to prove individual logs.
 
-#### Current Capabilities:
-Before an on-chain message can be sent, the "Application relayer" or "solver" must first query the Prove API.
-1. **Request Proof:** Use the `polymer_requestProof` method to request a proof, which returns a `jobID`.
-2. **Poll for Proof:** Use the `polymer_queryProof` method with the `jobID` to poll for proof responses.
+**Flow Summary**: App emits → Request proof → Submit to validator contract → Get validated event data
 
+### Prove API (Off-chain)
 
-Find info [here](https://docs.polymerlabs.org/docs/build/start/) to:
-- Access the functions with POST requests to API endpoint
-- Submit requests and experience the API
-- Track your request from the our explorer
-
-### On-chain Contract for Validating Proofs 
-
-We deploy a contract known as the `CrossL2ProverV2` ([contract info](https://docs.polymerlabs.org/docs/build/start/)), which handles on-chain proof validation. This contract can be deployed permissionlessly on any EVM chain, enabling seamless access to Polymer and the ability to read data from all supported chains in the network.
-
-#### Current Capabilities:
-
-1. **Polymer State Validation:** Validates the state root of the Polymer rollup for a given block height, as attested by the sequencer. Ensures that the state root serves as the single source of truth within the network.
-2. **Log Validation:** Exposes a predefined validation method that allows applications to verify logs using a provided proof. Enables applications to confirm the authenticity of a log and retrieve detailed log information securely.
-3. **Proof Inspection:** Provides methods for applications to perform static calls to the contract to inspect different components of a proof. Enhances transparency by allowing applications to analyze proof data before submission.
+- **Request Proof**: Use `polymer_requestProof` method → returns jobID
+- **Poll for Result**: Use `polymer_queryProof` with jobID to get proof
+- **Scope**: Designed to prove individual logs/events
 
 
-**Note:** Polymer is a rollup that continuously builds blocks and updates its state. As a result, proofs are most cost-effective within a recent time window. Currently, for testing purposes, we provide proofs for the last 3–4 hours, as proof retrieving data deeper in the rollup trie becomes increasingly expensive.
+### CrossL2ProverV2 Contract (On-chain)
+
+- Validates Polymer rollup state roots
+- Verifies log authenticity using proofs
+- Allows proof inspection via static calls
+
+#### Important Limitations
+- **Current Testing**: Proofs available for last 3-4 hours only
+- **Reason**: Cost increases significantly for deeper rollup trie data retrieval
+
+
+

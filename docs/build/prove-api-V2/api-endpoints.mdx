@@ -1,11 +1,13 @@
 ---
 sidebar_position: 0
-sidebar_label: 'API Endpoints'
+sidebar_label: 'Prove API Methods'
 ---
 
-# Prove API
+# Prove API Methods
 
-## API Endpoints
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Admonition from '@theme/Admonition';
 
 ### 1. Request Log Proof
 
@@ -14,12 +16,16 @@ sidebar_label: 'API Endpoints'
 **Method:** `POST`
 
 #### Request Header
-```
+
+```http title="Headers"
 Authorization: Bearer <token>
+Content-Type: application/json
+Accept: application/json
 ```
 
 #### Request Body
-```
+
+```json title="Request Proof payload" {6-8}
 {
   "jsonrpc": "2.0",
   "id": 1,
@@ -32,7 +38,7 @@ Authorization: Bearer <token>
 }
 ```
 
-#### Request Parameters in order
+#### Request Parameters
 
 The parameters are now enclosed in a single object (instead of an array of separate values):
 
@@ -43,20 +49,22 @@ The parameters are now enclosed in a single object (instead of an array of separ
 | `globalLogIndex` | _int64_ | Index of the log in the block (as per standard API response) |
 
 #### Response Body (Success)
-```
+
+```json title="Success Response" {4}
 {
   "jsonrpc": "2.0",
   "id": 1,
   "result": jobID
 }
 ```
+
 The response contains a jobID that uniquely identifies your request.
 
 #### Response Fields
+
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `jobID` | _int64_          | The jobID returned by the proof request. |
-
+| `jobID` | _int64_ | The jobID returned by the proof request. |
 
 ### 2. Query Proof Status
 
@@ -68,7 +76,7 @@ The response contains a jobID that uniquely identifies your request.
 
 To query the status of a proof job, use the `polymer_queryProof` method:
 
-```json
+```json title="Query Proof Status"
 {
   "jsonrpc": "2.0",
   "id": 1,
@@ -78,7 +86,8 @@ To query the status of a proof job, use the `polymer_queryProof` method:
 ```
 
 #### Response Body (Success)
-```
+
+```json title="Complete Proof Response" {5-6}
 {
   "jsonrpc": "2.0",
   "id": 1,
@@ -88,20 +97,23 @@ To query the status of a proof job, use the `polymer_queryProof` method:
   }
 }
 ```
+
 #### Response Fields
 
-| Parameter                             | Description |
+| Parameter | Description |
 | -------------------------------- | --------------------------- |
-| `proof` | Basee64 Encoded bytes payload containing the IAVL proof of the application's log stored in the Polymer Rollup. |
-| `status`     | Indicates the current status of the proof (`complete`, `error`, `pending`). |
+| `proof` | Base64 encoded bytes payload containing the IAVL proof of the application's log stored in the Polymer Rollup. |
+| `status` | Indicates the current status of the proof (`complete`, `error`, `pending`). |
 
-Note: **Proof** bytes are `base64` encodes at the moment, application must decode and then convert to `hex` in order to pass it as call data to the application contract on-chain.
+<Admonition type="info">
+**Proof Encoding**: Proof bytes are `base64` encoded. Your application must decode and convert to `hex` to pass as call data to the contract on-chain.
+</Admonition>
 
 ## Usage Example
 
-```jsx
+```javascript title="Complete API Flow" {2,6-10,15,34,38,39,43}
 const response = await axios.post(
-  "<https://proof.testnet.polymer.zone/>",
+  "https://proof.testnet.polymer.zone/",
   {
     jsonrpc: "2.0",
     id: 1,
@@ -124,4 +136,38 @@ const response = await axios.post(
 const jobId = response.data.result;
 console.log(`Job ID: ${jobId}`);
 
+// Poll for proof completion
+let proofResponse;
+let attempts = 0;
+const maxAttempts = 30;
+
+while (!proofResponse?.data?.result?.proof && attempts < maxAttempts) {
+  await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds
+  
+  proofResponse = await axios.post(
+    "https://proof.testnet.polymer.zone/",
+    {
+      jsonrpc: "2.0",
+      id: 1,
+      method: "polymer_queryProof",
+      params: [jobId]
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+  
+  attempts++;
+}
+
+if (proofResponse?.data?.result?.proof) {
+  console.log("Proof generated successfully!");
+  const proof = proofResponse.data.result.proof;
+  // Use proof in your contract call
+} else {
+  console.error("Proof generation timeout or failed");
+}
 ```

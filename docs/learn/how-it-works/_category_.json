@@ -1,6 +1,7 @@
 {
     "label": "How It Works",
     "position": 3,
+    "collapsed": false,
     "link": {
       "type": "generated-index"
     }

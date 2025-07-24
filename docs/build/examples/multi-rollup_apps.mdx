@@ -1,0 +1,576 @@
+---
+sidebar_position: 0
+sidebar_label: 'For Multi-Rollup Apps'
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Admonition from '@theme/Admonition';
+
+# Multi-Rollup Applications
+
+
+## Overview
+
+Applications embracing the "fat app" thesis leverage rollups as servers for their operations. These apps maintain contract instances on multiple chains, requiring seamless inter-contract communication for complex workflows.
+
+**State Sync** is a compelling example **built by our community** that allows applications to synchronize key-value pairs across multiple chains in seconds. Learn more at [Polymer State Sync](https://github.com/dpbmaverick98/polymer-state-sync).
+
+<div className="container">
+  <div className="row">
+    <div className="col col--4">
+      <div className="card">
+        <div className="card__header">
+          <h4>🌐 Multi-Chain</h4>
+        </div>
+        <div className="card__body">
+          Deploy contracts across multiple rollups simultaneously
+        </div>
+      </div>
+    </div>
+    <div className="col col--4">
+      <div className="card">
+        <div className="card__header">
+          <h4>⚡ Real-Time Sync</h4>
+        </div>
+        <div className="card__body">
+          Synchronize state changes across chains in seconds
+        </div>
+      </div>
+    </div>
+    <div className="col col--4">
+      <div className="card">
+        <div className="card__header">
+          <h4>💰 Cost Efficient</h4>
+        </div>
+        <div className="card__body">
+          No predefined pairs - broadcast to any chain
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+## Architecture Overview
+
+The multi-rollup pattern follows a simple yet powerful flow:
+
+1. **Event Emission**: Application emits events on any supported chain
+2. **Proof Generation**: Relayer requests cryptographic proof of the event
+3. **Cross-Chain Execution**: Proof validates and executes on destination chains
+
+<div style={{position: 'relative', paddingBottom: '59.31830676195712%', height: 0}}>
+  <iframe 
+    src="https://github.com/user-attachments/assets/e30bc067-5ef0-4338-8d02-be455181aabb" 
+    frameBorder="0" 
+    webkitallowfullscreen 
+    mozallowfullscreen 
+    allowfullscreen 
+    style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}
+  />
+</div>
+
+### Key Benefits
+
+<Admonition type="tip">
+**No Predefined Pairs**: Unlike traditional messaging, events can be proven and executed on any supported chain without prior configuration.
+</Admonition>
+
+**Benefits:** Flexibility (set state on one chain, sync to any other), Cost Efficiency (single transaction broadcasts to multiple destinations), Speed (proof generation typically completes in 3-4 seconds), Security (cryptographic proofs ensure data integrity)
+
+## Implementation Guide
+
+### Step 1: Origin Contract - Event Emission
+
+The source contract emits structured events that can be validated across chains:
+
+<Tabs>
+  <TabItem value="contract" label="Smart Contract">
+
+```solidity title="State Sync Contract - setValue Function"
+function setValue(string calldata key, bytes calldata value) external {
+    bytes32 hashedKey = keccak256(abi.encodePacked(msg.sender, key));
+
+    // Authorization check - only original setter can update
+    if (keyOwners[hashedKey] != address(0)) {
+        require(
+            keyOwners[hashedKey] == msg.sender,
+            "Not authorized to update this key"
+        );
+    } else {
+        keyOwners[hashedKey] = msg.sender;
+    }
+
+    // Update state
+    store[hashedKey] = value;
+    uint256 currentNonce = nonces[msg.sender]++;
+    uint256 newVersion = keyVersions[hashedKey] + 1;
+    keyVersions[hashedKey] = newVersion;
+
+    // Emit structured event for cross-chain synchronization
+    emit ValueSet(
+        msg.sender,     // indexed - sender address
+        key,           // not indexed - the key string
+        value,         // not indexed - the value bytes
+        currentNonce,  // not indexed - replay protection
+        hashedKey,     // indexed - for efficient filtering
+        newVersion     // not indexed - version control
+    );
+}
+```
+
+  </TabItem>
+  <TabItem value="event" label="Event Structure">
+
+```solidity title="ValueSet Event Definition"
+/**
+ * @dev Event emitted when a value is set or updated
+ * @param sender The address that set the value (indexed for filtering)
+ * @param key The string key (stored in event data)
+ * @param value The value bytes (stored in event data) 
+ * @param nonce User's transaction nonce for replay protection
+ * @param hashedKey Keccak256 hash of sender+key (indexed for filtering)
+ * @param version Incremental version number for the key
+ */
+event ValueSet(
+    address indexed sender,      // Topic[1] - Filterable
+    string key,                  // Event data - Full key string
+    bytes value,                 // Event data - Actual value
+    uint256 nonce,              // Event data - Replay protection
+    bytes32 indexed hashedKey,   // Topic[2] - Efficient filtering
+    uint256 version             // Event data - Version control
+);
+```
+
+**Event Structure Benefits:**
+
+**Indexed fields** enable efficient filtering and querying, **Non-indexed data** preserves complete information, **Nonce system** prevents replay attacks, **Version control** handles concurrent updates
+
+  </TabItem>
+</Tabs>
+
+### Step 2: Proof Generation
+
+Request proofs from the Polymer API:
+
+<Tabs>
+  <TabItem value="proof-request" label="Proof Request">
+
+```javascript title="Polymer API Proof Request"
+import axios from 'axios';
+
+class ProofGenerator {
+    constructor(apiUrl, apiKey) {
+        this.apiUrl = apiUrl;
+        this.apiKey = apiKey;
+    }
+
+    async requestProof(eventParams) {
+        try {
+            // Request proof generation from Polymer API
+            const proofRequest = await axios.post(
+                this.apiUrl,
+                {
+                    jsonrpc: "2.0",
+                    id: 1,
+                    method: "polymer_requestProof",
+                    params: [{
+                        srcChainId: eventParams.srcChainId,
+                        srcBlockNumber: eventParams.srcBlockNumber,
+                        globalLogIndex: eventParams.globalLogIndex
+                    }]
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${this.apiKey}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            const jobId = proofRequest.data.result;
+            console.log(`Proof job created: ${jobId}`);
+            
+            return jobId;
+
+        } catch (error) {
+            console.error("Proof request failed:", error.message);
+            throw error;
+        }
+    }
+}
+
+// Usage example
+const proofGenerator = new ProofGenerator(
+    "https://proof.testnet.polymer.zone", 
+    process.env.POLYMER_API_KEY
+);
+
+const jobId = await proofGenerator.requestProof({
+    srcChainId: 11155420,      // Optimism Sepolia
+    srcBlockNumber: 26421705,  // Block containing the event
+    globalLogIndex: 15         // Position of event in block
+});
+```
+
+  </TabItem>
+  <TabItem value="proof-polling" label="Proof Polling">
+
+```javascript title="Proof Status Polling"
+class ProofPolling {
+    constructor(apiUrl, apiKey) {
+        this.apiUrl = apiUrl;
+        this.apiKey = apiKey;
+    }
+
+    async pollForProof(jobId, maxAttempts = 40) {
+        let attempts = 0;
+        
+        console.log(`Starting to poll for proof completion (Job ID: ${jobId})`);
+        
+        while (attempts < maxAttempts) {
+            try {
+                const response = await axios.post(
+                    this.apiUrl,
+                    {
+                        jsonrpc: "2.0",
+                        id: 1,
+                        method: "polymer_queryProof",
+                        params: [jobId]
+                    },
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${this.apiKey}`,
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+
+                const result = response.data.result;
+                
+                if (result.status === "completed" && result.proof) {
+                    console.log("✅ Proof generation completed!");
+                    return result.proof; // Base64 encoded proof
+                } else if (result.status === "error") {
+                    throw new Error(`Proof generation failed: ${result.failureReason}`);
+                } else {
+                    console.log(`🔄 Proof still generating... (attempt ${attempts + 1}/${maxAttempts})`);
+                }
+
+                // Wait 500ms before next poll (yes, it's that fast!)
+                await new Promise(resolve => setTimeout(resolve, 500));
+                attempts++;
+
+            } catch (error) {
+                console.error(`❌ Poll attempt ${attempts + 1} failed:`, error.message);
+                attempts++;
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+        }
+
+        throw new Error("⏰ Proof generation timeout");
+    }
+}
+
+// Usage example
+const polling = new ProofPolling(
+    "https://proof.testnet.polymer.zone", 
+    process.env.POLYMER_API_KEY
+);
+
+const proof = await polling.pollForProof(jobId);
+console.log("Received proof:", proof);
+```
+
+  </TabItem>
+</Tabs>
+
+### Step 3: Cross-Chain Execution
+
+Once the proof is generated, execute on destination chains:
+
+<Tabs>
+  <TabItem value="validation" label="Proof Validation">
+
+```solidity title="Destination Contract - setValueFromSource Function"
+function setValueFromSource(bytes calldata proof) external {
+    // Step 1: Validate and decode the proof using Polymer's prover
+    (
+        uint32 sourceChainId,
+        address sourceContract,
+        bytes memory topics,
+        bytes memory unindexedData
+    ) = polymerProver.validateEvent(proof);
+
+    // Step 2: Security validations
+    require(trustedChains[sourceChainId], "Untrusted source chain");
+    require(trustedContracts[sourceChainId][sourceContract], "Untrusted contract");
+
+    // Step 3: Parse concatenated topics into individual values
+    bytes32[] memory topicsArray = new bytes32[](3);
+    require(topics.length >= 96, "Invalid topics length");
+
+    assembly {
+        let topicsPtr := add(topics, 32)
+        for { let i := 0 } lt(i, 3) { i := add(i, 1) } {
+            mstore(
+                add(add(topicsArray, 32), mul(i, 32)),
+                mload(add(topicsPtr, mul(i, 32)))
+            )
+        }
+    }
+
+    // Step 4: Verify event signature for security
+    bytes32 expectedSelector = keccak256("ValueSet(address,string,bytes,uint256,bytes32,uint256)");
+    require(topicsArray[0] == expectedSelector, "Invalid event signature");
+
+    // Step 5: Extract indexed parameters
+    address sender = address(uint160(uint256(topicsArray[1])));
+    bytes32 hashedKey = topicsArray[2];
+
+    // Step 6: Decode non-indexed data
+    (
+        , // skip key (using hashedKey from topics)
+        bytes memory value,
+        uint256 nonce,
+        uint256 version
+    ) = abi.decode(unindexedData, (string, bytes, uint256, uint256));
+
+    // Step 7: Replay protection
+    bytes32 proofHash = keccak256(
+        abi.encodePacked(sourceChainId, sourceContract, hashedKey, nonce)
+    );
+    require(!usedProofHashes[proofHash], "Proof already used");
+    usedProofHashes[proofHash] = true;
+
+    // Step 8: Version control
+    require(version > keyVersions[hashedKey], "Version must be newer");
+    keyVersions[hashedKey] = version;
+
+    // Step 9: Update state
+    store[hashedKey] = value;
+    if (keyOwners[hashedKey] == address(0)) {
+        keyOwners[hashedKey] = sender;
+    }
+
+    emit ValueUpdated(hashedKey, value, version);
+}
+```
+
+  </TabItem>
+  
+</Tabs>
+
+## Live Demo
+
+<div style={{position: 'relative', paddingBottom: '59.31830676195712%', height: 0}}>
+  <iframe 
+    src="https://github.com/user-attachments/assets/2182629a-4545-46af-8507-bdf148cb0553" 
+    frameBorder="0" 
+    webkitallowfullscreen 
+    mozallowfullscreen 
+    allowfullscreen 
+    style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}
+  />
+</div>
+
+**Demo Flow:**
+
+1. **Transaction Sent** - User sets a value on the origin chain
+2. **Event Detection** - Relayer detects the `ValueSet` event  
+3. **Parallel Proof Requests** - Relayer requests proofs for multiple destination chains simultaneously
+4. **Fast Execution** - After ~10 seconds, value is synchronized across all chains
+
+<Admonition type="info">
+**Polling Configuration**: The demo uses 10-second intervals with 5-second retries, but production applications can poll every 500ms for faster synchronization.
+</Admonition>
+
+
+## Advanced Use Cases
+
+### Broadcast Architecture
+
+The Polymer approach enables a powerful broadcast model:
+
+<div className="container">
+  <div className="row">
+    <div className="col col--6">
+      <div className="card">
+        <div className="card__header">
+          <h4>📡 Traditional Messaging</h4>
+        </div>
+        <div className="card__body">
+          <strong>Limitations:</strong> Predefined source-destination pairs, separate transactions for each destination, configuration overhead
+          <br/><br/>
+          <strong>Cost:</strong> N transactions for N destinations
+        </div>
+      </div>
+    </div>
+    <div className="col col--6">
+      <div className="card">
+        <div className="card__header">
+          <h4>🌟 Polymer Broadcast</h4>
+        </div>
+        <div className="card__body">
+          <strong>Benefits:</strong> One event proves everywhere, no predefined pairs, post-hoc destination selection
+          <br/><br/>
+          <strong>Cost:</strong> 1 transaction + proof generation
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+### Real-World Applications
+
+<Tabs>
+  <TabItem value="defi" label="DeFi Protocols">
+
+**Cross-Chain Lending**
+
+Sync lending markets or yield rates across multiple chains with synchronized:
+- **Interest rates** updated from rate oracles
+- **Risk parameters** adjusted by governance
+- **Liquidation events** propagated instantly
+
+```solidity title="DeFi Rate Synchronization Example"
+event RateUpdate(
+    address indexed market,
+    uint256 borrowRate,
+    uint256 supplyRate,
+    uint256 timestamp,
+    bytes32 indexed rateHash
+);
+
+function updateRatesFromSource(bytes calldata proof) external {
+    // Validate proof and extract rate data
+    (uint32 sourceChainId, address sourceContract, bytes memory topics, bytes memory data) = 
+        polymerProver.validateEvent(proof);
+    
+    // Decode and update local rates
+    (address market, uint256 borrowRate, uint256 supplyRate, uint256 timestamp) = 
+        abi.decode(data, (address, uint256, uint256, uint256));
+    
+    markets[market].borrowRate = borrowRate;
+    markets[market].supplyRate = supplyRate;
+    markets[market].lastUpdate = timestamp;
+}
+```
+
+  </TabItem>
+  <TabItem value="gaming" label="Gaming & NFTs">
+
+**Cross-Chain Gaming State**
+
+Synchronize player achievements, inventory, and game state across multiple gaming chains:
+
+```solidity title="Gaming State Sync Example"
+event PlayerUpdate(
+    address indexed player,
+    uint256 level,
+    uint256 experience,
+    bytes32[] inventory,
+    bytes32 indexed updateHash
+);
+
+function syncPlayerState(bytes calldata proof) external {
+    // Validate and decode player update
+    (uint32 sourceChainId, address sourceContract, bytes memory topics, bytes memory data) = 
+        polymerProver.validateEvent(proof);
+    
+    (address player, uint256 level, uint256 experience, bytes32[] memory inventory) = 
+        abi.decode(data, (address, uint256, uint256, bytes32[]));
+    
+    // Update player state across all game instances
+    playerStates[player] = PlayerState(level, experience, inventory, block.timestamp);
+}
+```
+
+  </TabItem>
+  <TabItem value="dao" label="DAO Governance">
+
+**Multi-Chain DAO Governance**
+
+Propagate governance decisions across all protocol deployments:
+
+```solidity title="DAO Governance Sync Example"
+event ProposalExecuted(
+    uint256 indexed proposalId,
+    bytes32 proposalHash,
+    bytes executionData,
+    uint256 timestamp
+);
+
+function executeProposalFromSource(bytes calldata proof) external {
+    // Validate governance proof
+    (uint32 sourceChainId, address sourceContract, bytes memory topics, bytes memory data) = 
+        polymerProver.validateEvent(proof);
+    
+    require(trustedGovernanceChains[sourceChainId], "Untrusted governance chain");
+    
+    (uint256 proposalId, bytes32 proposalHash, bytes memory executionData) = 
+        abi.decode(data, (uint256, bytes32, bytes));
+    
+    // Execute the governance action locally
+    (bool success,) = address(this).call(executionData);
+    require(success, "Governance execution failed");
+    
+    executedProposals[proposalId] = proposalHash;
+}
+```
+
+  </TabItem>
+</Tabs>
+
+## Performance & Economics
+
+### Speed Comparison
+
+| Method | Proof Generation | Cross-Chain Latency | Total Time |
+|--------|-----------------|-------------------|------------|
+| **Polymer Proving** | 3-4 seconds | ~4 seconds | **~8 seconds** |
+| Traditional Messaging | N/A | 1-2 minutes | 1-2 minutes |
+| Native Bridges | N/A | 1-7 days | 1-7 days |
+
+### Cost Analysis (Example)
+
+<div className="container">
+  <div className="row">
+    <div className="col col--6">
+      <div className="card">
+        <div className="card__header">
+          <h4>📨 Traditional Messaging</h4>
+        </div>
+        <div className="card__body">
+          <strong>5-Chain Deployment Cost:</strong>
+          <br/>• Source transactions: 5 × $2 = $10
+          <br/>• Destination fees: 5 × $15 = $75
+          <br/><br/>
+          <strong>Total: $85 per update</strong>
+          <br/>
+          <span style={{color: '#dc3545'}}>❌ Expensive & Complex</span>
+        </div>
+      </div>
+    </div>
+    <div className="col col--6">
+      <div className="card">
+        <div className="card__header">
+          <h4>🚀 Polymer Broadcast</h4>
+        </div>
+        <div className="card__body">
+          <strong>5-Chain Deployment Cost:</strong>
+          <br/>• Source transaction: 1 × $2 = $2
+          <br/>• Destination executions: 5 × $1 = $5
+          <br/><br/>
+          <strong>Total: $7 per update</strong>
+          <br/>
+          <span style={{color: '#28a745'}}>✅ 91% savings!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

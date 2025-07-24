@@ -1,6 +1,7 @@
 {
     "label": "Solana Proving",
     "position": 11,
+    "collapsed": false,
     "link": {
       "type": "generated-index"
     }

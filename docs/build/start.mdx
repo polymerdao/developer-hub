@@ -3,27 +3,44 @@ sidebar_position: 0
 sidebar_label: 'Key Network Information'
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Key Information (Prove API)
 
-### Mainnet
+<Tabs>
+  <TabItem value="mainnet" label="Mainnet">
+    
+**API Endpoint:** `proof.polymer.zone`
 
-- **API endpoint:**  `proof.polymer.zone`
-- **Dashboard:**  [dashboard.polymer.org](https://dashboard.polymerlabs.org/)
-- Request Proof Dashboard for fun: [Here](https://dashboard.polymer.zone/request-proof)
+**Dashboard:** [dashboard.polymer.org](https://dashboard.polymerlabs.org/)
 
-### Testnet (Sepolia)
+**CrossL2Prover Contract:** `0x95ccEAE71605c5d97A0AC0EA13013b058729d075`
 
-- **API endpoint:**  `proof.testnet.polymer.zone`
-- **Dashboard:**  [dashboard.polymer.org](https://dashboard.polymerlabs.org/) (toggle to sepolia)
-- Request Proof Dashboard for fun: [Here](https://dashboard.testnet.polymer.zone/request-proof)
+  </TabItem>
+  <TabItem value="testnet" label="Testnet (Sepolia)">
+    
+**API Endpoint:** `proof.testnet.polymer.zone`
 
-### Contract Information 
+**Dashboard:** [dashboard.polymer.org](https://dashboard.polymerlabs.org/) (toggle to Sepolia)
 
-- **CrossL2Prover Mainnet Address:** 0x95ccEAE71605c5d97A0AC0EA13013b058729d075
-- **CrossL2Prover Sepolia Address:** 0x03Fb5bFA4EB2Cba072A477A372bB87880A60fC96
-- **Contract Interface:** [Here](https://github.com/polymerdao/prover-contracts/blob/e4fb42cc7a6b4b90bf3ec095a8a05c2129eab343/contracts/interfaces/ICrossL2ProverV2.sol)
 
-## Network Information
+**CrossL2Prover Contract:** `0x03Fb5bFA4EB2Cba072A477A372bB87880A60fC96`
+
+  </TabItem>
+  <TabItem value="contract" label="Contract Information">
+    
+**Mainnet Address:** `0x95ccEAE71605c5d97A0AC0EA13013b058729d075`
+
+**Testnet Address:** `0x03Fb5bFA4EB2Cba072A477A372bB87880A60fC96`
+
+**Contract Interface:** [ICrossL2ProverV2.sol](https://github.com/polymerdao/prover-contracts/blob/e4fb42cc7a6b4b90bf3ec095a8a05c2129eab343/contracts/interfaces/ICrossL2ProverV2.sol)
+
+
+  </TabItem>
+</Tabs>
+
+## Supported Chains
 
 ### Rollup Support (EVM)
 
@@ -38,40 +55,49 @@ sidebar_label: 'Key Network Information'
 | [Mode](https://docs.mode.network/user-guides/network-details) | ✅ | ✅ | 3-4secs |
 | [Mantle](https://docs.mantle.xyz/network/for-developers/resources-and-tooling/node-endpoints-and-providers) | ✅ | ✅ | 3-4secs |
 | [BOB](https://docs.gobob.xyz/learn/user-guides/networks) | ✅ | ✅ | 3-4secs |
-| [Everclear](https://docs.everclear.org/resources/contracts/testnet) | ✅ | ✅  | 3-4secs |
-| [Soneium](https://docs.soneium.org/docs/builders/overview)  | ✅ | ✅ | 3-4secs |
+| [Everclear](https://docs.everclear.org/resources/contracts/testnet) | ✅ | ✅ | 3-4secs |
+| [Soneium](https://docs.soneium.org/docs/builders/overview) | ✅ | ✅ | 3-4secs |
 | [World Chain](https://docs.world.org/world-chain/quick-start/info) | ✅ | ✅ | 3-4secs |
-|  [Zora](https://docs.zora.co/zora-network/network)  | ✅ | ✅ | 3-4secs |
-| [Scroll](https://docs.scroll.io/en/developers/scroll-contracts/)  | ✅ | ✅ | 3-4secs |
-| [Linea](https://docs.linea.build/get-started/build/network-info)  | ✅ | ✅ | 3-4secs |
-| [Blast](https://docs.blast.io/building/network-information)  | ✅ | ✅ | 3-4secs |
-| [DIA](https://docs.diadata.org/resources/chain-information)  | ✅ | ✅ | 3-4secs |
-| [t3rn](https://docs.t3rn.io/connect-to-t3rn)  | ✅ | ✅ | 3-4secs |
-|  [HyperEVM](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm) | - | ✅ | 3-4secs |
-|  [B3](https://docs.b3.fun/mainnet) | ✅ | - | 3-4secs |
-| [ApeChain](https://docs.apechain.com/metamask) | ✅ | - | 3-4secs |
-| [MegaETH](https://docs.megaeth.com/) | ✅ | - | 3-4secs |
-| [Plume](https://docs.plumenetwork.xyz/plume/developers/plume-testnet-details)  | ✅ | - | 3-4secs |
-| [Doma](https://docs.d3.app/) | ✅ | - | 3-4secs |
-| [Mycelium](https://mycelium-docs.pages.dev/docs/tools/rpc)  | ✅ | - | 3-4secs |
+| [Zora](https://docs.zora.co/zora-network/network) | ✅ | ✅ | 3-4secs |
+| [Scroll](https://docs.scroll.io/en/developers/scroll-contracts/) | ✅ | ✅ | 3-4secs |
+| [Linea](https://docs.linea.build/get-started/build/network-info) | ✅ | ✅ | 3-4secs |
+| [Blast](https://docs.blast.io/building/network-information) | ✅ | ✅ | 3-4secs |
+| [DIA](https://docs.diadata.org/resources/chain-information) | ✅ | ✅ | 3-4secs |
+| [T3rn](https://docs.t3rn.io/connect-to-t3rn) | ✅ | ✅ | 3-4secs |
+| [HyperEVM](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm) | ❌ | ✅ | 3-4secs |
+| [Dogechain](https://explorer.dogechain.dog/) | ❌ | ✅ | 3-4secs |
+| [Boba](https://docs.boba.network/addresses/network-eth#mainnet-288) | ❌ | ✅ | 3-4secs |
+| [Oasis Sapphire](https://explorer.oasis.io/) | ❌ | ✅ | 3-4secs |
+| [Matchain](https://matchscan.io/) | ❌ | ✅ | 3-4secs |
+| [Saakuru](https://explorer.saakuru.network/) | ❌ | ✅ | 3-4secs |
+| [B3 ](https://docs.b3.fun/mainnet) | ✅ | ❌ | 3-4secs |
+| [ApeChain ](https://docs.apechain.com/metamask) | ✅ | ❌ | 3-4secs |
+| [MegaETH ](https://docs.megaeth.com/) | ✅ | ❌ | 3-4secs |
+| [Plume ](https://docs.plumenetwork.xyz/plume/developers/plume-testnet-details) | ✅ | ❌ | 3-4secs |
+| [Doma ](https://docs.d3.app/) | ✅ | ❌ | 3-4secs |
+| [Mycelium ](https://mycelium-docs.pages.dev/docs/tools/rpc) | ✅ | ❌ | 3-4secs |
 
 
 ### Chain Support (EVM)
 
-| Name | Testnet | Mainnet | E2E Latency |
-| --- | --- | --- | --- |
-| [Ethereum](https://ethereum.org/en/developers/docs/networks/)    | ✅ | ✅ | 120-150secs |
-| [Berachain](https://docs.berachain.com/developers/network-configurations) | ✅ | ✅ | 3-4secs |
-| [Sonic](https://docs.soniclabs.com/sonic/build-on-sonic/tooling-and-infra) | ✅ | ✅ | 4-5secs |
-| [BSC](https://docs.bnbchain.org/bnb-smart-chain/developers/json_rpc/json-rpc-endpoint/#bsc-mainnet-chainid-0x38-56-in-decimal) | ✅ | ✅ | 24-30secs |
-| [Avalanche](https://build.avax.network/docs/quick-start/networks/mainnet)  | ✅  | ✅  | 3-4secs |
-| [Monad](https://docs.monad.xyz/developer-essentials/network-information)  | ✅  | -  | 4-5secs |
+| Name | Testnet | Mainnet | E2E Latency | Finality |
+| --- | --- | --- | --- | --- |
+| [Ethereum](https://ethereum.org/en/developers/docs/networks/) | ✅ | ✅ | 140-150secs | 12 Blocks |
+| [Berachain](https://docs.berachain.com/developers/network-configurations) | ✅ | ✅ | 3-4secs | Single-slot |
+| [Sonic](https://docs.soniclabs.com/sonic/build-on-sonic/tooling-and-infra) | ✅ | ✅ | 4-5secs | 2 Blocks |
+| [BSC](https://docs.bnbchain.org/bnb-smart-chain/developers/json_rpc/json-rpc-endpoint/#bsc-mainnet-chainid-0x38-56-in-decimal) | ✅ | ✅ | 24-30secs | 12 Blocks |
+| [Avalanche](https://build.avax.network/docs/quick-start/networks/mainnet) | ✅ | ✅ | 3-4secs | Single-slot |
+| [Redbelly](https://redbelly.routescan.io/) | ❌ | ✅ | 15-30secs | 5 Blocks |
+| [Vanar Chain](https://explorer.vanarchain.com/) | ❌ | ✅ | 30-40secs | 12 Blocks |
+| [Monad](https://docs.monad.xyz/developer-essentials/network-information) | ✅ | ❌ | 4-5secs | 2 Blocks |
 
-### Chain Support (non-EVM)
+### Chain Support (Non-EVM)
 
-| Name | Testnet | Mainnet | E2E Latency |
-| --- | --- | --- | --- |
-| [Tron](https://developers.tron.network/docs/networks) | ✅ | ✅ | 45-60secs |
-| [Solana](https://solana.com/rpc) | ✅ | ✅ | 4-5secs |
-|  [Peaq](https://peaq.subscan.io/) | - | ✅ | 3-4secs |
+| Name | Testnet | Mainnet | E2E Latency | Finality |
+| --- | --- | --- | --- | --- |
+| [Tron](https://developers.tron.network/docs/networks) | ✅ | ✅ | 45-60secs | 15 Blocks |
+| [Solana](https://solana.com/rpc) | ✅ | ✅ | 4-5secs | 2 Blocks |
+| [Peaq](https://peaq.subscan.io/) | ❌ | ✅ | 4-5secs | 2 Blocks |
+
+
 
