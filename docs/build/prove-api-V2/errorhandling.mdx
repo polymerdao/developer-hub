@@ -1,0 +1,297 @@
+---
+sidebar_position: 2
+sidebar_label: 'Error Handling'
+---
+
+# API Error Handling
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Admonition from '@theme/Admonition';
+
+This section outlines the error handling behavior of the proof generation API, specifically for the `polymer_requestProof` and `polymer_queryProof` methods. It details common validation errors, their error codes, messages, and failure reasons.
+
+<Admonition type="info">
+**API Methods Covered**: `polymer_requestProof` (requests proof generation) and `polymer_queryProof` (queries proof status by job ID)
+</Admonition>
+
+## General Error Format
+
+Errors are returned in the JSON-RPC 2.0 format:
+
+```json title="Standard Error Response"
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "error": {
+    "code": "error_code",
+    "message": "error_message"
+  }
+}
+```
+
+For successful requests that later fail during processing, the error details are provided in the result field of the `polymer_queryProof` response:
+
+```json title="Failed Job Response" {4,6}
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "status": "error",
+    "jobID": "job_id",
+    "failureReason": "failure_reason"
+  }
+}
+```
+
+## Error Codes and Messages
+
+| **Scenario** | **Error Code** | **Message/Failure Reason** | **Response Type** |
+| --- | --- | --- | --- |
+| Unsupported Chain ID | `-32000` | "chain ID not supported: chainId" | Immediate |
+| Future Block Number | N/A | "src block number (x) greater than latest block number (y)" | Polled |
+| Invalid Global Log Index | N/A | "invalid global log index (x) for block number (y) with # logs" | Polled |
+
+## Polling Behavior
+
+<Admonition type="warning">
+**Polling Duration**: Proof status is polled for 20 seconds after a `polymer_requestProof` call returns a job ID.
+</Admonition>
+
+- **Success Case**: Status will be `"completed"` when proof generation succeeds
+- **Error Case**: Status will be `"error"` with a `failureReason` when proof fails
+
+<Admonition type="tip">
+**Recommendation**: Implement a polling loop in your application to check the job status until it resolves to `"completed"` or `"error"`.
+</Admonition>
+
+## Best Practices for Developers
+
+1. **Pre-Validate Inputs** - Check `chainId` against supported chains, ensure `blockNumber` is not in the future, verify `globalLogIndex` against block data
+
+2. **Handle Job IDs** - Store the result (job ID) from `polymer_requestProof`, poll `polymer_queryProof` to monitor status
+
+3. **Graceful Error Recovery** - Retry requests for future blocks once they are mined, adjust invalid indices based on chain data
+
+---
+
+# Error Examples
+
+## 1. Unsupported Chain ID
+
+**Description**: Occurs when the provided `chainId` is not supported by the system.
+
+### Request Example
+
+```json title="Request with Invalid Chain ID" {6}
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "polymer_requestProof",
+  "params": [{
+    "srcChainId": 123456789,
+    "srcBlockNumber": 12345,
+    "globalLogIndex": 0
+  }]
+}
+```
+
+### Response
+
+```json title="Unsupported Chain Error" {4-6}
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "error": {
+    "code": -32000,
+    "message": "chain ID not supported: 123456789"
+  }
+}
+```
+
+**Error Details:**
+- **Error Code**: `-32000` (Server error)
+- **Message**: "chain ID not supported: chainId"
+- **Condition**: The `chainId` parameter does not match any supported chain
+
+<Admonition type="tip">
+**Handling Tip**: Verify the `chainId` against the list of supported chains before making the request.
+</Admonition>
+
+## 2. Future Block Number
+
+**Description**: Occurs when the requested `blockNumber` exceeds the latest block number on the chain. The request is accepted and assigned a job ID, but proof generation fails.
+
+### Request Example
+
+```json title="Future Block Request" {7}
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "polymer_requestProof",
+  "params": [{
+    "srcChainId": 84532,
+    "srcBlockNumber": 21927382,
+    "globalLogIndex": 0
+  }]
+}
+```
+
+### Initial Response (Success with Job ID)
+
+```json title="Job ID Response"
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": 15327
+}
+```
+
+### Polling Request
+
+```json title="Query Job Status"
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "polymer_queryProof",
+  "params": [15327]
+}
+```
+
+### Polling Response
+
+```json title="Future Block Error" {5,10}
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "status": "error",
+    "jobID": 15327,
+    "blockNumber": 21927382,
+    "globalLogIndex": 0,
+    "chainId": 84532,
+    "failureReason": "src block number (21927382) greater than latest block number (21926383)"
+  }
+}
+```
+
+**Error Details:**
+- **Failure Reason**: "src block number (x) greater than latest block number (y)"
+- **Condition**: The `blockNumber` is in the future relative to the chain's latest block height
+
+<Admonition type="tip">
+**Handling Tip**: Check the latest block number on the target chain before requesting a proof. Retry the request once the block is mined.
+</Admonition>
+
+## 3. Invalid Global Log Index
+
+**Description**: Occurs when the requested `globalLogIndex` is invalid for the specified block (e.g., exceeds the total number of logs in the block). The request is accepted, but proof generation fails.
+
+### Request Example
+
+```json title="Invalid Global Log Index" {8}
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "polymer_requestProof",
+  "params": [{
+    "srcChainId": 84532,
+    "srcBlockNumber": 21926372,
+    "globalLogIndex": 999
+  }]
+}
+```
+
+### Initial Response (Success with Job ID)
+
+```json title="Job ID Response"
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": 15330
+}
+```
+
+### Polling Response
+
+```json title="Global Log Index Error" {5,10}
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "status": "error",
+    "jobID": 15330,
+    "blockNumber": 21926372,
+    "globalLogIndex": 999,
+    "chainId": 84532,
+    "failureReason": "invalid global log index (999) for block number (21926372) with 15 logs"
+  }
+}
+```
+
+**Error Details:**
+- **Failure Reason**: "invalid global log index (x) for block number (y) with # logs"
+- **Condition**: The `globalLogIndex` exceeds the total number of logs in the specified block
+
+<Admonition type="tip">
+**Handling Tip**: Verify the total number of logs in the target block before requesting a proof. You can get this information from your RPC provider's block data.
+</Admonition>
+
+## Error Handling Implementation
+
+```javascript title="Error Handling Example" {15-17,27-29,37-42}
+async function requestProofWithErrorHandling(chainId, blockNumber, globalLogIndex) {
+  try {
+    // Request proof
+    const response = await axios.post(API_ENDPOINT, {
+      jsonrpc: "2.0",
+      id: 1,
+      method: "polymer_requestProof",
+      params: [{
+        srcChainId: chainId,
+        srcBlockNumber: blockNumber,
+        globalLogIndex: globalLogIndex
+      }]
+    });
+
+    // Handle immediate errors
+    if (response.data.error) {
+      throw new Error(`API Error: ${response.data.error.message}`);
+    }
+
+    const jobId = response.data.result;
+    console.log(`Job ID: ${jobId}`);
+
+    // Poll for result
+    let attempts = 0;
+    const maxAttempts = 10;
+    
+    while (attempts < maxAttempts) {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      const statusResponse = await axios.post(API_ENDPOINT, {
+        jsonrpc: "2.0",
+        id: 1,
+        method: "polymer_queryProof",
+        params: [jobId]
+      });
+
+      const result = statusResponse.data.result;
+      
+      if (result.status === "completed") {
+        return result.proof;
+      } else if (result.status === "error") {
+        throw new Error(`Proof failed: ${result.failureReason}`);
+      }
+      
+      attempts++;
+    }
+    
+    throw new Error("Proof generation timeout");
+    
+  } catch (error) {
+    console.error("Error requesting proof:", error.message);
+    throw error;
+  }
+}
+```

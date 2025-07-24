@@ -1,0 +1,382 @@
+---
+sidebar_position: 3
+sidebar_label: 'Prover Integration'
+---
+
+
+# Prover Return Decoding Guide
+
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info">
+This guide explains how to interpret and decode the returns from the `CrossL2ProverV2` contract, using a practical [multi-rollup example](https://docs.polymerlabs.org/docs/build/examples/multi-rollup_apps) to demonstrate the complete process.
+</Admonition>
+
+## Overview
+
+The `setValueFromSource` function demonstrates how to:
+- Take a proof from the Prove API
+- Validate cross-chain events using the prover contract
+- Decode and process the returned data securely
+
+This process involves several critical steps of data validation and decoding that ensure cross-chain security.
+
+## Understanding the Interface
+
+### CrossL2Prover validateEvent Function
+
+```solidity title="CrossL2Prover Interface" {1}
+function validateEvent(bytes calldata proof)
+    returns (
+        uint32 chainId,           // Source chain identifier
+        address emittingContract, // Emitting contract address
+        bytes topics,             // Concatenated Event topics
+        bytes unindexedData       // Non-indexed event parameters
+    )
+```
+
+<div className="container">
+  <div className="row">
+    <div className="col col--6">
+      <div className="card">
+        <div className="card__header">
+          <h4>← Return Values</h4>
+        </div>
+        <div className="card__body">
+          Four key pieces of validated data from the cross-chain event
+        </div>
+      </div>
+    </div>
+    <div className="col col--6">
+      <div className="card">
+        <div className="card__header">
+          <h4>🗄️ Data Format</h4>
+        </div>
+        <div className="card__body">
+          Topics as concatenated bytes, unindexed data as ABI-encoded parameters
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+### Raw Return Data Structure
+
+```javascript title="Raw Return Example" {2-5}
+[
+    11155420,                                    // uint32: chainId (Optimism Sepolia)
+    "0x24B1D355f5B254aF86860bBe4214aEDe2DB1314E", // address: emittingContract
+    "0x...",                                     // bytes: topic1 + topic2 + topic3
+    "0x..."                                      // bytes: ABI encoded non-indexed parameters
+]
+```
+
+## Event Structure Reference
+
+Understanding the origin event structure is crucial for proper decoding:
+
+```solidity title="Origin Event Structure" {1,3,7}
+event ValueSet(
+    // → topic[0] = keccak(ValueSet(address,string,bytes,uint256,bytes32,uint256))
+    address indexed sender,      // In topics[1]
+    string key,                 // In unindexedData
+    bytes value,                // In unindexedData
+    uint256 nonce,             // In unindexedData
+    bytes32 indexed hashedKey,  // In topics[2]
+    uint256 version            // In unindexedData
+);
+```
+
+<Admonition type="info">
+**Topic Distribution**: `topics[0]` contains the event signature hash, `topics[1-2]` contain indexed parameters, and non-indexed parameters are ABI-encoded in `unindexedData`.
+</Admonition>
+
+## Step-by-Step Decoding Process
+
+### 1. Initial Proof Validation
+
+First, validate the proof and extract the basic return values:
+
+```solidity title="Proof Validation"
+(
+    uint32 sourceChainId,
+    address sourceContract,
+    bytes memory topics,
+    bytes memory unindexedData
+) = polymerProver.validateEvent(proof);
+```
+
+**What you get:**
+- `sourceChainId`: Origin chain identifier
+- `sourceContract`: Contract that emitted the event
+- `topics`: Concatenated event topics (requires parsing)
+- `unindexedData`: ABI-encoded parameters (requires decoding)
+
+### 2. Topics Array Parsing
+
+The `topics` bytes must be parsed into individual `bytes32` values:
+
+```solidity title="Topics Parsing" {4,7}
+bytes32[] memory topicsArray = new bytes32[](3);
+require(topics.length >= 96, "Invalid topics length"); // 3 * 32 bytes
+
+assembly {
+    let topicsPtr := add(topics, 32)  // Skip length prefix
+    for { let i := 0 } lt(i, 3) { i := add(i, 1) } {
+        mstore(
+            add(add(topicsArray, 32), mul(i, 32)),
+            mload(add(topicsPtr, mul(i, 32)))
+        )
+    }
+}
+```
+
+**Result:**
+- `topicsArray[0]`: Event signature hash
+- `topicsArray[1]`: Indexed sender address (padded to 32 bytes)  
+- `topicsArray[2]`: Indexed hashedKey
+
+### 3. Event Signature Verification
+
+Always verify the event signature for security:
+
+```solidity title="Signature Verification"
+bytes32 expectedSelector = keccak256("ValueSet(address,string,bytes,uint256,bytes32,uint256)");
+require(topicsArray[0] == expectedSelector, "Invalid event signature");
+```
+
+<Admonition type="warning">
+**Critical Security Check**: This ensures only `ValueSet` events are processed and prevents attacks from similar events with different parameter types.
+</Admonition>
+
+### 4. Extract Indexed Parameters
+
+Convert the indexed parameters from the topics:
+
+```solidity title="Indexed Parameters"
+address sender = address(uint160(uint256(topicsArray[1])));
+bytes32 hashedKey = topicsArray[2];
+```
+
+**Conversion Logic:**
+- `sender`: `bytes32` → `uint256` → `uint160` → `address`
+- `hashedKey`: Direct use (already `bytes32`)
+
+### 5. Decode Non-Indexed Parameters
+
+Extract the remaining parameters from the ABI-encoded data:
+
+```solidity title="Non-Indexed Decoding"
+(
+    ,                       // skip key (we use hashedKey from topics)
+    bytes memory value,
+    uint256 nonce,
+    uint256 version
+) = abi.decode(
+    unindexedData,
+    (string, bytes, uint256, uint256)
+);
+```
+
+**Parameters Retrieved:**
+- `key`: Skipped (using `hashedKey` from topics instead)
+- `value`: The actual data to store
+- `nonce`: For replay protection
+- `version`: For version control
+
+### 6. Implement Replay Protection
+
+Prevent the same event from being processed multiple times:
+
+```solidity title="Replay Protection"
+// Create and verify unique proof hash for replay protection
+bytes32 uniqueHash = keccak256(
+    abi.encodePacked(sourceChainId, sourceContract, hashedKey, nonce)
+);
+require(!usedUniqueHashes[uniqueHash], "hashKey already used");
+usedUniqueHashes[uniqueHash] = true;
+```
+
+<Admonition type="warning">
+**Critical Security**: Applications should implement replay protection using data from their event directly to prevent duplicate processing of the same cross-chain event.
+</Admonition>
+
+## Common Pitfalls & Solutions
+
+<Admonition type="warning">
+**Critical Mistake**: The `validateEvent` function returns event topics as a single `bytes` array, **NOT** a `bytes32[]` array.
+</Admonition>
+
+### ❌ Incorrect Approach
+
+```solidity title="Wrong Implementation" {2}
+( , , bytes memory topics, ) = crossL2Prover.validateEvent(proof);
+bytes32 eventSig = bytes32(topics[0]); // ❌ Reads first BYTE, not first TOPIC
+```
+
+### ✅ Correct Implementation
+
+```solidity title="Correct Implementation" {1,7,15}
+// Example for an event with 3 topics
+require(topics.length == 3 * 32, "Invalid topics length");
+
+// 1. Create a memory array
+bytes32[] memory topicsArray = new bytes32[](3);
+
+// 2. Use assembly to parse the topics
+assembly {
+    let topicsPtr := add(topics, 32) // Skip bytes length
+    mstore(add(topicsArray, 32), mload(topicsPtr))
+    mstore(add(topicsArray, 64), mload(add(topicsPtr, 32)))
+    mstore(add(topicsArray, 96), mload(add(topicsPtr, 64)))
+}
+
+// 3. ✅ Use the new array for your logic
+bytes32 eventSig = topicsArray[0];
+```
+
+<Admonition type="tip">
+**Rule of Thumb**: Always parse the `topics` bytes variable into a `bytes32[]` array before use.
+</Admonition>
+
+## Production Security Checklist
+
+<Admonition type="warning">
+**Important**: Proof for a given event is not unique and should not be used as a unique identifier for replay protection.
+</Admonition>
+
+<Tabs>
+  <TabItem value="source-chain" label="Source Chain Validation">
+
+### 1. Source Chain Validation
+
+Prevent event duplication from unauthorized chains:
+
+```solidity title="Source Chain Security"
+mapping(uint32 => bool) public allowedSourceChains;
+require(allowedSourceChains[sourceChainId], "Invalid source chain");
+```
+
+**Purpose**: Safeguards against event duplication from different chains.
+
+  </TabItem>
+  <TabItem value="contract-validation" label="Contract Validation">
+
+### 2. Source Contract Validation
+
+Ensure events only come from authorized contracts:
+
+```solidity title="Contract Authorization"
+mapping(uint32 => mapping(address => bool)) public authorizedContracts;
+require(
+    authorizedContracts[sourceChainId][sourceContract],
+    "Unauthorized source contract"
+);
+```
+
+**Purpose**: Prevents event duplication from unauthorized contracts on allowed chains.
+
+  </TabItem>
+  <TabItem value="event-signature" label="Event Signature Validation">
+
+### 3. Event Signature Validation
+
+Always verify the complete event signature:
+
+```solidity title="Event Signature Check"
+bytes32 expectedSelector = keccak256("ValueSet(address,string,bytes,uint256,bytes32,uint256)");
+require(topicsArray[0] == expectedSelector, "Invalid event signature");
+// Even slight parameter changes generate different hashes
+```
+
+**Critical**: Validates both event name and exact parameter types/order.
+
+**Example of Different Signatures:**
+
+`"ValueSet(string,address,bytes,uint256,bytes32,uint256)"` → Different hash
+
+`"ValueSet(address,bytes,string,uint256,bytes32,uint256)"` → Different hash
+
+  </TabItem>
+  <TabItem value="replay-protection" label="Replay Protection">
+
+### 4. Replay Protection
+
+Prevent duplicate processing of the same cross-chain event:
+
+```solidity title="Replay Protection"
+mapping(bytes32 => bool) public usedUniqueHashes;
+
+bytes32 uniqueHash = keccak256(
+    abi.encodePacked(sourceChainId, sourceContract, hashedKey, nonce)
+);
+require(!usedUniqueHashes[uniqueHash], "hashKey already used");
+usedUniqueHashes[uniqueHash] = true;
+```
+
+**Purpose**: Applications should implement replay protection using data from their event directly to ensure each cross-chain event is processed only once.
+
+  </TabItem>
+</Tabs>
+
+## Complete Implementation Example
+
+```solidity title="Full Implementation" {2,10,18,25,29,33,41}
+function setValueFromSource(bytes calldata proof) external {
+    // 1. Validate the proof
+    (
+        uint32 sourceChainId,
+        address sourceContract,  
+        bytes memory topics,
+        bytes memory unindexedData
+    ) = polymerProver.validateEvent(proof);
+    
+    // 2. Security validations
+    require(allowedSourceChains[sourceChainId], "Invalid source chain");
+    require(authorizedContracts[sourceChainId][sourceContract], "Unauthorized contract");
+    
+    // 3. Parse topics
+    bytes32[] memory topicsArray = new bytes32[](3);
+    require(topics.length == 96, "Invalid topics length");
+    
+    assembly {
+        let topicsPtr := add(topics, 32)
+        mstore(add(topicsArray, 32), mload(topicsPtr))
+        mstore(add(topicsArray, 64), mload(add(topicsPtr, 32)))
+        mstore(add(topicsArray, 96), mload(add(topicsPtr, 64)))
+    }
+    
+    // 4. Verify event signature
+    bytes32 expectedSelector = keccak256("ValueSet(address,string,bytes,uint256,bytes32,uint256)");
+    require(topicsArray[0] == expectedSelector, "Invalid event signature");
+    
+    // 5. Extract indexed parameters
+    address sender = address(uint160(uint256(topicsArray[1])));
+    bytes32 hashedKey = topicsArray[2];
+    
+    // 6. Decode non-indexed parameters
+    (
+        ,                       // skip key
+        bytes memory value,
+        uint256 nonce,
+        uint256 version
+    ) = abi.decode(unindexedData, (string, bytes, uint256, uint256));
+    
+    // 7. Implement replay protection
+    bytes32 uniqueHash = keccak256(
+        abi.encodePacked(sourceChainId, sourceContract, hashedKey, nonce)
+    );
+    require(!usedUniqueHashes[uniqueHash], "hashKey already used");
+    usedUniqueHashes[uniqueHash] = true;
+    
+    // 8. Process the validated data
+    _processValidatedData(sender, hashedKey, value, nonce, version);
+}
+```
+
+<Admonition type="info">
+**Security First**: This example includes all critical security validations for production use, ensuring robust cross-chain event processing.
+</Admonition>

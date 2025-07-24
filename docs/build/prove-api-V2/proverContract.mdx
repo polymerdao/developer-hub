@@ -1,0 +1,147 @@
+---
+sidebar_position: 2
+sidebar_label: 'Prover Contract'
+---
+
+# Prover Contract
+
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Admonition from '@theme/Admonition';
+
+## Overview
+
+Polymer deploys the `CrossL2ProverV2` contract ([contract info](https://docs.polymerlabs.org/docs/build/start/)), inspired by Superchain interop's [CrossL2Inbox](https://specs.optimism.io/interop/predeploys.html#crossl2inbox). Our implementation emphasizes **on-chain proof validation** with modified methods specifically designed to validate logs.
+
+
+## Core Validation Methods
+
+### Primary Method: validateEvent
+
+**Validate any event with a single call.** For applications validating specific events emitted by their contracts on a given origin chain, this method provides a straightforward, plug-and-play solution.
+
+```solidity title="validateEvent Function" {1}
+function validateEvent(bytes calldata proof) 
+    returns (
+        uint32 chainId, 
+        address emittingContract, 
+        bytes memory topics, 
+        bytes memory unindexedData
+    )
+```
+
+<div className="container">
+  <div className="row">
+    <div className="col col--12">
+      <div className="card">
+        <div className="card__header">
+          <h4>⚙️ Function Behavior</h4>
+        </div>
+        <div className="card__body">
+          Validates a cross-chain event from a counterparty chain and returns the event along with event identifiers. <strong>The function will revert if validation fails.</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+#### Parameters
+
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `proof` | `bytes calldata` | A byte payload containing the IAVL proof of the application's log stored in the Polymer Rollup, along with the Sequencer-attested state root and corresponding block height. |
+
+#### Return Values
+
+| Return Value | Type | Description |
+| ------------ | ---- | ----------- |
+| `chainId` | `uint32` | Chain ID of the emitting chain _(identifier)_ |
+| `emittingContract` | `address` | The contract which emitted the event _(identifier)_ |
+| `topics` | `bytes memory` | The topics array from the emitted event (indexed data) |
+| `unindexedData` | `bytes memory` | The ABI-encoded event data for the matched log (unindexed data) |
+
+## Advanced Inspection Methods
+
+<Admonition type="warning">
+These methods are **optional** and designed for applications requiring enhanced transparency and proof inspection capabilities.
+</Admonition>
+
+These methods enable applications to:
+- Perform static calls to examine proof contents
+- Inspect origin chain transaction details 
+- Verify Sequencer-attested roots against public RPC endpoints
+- Match proof components against API inputs
+
+<Tabs>
+  <TabItem value="inspectLogIdentifier" label="inspectLogIdentifier">
+
+### inspectLogIdentifier
+
+Inspect the origin transaction that a given proof corresponds to—useful for verification against API inputs.
+
+```solidity title="inspectLogIdentifier Function" {1}
+function inspectLogIdentifier(bytes calldata proof) 
+    returns (
+        uint32 srcChain, 
+        uint64 blockNumber, 
+        uint16 receiptIndex, 
+        uint8 logIndex
+    )
+```
+
+#### Parameters
+
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `proof` | `bytes calldata` | A byte payload containing the IAVL proof of the application's log stored in the Polymer Rollup, along with the Sequencer-attested state root and corresponding block height. |
+
+#### Return Values
+
+| Return Value | Type | Description |
+| ------------ | ---- | ----------- |
+| `srcChain` | `uint32` | Source chain that emitted the log |
+| `blockNumber` | `uint64` | Block number on the source chain where the log was emitted |
+| `receiptIndex` | `uint16` | Index of the transaction (receipt belongs to) in the array of all transactions in that block |
+| `logIndex` | `uint8` | Index of the event in the logs array of the receipt (local to your transaction) |
+
+<Admonition type="info">
+**Note**: `logIndex` is not the global log index—it's local to the specific transaction receipt.
+</Admonition>
+
+  </TabItem>
+  <TabItem value="inspectPolymerState" label="inspectPolymerState">
+
+### inspectPolymerState
+
+Inspect the root and corresponding block height, enabling verification against the public RPC endpoint.
+
+```solidity title="inspectPolymerState Function" {1}
+function inspectPolymerState(bytes calldata proof) 
+    returns (
+        bytes32 stateRoot, 
+        uint64 height, 
+        bytes calldata signature
+    )
+```
+
+#### Parameters
+
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `proof` | `bytes calldata` | A byte payload containing the IAVL proof of the application's log stored in the Polymer Rollup, along with the Sequencer-attested state root and corresponding block height. |
+
+#### Return Values
+
+| Return Value | Type | Description |
+| ------------ | ---- | ----------- |
+| `stateRoot` | `bytes32` | Represents the state of the Polymer Rollup, serving as the single source of truth |
+| `height` | `uint64` | The block height corresponding to the state, used for querying the public RPC |
+| `signature` | `bytes calldata` | The sequencer's attestation, committing to the root and its associated block height |
+
+<Admonition type="tip">
+**Verification**: Use the returned `height` to query the public RPC and verify the `stateRoot` matches the on-chain state.
+</Admonition>
+
+  </TabItem>
+</Tabs>

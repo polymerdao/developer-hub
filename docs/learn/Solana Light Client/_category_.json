@@ -1,6 +1,7 @@
 {
     "label": "Solana Light Client",
     "position": 5,
+    "collapsed": false,
     "link": {
       "type": "generated-index"
     }

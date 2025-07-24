@@ -1,0 +1,575 @@
+---
+sidebar_position: 10
+sidebar_label: 'Tron Proving'
+---
+
+# Tron Proof Validation Guide
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Admonition from '@theme/Admonition';
+
+## Overview
+
+
+Cross-chain proof validation between TRON and EVM chains is fully compatible with proper address format handling. With proper format conversion, the same proof can be validated successfully on both TRON and EVM chains, providing true cross-chain interoperability. 
+
+The key principles are:
+
+<div className="container">
+  <div className="row">
+    <div className="col col--4">
+      <div className="card">
+        <div className="card__header">
+          <h4>🔒 Data Integrity</h4>
+        </div>
+        <div className="card__body">
+          All proof data remains identical across chains
+        </div>
+      </div>
+    </div>
+    <div className="col col--4">
+      <div className="card">
+        <div className="card__header">
+          <h4>📍 Address Formats</h4>
+        </div>
+        <div className="card__body">
+          TRON uses base58, EVM uses hex format
+        </div>
+      </div>
+    </div>
+    <div className="col col--4">
+      <div className="card">
+        <div className="card__header">
+          <h4>🔗 Cross-Chain</h4>
+        </div>
+        <div className="card__body">
+          Same proof validates on both networks
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+## Network Information
+
+| Network | Chain ID | Public RPC | Explorer | Prover Contract |
+| --- | --- | --- | --- | --- |
+| **TRON Nile Testnet** | `3448148188` | [nile.trongrid.io](https://nile.trongrid.io) | [nile.tronscan.org](https://nile.tronscan.org) | [TN1hKC3qzkRzRgSCzmEY613KLjMJHqQ1Ly](https://nile.tronscan.org/#/contract/TN1hKC3qzkRzRgSCzmEY613KLjMJHqQ1Ly/code) |
+| **TRON Mainnet** | `728126428` | [api.trongrid.io/jsonrpc](https://api.trongrid.io/jsonrpc) | [tronscan.org](https://tronscan.org) | [TNKCTuonyurjAXBYpZtSZEo7WdFUKW9cbN](https://tronscan.org/#/contract/TNKCTuonyurjAXBYpZtSZEo7WdFUKW9cbN/code) |
+
+## Address Format Differences
+
+Understanding address formats is crucial for TRON integration:
+
+<Tabs>
+  <TabItem value="formats" label="Address Formats">
+
+### Address Format Comparison
+
+| Format Type | Example | Usage |
+| --- | --- | --- |
+| **TRON Base58** | `TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf` | TRON Explorer, TronWeb interactions |
+| **TRON Hex** | `41eca9bc828a3005b9a3b909f2cc5c2a54794de05f` | Raw logs, internal processing |
+| **EVM Hex** | `0xECa9bC828A3005B9a3b909f2cc5c2a54794DE05F` | Standard EVM format |
+
+<Admonition type="info">
+**Key Insight**: These are the same address in different formats. TRON uses `41` prefix instead of `0x` for hex addresses.
+</Admonition>
+
+  </TabItem>
+  <TabItem value="conversion" label="Address Conversion">
+
+### Converting Between Formats
+
+```javascript title="Address Conversion Examples"
+import TronWeb from 'tronweb';
+
+// Base58 to Hex
+const base58Address = "TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf";
+const hexAddress = TronWeb.address.toHex(base58Address);
+// Returns: "41eca9bc828a3005b9a3b909f2cc5c2a54794de05f"
+
+// Hex to Base58
+const tronHex = "41eca9bc828a3005b9a3b909f2cc5c2a54794de05f";
+const base58 = TronWeb.address.fromHex(tronHex);
+// Returns: "TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf"
+
+// TRON Hex to EVM Hex
+const tronAddress = "41eca9bc828a3005b9a3b909f2cc5c2a54794de05f";
+const evmAddress = "0x" + tronAddress.substring(2);
+// Returns: "0xeca9bc828a3005b9a3b909f2cc5c2a54794de05f"
+
+// EVM Hex to TRON Hex
+const evmAddr = "0xeca9bc828a3005b9a3b909f2cc5c2a54794de05f";
+const tronAddr = "41" + evmAddr.substring(2);
+// Returns: "41eca9bc828a3005b9a3b909f2cc5c2a54794de05f"
+```
+
+  </TabItem>
+</Tabs>
+
+## Cross-Chain Proof Validation
+
+### EVM to TRON Validation
+
+When validating proofs from EVM chains (like Optimism) on TRON, the data remains consistent with only address format differences:
+
+```typescript title="EVM to TRON Proof Validation Example"
+// Same proof validated on different chains
+
+// --- Base Sepolia Validation Result ---
+const baseResult = {
+  chainId: 11155420,
+  emittingContract: "0xB84644c24B4D0823A0770ED698f7C20B88Bcf824", // EVM format
+  topics: "0xc0ae438737d82fdd04b48b08fb95c82fdbc3e4c6afb...",
+  unindexedData: "0x00000000000000000000000000000000000000000000000029a2241af62c0000..."
+};
+
+// --- TRON Nile Validation Result ---
+const tronResult = {
+  chainId: 11155420n, // Same chain ID
+  emittingContract: "41b84644c24b4d0823a0770ed698f7c20b88bcf824", // TRON format
+  topics: "0xc0ae438737d82fdd04b48b08fb95c82fdbc3e4c6afb...", // Identical
+  unindexedData: "0x00000000000000000000000000000000000000000000000029a2241af62c0000..." // Identical
+};
+
+// Comparison Results
+console.log("Chain ID Match:", baseResult.chainId === Number(tronResult.chainId)); // ✅ true
+console.log("Topics Match:", baseResult.topics === tronResult.topics); // ✅ true  
+console.log("Data Match:", baseResult.unindexedData === tronResult.unindexedData); // ✅ true
+
+// Only difference: address format
+const convertedAddress = "0x" + tronResult.emittingContract.substring(2);
+console.log("Address Match:", baseResult.emittingContract.toLowerCase() === convertedAddress.toLowerCase()); // ✅ true
+```
+
+### TRON to EVM Validation
+
+When validating TRON events on EVM chains, the prover automatically handles format conversion:
+
+<Tabs>
+  <TabItem value="tron-raw" label="TRON Raw Event">
+
+**Original TRON Transaction**: [View on Explorer](https://nile.tronscan.org/#/transaction/b6235a7a2202b79528f0193cc3637178771a11bf8585b55fe09025df5f8ce989/event-logs)
+
+```json title="TRON Raw Event Log"
+{
+  "address": "eca9bc828a3005b9a3b909f2cc5c2a54794de05f", // No prefix
+  "topics": [
+    "ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef", // Event signature
+    "0000000000000000000000003701e24fabdec5be006d04331b977d974a0e64c8", // From address
+    "000000000000000000000000d3ba0080540dd44a65e299d215c594a89c820fc5"  // To address
+  ],
+  "data": "0000000000000000000000000000000000000000000000000000000000989680" // Amount
+}
+```
+
+  </TabItem>
+  <TabItem value="evm-validation" label="EVM Validation Result">
+
+```typescript title="Validation Result on Base Sepolia"
+const validationResult = [
+  "3448148188", // TRON chain ID
+  "0xECa9bC828A3005B9a3b909f2cc5c2a54794DE05F", // Auto-converted to EVM format
+  "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef0000000000000000000000003701e24fabdec5be006d04331b977d974a0e64c8000000000000000000000000d3ba0080540dd44a65e299d215c594a89c820fc5", // Concatenated topics
+  "0x0000000000000000000000000000000000000000000000000000000000989680" // Unindexed data
+];
+
+// Topics are automatically:
+// 1. Concatenated into single hex string
+// 2. Prefixed with "0x"
+// 3. Address formats converted where applicable
+```
+
+  </TabItem>
+</Tabs>
+
+## TRON Contract Interactions
+
+### Static Calls (Read-Only)
+
+<Tabs>
+  <TabItem value="contract-at" label="Using contract.at()">
+
+```javascript title="Method 1: contract.at() - Recommended"
+const tronWeb = new TronWeb({
+    fullHost: "https://nile.trongrid.io"
+});
+
+// Using base58 address format
+const contract = await tronWeb.contract().at("TD39R92XN4HqXUQCPmtnZV1mhcgMy7Qbn8");
+
+try {
+    const result = await contract.validateEvent(proofHex).call();
+    
+    console.log("Validation Result:", {
+        chainId: result.chainId.toString(),
+        emittingContract: result.emittingContract, // TRON hex format (41...)
+        topics: result.topics,
+        unindexedData: result.unindexedData
+    });
+} catch (error) {
+    console.error("Validation failed:", error.message);
+}
+```
+
+**Advantages**: Simple syntax, automatic ABI handling, and built-in error handling
+
+  </TabItem>
+  <TabItem value="trigger-constant" label="Using triggerConstantContract">
+
+```javascript title="Method 2: triggerConstantContract - Advanced"
+const functionSelector = 'validateEvent(bytes)';
+const parameters = [{ type: 'bytes', value: proofHex }];
+
+try {
+    const result = await tronWeb.transactionBuilder.triggerConstantContract(
+        "TD39R92XN4HqXUQCPmtnZV1mhcgMy7Qbn8", // base58 address
+        functionSelector,
+        {}, // options
+        parameters
+    );
+
+    if (result.result.result) {
+        // Decode the raw result
+        const decodedTypes = ['uint32', 'address', 'bytes', 'bytes'];
+        const decoded = tronWeb.utils.abi.decodeParams(
+            decodedTypes, 
+            result.constant_result[0]
+        );
+        
+        console.log("Decoded result:", decoded);
+    } else {
+        console.error("Contract call failed:", result.result.message);
+    }
+} catch (error) {
+    console.error("Error:", error);
+}
+```
+
+**Advantages**: More control over parameters, access to raw results, and custom error handling
+
+  </TabItem>
+</Tabs>
+
+### Transactions (State-Changing)
+
+<Tabs>
+  <TabItem value="send-method" label="Using .send()">
+
+```javascript title="Method 1: contract.method().send()"
+const tronWeb = new TronWeb({
+    fullHost: "https://nile.trongrid.io",
+    privateKey: "your_private_key_here" // Required for transactions
+});
+
+const contract = await tronWeb.contract().at("TContractAddress123");
+
+try {
+    const tx = await contract.setValueFromSource(proofHex).send({
+        feeLimit: 100_000_000, // 100 TRX max fee (in SUN)
+        callValue: 0,          // TRX to send with transaction  
+        shouldPollResponse: false // Don't wait for confirmation
+    });
+    
+    console.log("Transaction ID:", tx);
+    
+    // Optional: Wait for confirmation
+    const receipt = await tronWeb.trx.getTransactionInfo(tx);
+    console.log("Transaction receipt:", receipt);
+    
+} catch (error) {
+    console.error("Transaction failed:", error);
+}
+```
+
+  </TabItem>
+  <TabItem value="trigger-smart" label="Using triggerSmartContract">
+
+```javascript title="Method 2: triggerSmartContract - Recommended"
+// More control and better error handling
+try {
+    const transaction = await tronWeb.transactionBuilder.triggerSmartContract(
+        "TContractAddress123",           // Contract address (base58)
+        "setValueFromSource(bytes)",     // Full function signature
+        {
+            feeLimit: 100_000_000,      // In SUN (1 TRX = 1,000,000 SUN)
+            callValue: 0                // TRX value to send
+        },
+        [
+            {type: 'bytes', value: proofHex}
+        ],
+        tronWeb.defaultAddress.base58   // Sender address
+    );
+
+    // Check if transaction was built successfully
+    if (!transaction.result || !transaction.result.result) {
+        throw new Error('Transaction build failed: ' + transaction.result.message);
+    }
+
+    // Sign the transaction
+    const signedTx = await tronWeb.trx.sign(transaction.transaction);
+
+    // Broadcast the signed transaction
+    const receipt = await tronWeb.trx.sendRawTransaction(signedTx);
+    
+    if (receipt.result) {
+        console.log("Transaction successful!");
+        console.log("Transaction ID:", receipt.txid);
+    } else {
+        console.error("Transaction failed:", receipt.message);
+    }
+    
+} catch (error) {
+    console.error("Error:", error);
+}
+```
+
+  </TabItem>
+</Tabs>
+
+## Resource Management
+
+TRON uses Energy & Bandwidth instead of gas:
+
+<Tabs>
+  <TabItem value="resources" label="Resource Types">
+
+### TRON Resource System
+
+| Resource | Purpose | Cost |
+| --- | --- | --- |
+| **Energy** | Smart contract execution | Consumed per operation |
+| **Bandwidth** | Transaction size | Consumed per byte |
+| **TRX** | Backup payment | When resources insufficient |
+
+```javascript title="Check Account Resources"
+const account = await tronWeb.trx.getAccountResources(address);
+
+console.log("Available Resources:", {
+    energy: account.EnergyLimit - account.EnergyUsed,
+    bandwidth: account.freeNetLimit - account.freeNetUsed,
+    frozenBalance: account.frozen?.[0]?.frozen_balance || 0
+});
+
+// Estimate resource usage
+const energyEstimate = await tronWeb.transactionBuilder.estimateEnergy(
+    contractAddress,
+    functionSelector,
+    options,
+    parameters,
+    issuerAddress
+);
+```
+
+  </TabItem>
+  <TabItem value="fee-calculation" label="Fee Calculation">
+
+### Fee Structure
+
+```javascript title="TRON Fee Calculation"
+// 1 TRX = 1,000,000 SUN
+const TRX_TO_SUN = 1_000_000;
+
+// Recommended fee limits for different operations
+const feeStructure = {
+    simpleTransfer: 1 * TRX_TO_SUN,      // 1 TRX
+    contractCall: 50 * TRX_TO_SUN,       // 50 TRX
+    proofValidation: 100 * TRX_TO_SUN,   // 100 TRX (recommended)
+    complexOperation: 200 * TRX_TO_SUN   // 200 TRX
+};
+
+// Set appropriate feeLimit based on operation complexity
+const feeLimit = feeStructure.proofValidation;
+
+// Energy consumption examples
+const energyCosts = {
+    transfer: 345,           // TRC20 transfer
+    approve: 600,           // TRC20 approve  
+    validateEvent: 15000,   // Proof validation (estimate)
+    complexLogic: 50000     // Complex contract logic
+};
+```
+
+  </TabItem>
+</Tabs>
+
+## Type Definitions & Common Patterns
+
+### Parameter Type Mapping
+
+```javascript title="TRON Parameter Types"
+// Common type conversions for TRON
+const parameterExamples = [
+    // Addresses
+    {type: 'address', value: "TAddress123..."},        // TRON base58 address
+    {type: 'address', value: "41eca9bc828a3005b..."},  // TRON hex address
+    
+    // Numbers (always as strings for large numbers)
+    {type: 'uint256', value: "1000000000000000000"},   // 1 ETH in wei
+    {type: 'uint32', value: "11155420"},               // Chain ID
+    {type: 'uint8', value: "18"},                      // Decimals
+    
+    // Bytes data
+    {type: 'bytes', value: "0x1234abcd"},              // Hex data
+    {type: 'bytes32', value: "0x" + "0".repeat(64)},   // 32-byte hash
+    
+    // Strings and booleans
+    {type: 'string', value: "Hello TRON"},             // Text data
+    {type: 'bool', value: true}                        // Boolean
+];
+
+// Address conversion utilities
+function convertAddressFormats(address) {
+    if (address.startsWith('T')) {
+        // Base58 to hex
+        return TronWeb.address.toHex(address);
+    } else if (address.startsWith('41')) {
+        // TRON hex to EVM hex
+        return '0x' + address.substring(2);
+    } else if (address.startsWith('0x')) {
+        // EVM hex to TRON hex
+        return '41' + address.substring(2);
+    }
+    throw new Error('Invalid address format');
+}
+```
+
+## Error Handling & Best Practices
+
+### Common Issues & Solutions
+
+<Admonition type="warning">
+**Common Pitfalls**: Address format mismatches, insufficient resources, and incorrect parameter types are the most frequent issues.
+</Admonition>
+
+```javascript title="Robust Error Handling"
+async function validateProofOnTron(proofHex) {
+    try {
+        // 1. Check account resources first
+        const resources = await tronWeb.trx.getAccountResources(
+            tronWeb.defaultAddress.base58
+        );
+        
+        if (resources.EnergyLimit - resources.EnergyUsed < 15000) {
+            console.warn("Low energy. Consider freezing TRX for energy.");
+        }
+
+        // 2. Validate proof format
+        if (!proofHex.startsWith('0x')) {
+            proofHex = '0x' + proofHex;
+        }
+
+        // 3. Call contract with proper error handling
+        const contract = await tronWeb.contract().at(PROVER_CONTRACT_ADDRESS);
+        const result = await contract.validateEvent(proofHex).call();
+        
+        // 4. Process result with address format conversion
+        return {
+            chainId: result.chainId.toString(),
+            emittingContract: convertToEvmFormat(result.emittingContract),
+            topics: result.topics,
+            unindexedData: result.unindexedData
+        };
+        
+    } catch (error) {
+        // Handle specific TRON errors
+        if (error.message.includes('REVERT')) {
+            console.error("Contract reverted:", error.message);
+        } else if (error.message.includes('OUT_OF_ENERGY')) {
+            console.error("Insufficient energy for transaction");
+        } else if (error.message.includes('BANDWIDTH_NOT_ENOUGH')) {
+            console.error("Insufficient bandwidth");
+        } else {
+            console.error("Unknown error:", error);
+        }
+        throw error;
+    }
+}
+
+function convertToEvmFormat(tronAddress) {
+    if (tronAddress.startsWith('41')) {
+        return '0x' + tronAddress.substring(2);
+    }
+    return tronAddress; // Already in correct format
+}
+```
+
+## Complete Integration Example
+
+```javascript title="Full TRON Proof Validation Flow"
+import TronWeb from 'tronweb';
+
+class TronProofValidator {
+    constructor(nodeUrl, privateKey = null) {
+        this.tronWeb = new TronWeb({
+            fullHost: nodeUrl,
+            privateKey: privateKey
+        });
+    }
+
+    async validateCrossChainProof(proofHex, contractAddress) {
+        try {
+            // Initialize contract
+            const contract = await this.tronWeb.contract().at(contractAddress);
+            
+            // Validate proof
+            const result = await contract.validateEvent(proofHex).call();
+            
+            // Process and return standardized result
+            return this.processValidationResult(result);
+            
+        } catch (error) {
+            throw new Error(`TRON validation failed: ${error.message}`);
+        }
+    }
+
+    processValidationResult(result) {
+        return {
+            chainId: parseInt(result.chainId.toString()),
+            emittingContract: this.convertToEvmAddress(result.emittingContract),
+            topics: this.parseTopics(result.topics),
+            unindexedData: result.unindexedData,
+            // Keep original TRON format for reference
+            originalTronContract: result.emittingContract
+        };
+    }
+
+    convertToEvmAddress(tronAddress) {
+        if (tronAddress.startsWith('41')) {
+            return '0x' + tronAddress.substring(2);
+        }
+        return tronAddress;
+    }
+
+    parseTopics(topicsHex) {
+        // Split concatenated topics into array
+        if (!topicsHex.startsWith('0x')) return [];
+        
+        const cleanHex = topicsHex.substring(2);
+        const topics = [];
+        
+        for (let i = 0; i < cleanHex.length; i += 64) {
+            topics.push('0x' + cleanHex.substring(i, i + 64));
+        }
+        
+        return topics;
+    }
+}
+
+// Usage example
+const validator = new TronProofValidator("https://nile.trongrid.io");
+const result = await validator.validateCrossChainProof(
+    proofHex, 
+    "TD39R92XN4HqXUQCPmtnZV1mhcgMy7Qbn8"
+);
+
+console.log("Validation successful:", result);
+```
+
+<Admonition type="tip">
+**Best Practice**: Always convert addresses to a consistent format in your application logic to avoid comparison issues between TRON and EVM chains.
+</Admonition>
