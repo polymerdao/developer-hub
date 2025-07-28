@@ -1,0 +1,123 @@
+---
+sidebar_position: 13
+sidebar_label: 'Release Notes'
+---
+
+# Upcoming Release - Polymer API v1.0
+
+We're excited to announce major enhancements to Polymer's proving infrastructure that deliver **sub-second proof latencies** and introduce **automated transaction execution** capabilities.
+
+## 🔧 API Method Updates & Versioning
+
+### New v1 API Endpoints
+
+We've introduced proper API versioning with improved method naming and enhanced functionality:
+
+**Base URL:** `https://api.polymer.zone/v1/`
+
+| **Legacy (v0)** | **New (v1)** | **Purpose** |
+| --- | --- | --- |
+| `polymer_requestProof` | `prove_request` | Request proof generation |
+| `polymer_queryProof` | `prove_query` | Query proof status |
+| *New* | `execute_request` | Automated execution |
+| *New* | `execute_query` | Query execution status |
+
+### Enhanced Response Format
+
+v1 responses now include the original `proofRequest` object for better traceability and debugging, making integration more developer-friendly.
+
+**Migration Note:** Legacy v0 endpoints remain fully supported during the transition period.
+
+---
+
+## ⚡ Dramatic Latency Improvements
+
+We've completely overhauled our backend infrastructure and optimized interactions with the Polymer chain:
+
+- **Enhanced API Backend:** Streamlined interactions between API Backend and Polymer chain.
+- **Upgraded Cosmos SDK:** Latest SDK version enables significantly faster block times
+
+### Performance Gains
+
+| **Metric** | **Previous** | **New** | **Improvement** |
+| --- | --- | --- | --- |
+| **Block Time** | 2 seconds | 100ms | **20x faster** |
+| **Proof Generation** | 4-5 seconds | **< 1 second** | **5x faster** |
+| **API Response** | Variable | Consistent sub-second | **Predictable performance** |
+
+**Result:** Proof requests that previously took 4-5 seconds now complete in **under 1 second**.
+
+---
+
+## 🎯 Execute API (Beta Release)
+
+Based on strong developer demand for simplified and automated transaction submission, we're beta-releasing our **Execute API** that combines proof generation with automated on-chain execution.
+
+### Key Capabilities
+
+- **Ultra-Fast Submission:** Transactions land on destination chains in **under 300ms**
+- **Universal Compatibility:** Any EVM chain, any contract (non-EVM support coming soon)
+- **Integrated Workflow:** Proof generation + execution in a single API call
+- **End-to-End Speed:** Complete cross-chain execution in **1-1.5 seconds**
+
+### Workflow Comparison
+
+```jsx
+// Traditional Approach: ~10+ seconds
+1. Request proof (4-5s)
+2. Poll for completion
+3. Manual transaction submission (5-10s)
+
+// New Execute API: ~1.5 seconds
+1. execute_request (includes proof + transaction)
+2. execute_query (poll until complete)
+
+```
+
+### Why This Matters
+
+This represents a **massive leap forward** compared to traditional cross-chain systems:
+
+- **Traditional bridges:** ~2 minutes
+- **Existing solutions:** 30+ seconds
+- **Polymer Execute API:** **1-1.5 seconds end-to-end**
+
+---
+
+## 🛠️ Getting Started
+
+### For Existing Users
+
+Continue using v0 endpoints - no immediate changes required, you’ll see all the benefits of proof latency. We recommend migrating to v1 for enhanced features like execute API.
+
+### For New Integrations
+
+Start with v1 endpoints for the best experience:
+
+```jsx
+// Proof-only workflow
+const response = await fetch('https://api.polymer.zone/v1/', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    jsonrpc: "2.0",
+    method: "prove_request",
+    params: [{ srcChainId: 10, srcBlockNumber: 123456, globalLogIndex: 0 }]
+  })
+});
+
+// Proof + Execute workflow (Beta)
+const executeResponse = await fetch('https://api.polymer.zone/v1/', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    jsonrpc: "2.0",
+    method: "execute_request",
+    params: [executeEnvelope] // Proof + execution parameters
+  })
+});
+```
+
