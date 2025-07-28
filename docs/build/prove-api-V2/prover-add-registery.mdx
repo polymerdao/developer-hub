@@ -1,0 +1,89 @@
+---
+sidebar_position: 3
+sidebar_label: 'Address Registry'
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Admonition from '@theme/Admonition';
+
+# Prover Address Registry
+
+## Overview
+
+Polymer deploys the `CrossL2ProverV2` contract across all supported chains to enable seamless cross-chain proof validation. This registry provides the complete list of contract addresses for easy integration.
+
+<div className="container">
+  <div className="row">
+    <div className="col col--6">
+      <div className="card">
+        <div className="card__header">
+          <h4>🔧 CREATE2 Deployment</h4>
+        </div>
+        <div className="card__body">
+          Consistent addresses across chains that support CREATE2 deterministic deployments
+        </div>
+      </div>
+    </div>
+    <div className="col col--6">
+      <div className="card">
+        <div className="card__header">
+          <h4>📋 Custom Registry</h4>
+        </div>
+        <div className="card__body">
+          Special addresses for chains without CREATE2 support or deployment variations
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+## Standard Addresses (CREATE2)
+
+For chains that support CREATE2 deployments, we use deterministic addresses that remain consistent across networks:
+
+<Tabs>
+  <TabItem value="mainnet" label="Mainnet">
+    
+### Standard Mainnet Address
+
+**Contract Address:** `0x95ccEAE71605c5d97A0AC0EA13013b058729d075`
+
+**Applies to all mainnet chains except those listed in the Custom Registry below**
+
+  </TabItem>
+  <TabItem value="testnet" label="Testnet">
+    
+### Standard Testnet Address
+
+**Contract Address:** `0x03Fb5bFA4EB2Cba072A477A372bB87880A60fC96`
+
+**Applies to all testnet chains except those listed in the Custom Registry below**
+
+  </TabItem>
+
+</Tabs>
+
+## Custom Registry
+
+For chains that do not support CREATE2 deployments or require custom deployment configurations, we maintain specific contract addresses:
+
+<Admonition type="info">
+**Note**: The following chains use custom addresses due to CREATE2 limitations or specific deployment requirements. All chains listed use the same contract interface and functionality.
+</Admonition>
+
+### Mainnet Custom Addresses
+
+| Chain Name | Contract Address | Network Info |
+|------------|------------------|--------------|
+| **Redbelly** | `0xaB3A9B4C377EB69eB378cdF81a0526197AEd092c` | [Explorer](https://redbelly.routescan.io/) |
+| **Oasis Sapphire** | `0x61a122eF5A9CA45EB88e2c0877e11E5B8eCfe5ef` | [Explorer](https://explorer.oasis.io/) |
+| **Matchain** | `0x61a122eF5A9CA45EB88e2c0877e11E5B8eCfe5ef` | [Explorer](https://matchscan.io/) |
+| **Saakuru** | `0x61a122eF5A9CA45EB88e2c0877e11E5B8eCfe5ef` | [Explorer](https://explorer.saakuru.network/) |
+| **Vanar Chain** | `0x61a122eF5A9CA45EB88e2c0877e11E5B8eCfe5ef` | [Explorer](https://explorer.vanarchain.com/) |
+| **Dogechain** | `0x61a122eF5A9CA45EB88e2c0877e11E5B8eCfe5ef` | [Explorer](https://explorer.dogechain.dog/) |
+| **Boba** | `0x61a122eF5A9CA45EB88e2c0877e11E5B8eCfe5ef` | [Explorer](https://docs.boba.network/) |
+
+<Admonition type="warning">
+**Testnet Availability**: The chains listed in the custom registry currently only have mainnet deployments. Testnet versions are not available at this time.
+</Admonition>
