@@ -9,6 +9,53 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Admonition from '@theme/Admonition';
 
+```mdx
+<div className="container">
+  <div className="row">
+    <div className="col col--3">
+      <div className="card">
+        <div className="card__header">
+          <h4>⚡️ Low Latency</h4>
+        </div>
+        <div className="card__body">
+          Submit any txn in milliseconds!
+        </div>
+      </div>
+    </div>
+    <div className="col col--3">
+      <div className="card">
+        <div className="card__header">
+          <h4>🛡️ Single API</h4>
+        </div>
+        <div className="card__body">
+          Built-in support for Prove API polling.
+        </div>
+      </div>
+    </div>
+    <div className="col col--3">
+      <div className="card">
+        <div className="card__header">
+          <h4>💵 Zero Maintenance</h4>
+        </div>
+        <div className="card__body">
+          No nonce management. Auto retries.
+        </div>
+      </div>
+    </div>
+    <div className="col col--3">
+      <div className="card">
+        <div className="card__header">
+          <h4>🪙 Expansion</h4>
+        </div>
+        <div className="card__body">
+          Add support for any chain in minutes.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
 ### 1. Submit Execution Request
 
 **Endpoint:** `api.polymer.zone/v1/`
@@ -71,6 +118,19 @@ Accept: application/json
 | `methodSignature` | string | Function signature for the contract method to call |
 | `args` | array | Arguments for the contract method. Use `"$proof"` as placeholder for proof data |
 | `gasLimit` | integer | Gas limit for the transaction |
+
+<Admonition type="info">
+
+1. This method requires a Bearer token in the Authorization header
+
+2. The `params` is an envelope that wraps the proof request and the on-chain execution request. That object has two fields: `proofRequest` and `executeRequest`
+
+3. The `methodSignature` only takes the argument types only - not their names
+
+4. Use `"$proof"` in the args array where the generated proof should be inserted
+
+5. Executions can also be sent without any proof i.e pure execution flows.
+</Admonition>
 
 #### Response Body (Success)
 
