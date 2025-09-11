@@ -3,48 +3,29 @@ sidebar_position: 13
 sidebar_label: 'Execute API'
 ---
 
+# Execute API Methods
 
-<Callout type="tip">
-⚡️ **Low Latency**  
-Submit any txn in milliseconds!
-</Callout>
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import Admonition from '@theme/Admonition';
 
-<Callout type="info">
-🛡️ **Single API**  
-Built-in support for Prove API polling.
-</Callout>
+### 1. Submit Execution Request
 
-<Callout type="success">
-💵 **Zero Maintenance**  
-No nonce management. Auto retries.
-</Callout>
+**Endpoint:** `api.polymer.zone/v1/`
 
-<Callout type="warning">
-🪙 **Expansion**  
-Add support for any chain in minutes.
-</Callout>
+**Method:** `POST`
 
-## End-point
+#### Request Header
 
-```json 
-POST https://api.polymer.zone/v1/
+```http title="Headers"
+Authorization: Bearer <token>
+Content-Type: application/json
+Accept: application/json
 ```
 
-### Execution Methods
+#### Request Body
 
-- `execute_request` – Request combined proof generation and execution  
-- `execute_query` – Query execution status and results
-
----
-
-## Execute Request Method
-
-The `execute_request` method combines proof generation with automated on-chain execution.  
-This method requires authentication and allows you to request cross-chain proof generation and execution in a single API call.
-
-### Request Format
-
-```json
+```json title="Request Execution payload" {6-24}
 {
   "jsonrpc": "2.0",
   "id": 1,
@@ -66,57 +47,179 @@ This method requires authentication and allows you to request cross-chain proof 
 }
 ```
 
-### Request Parameters
+#### Request Parameters
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `proofRequest` | object | *(Optional)* Proof generation parameters. Omit for pure execution flows. |
+| `executeRequest` | object | On-chain execution parameters. |
 
 **ProofRequest Object**
 
-| Field            | Type    | Description |
-|------------------|---------|-------------|
-| `srcChainId`     | integer | Source blockchain chain ID |
+| Field | Type | Description |
+| --- | --- | --- |
+| `srcChainId` | integer | Source blockchain chain ID |
 | `srcBlockNumber` | integer | Block number on source chain containing the event |
 | `globalLogIndex` | integer | Global log index of the event within the block |
 
 **ExecuteRequest Object**
 
-| Field                 | Type   | Description |
-|-----------------------|--------|-------------|
-| `destChainId`         | integer | Destination blockchain chain ID |
+| Field | Type | Description |
+| --- | --- | --- |
+| `destChainId` | integer | Destination blockchain chain ID |
 | `destContractAddress` | string | Contract address on destination chain |
-| `methodSignature`     | string | Function signature for the contract method to call |
-| `args`                | array  | Arguments for the contract method. Use `"$proof"` as placeholder for proof data |
-| `gasLimit`            | integer | Gas limit for the transaction |
+| `methodSignature` | string | Function signature for the contract method to call |
+| `args` | array | Arguments for the contract method. Use `"$proof"` as placeholder for proof data |
+| `gasLimit` | integer | Gas limit for the transaction |
 
-<Callout type="warning">
-**Important Notes**  
-1. This method requires a Bearer token in the Authorization header.  
-2. The `params` envelope wraps `proofRequest` and `executeRequest`.  
-3. `methodSignature` only includes argument types, not names.  
-4. Use `"$proof"` in the args array where the generated proof should be inserted.
-</Callout>
+#### Response Body (Success)
 
-Executions can also be sent **without any proof** (pure execution flows):
-
-```json
+```json title="Success Response" {4}
 {
   "jsonrpc": "2.0",
   "id": 1,
-  "method": "execute_request",
-  "params": [{
-    "executeRequest": {
-      "destChainId": 84532,
-      "destContractAddress": "0xdda9a457771534eDba705E1D79B1ed0f732d642E",
-      "methodSignature": "setValue(string,bytes)",
-      "args": ["tester", "0x1234"],
-      "gasLimit": 1000000
-    }
-  }]
+  "result": { "jobId": 12345 }
 }
 ```
 
-**Returns / Response**
+#### Response Fields
 
-```json
-{ "jobId": 12345 }
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `jobId` | integer | Unique identifier for the execution job |
+
+### 2. Query Execution Status
+
+**Endpoint:** `api.polymer.zone/v1/`
+
+**Method:** `POST`
+
+#### Request Body
+
+```json title="Query Execution Status"
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "execute_query",
+  "params": [12345]
+}
 ```
 
-Poll `execute
+#### Response Body (Success)
+
+```json title="Complete Execution Response" {5-22}
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "status": "success",
+    "callData": "NDP6JwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA...",
+    "jobID": 42464,
+    "proofJobID": 210158,
+    "transactionHash": "0x54387e7295bbb9c7eda3b060036850423873c51f133421bdc277e835c537b05c",
+    "proofGenerationTime": 938,
+    "executionTime": 4185,
+    "gasSpent": 1435290000000,
+    "executionStatus": "success",
+    "transactionCreatedAt": 1757344135664,
+    "createdAt": 1757344133877,
+    "proofGeneratedAt": 1757344134815,
+    "blockNumber": 377023806,
+    "destChainId": 819,
+    "destContractAddress": "0x7b278614d688931D1b1F28CE04aC078Eba05dCf0"
+  }
+}
+```
+
+#### Response Fields
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `status` | string | Current status of the execution job |
+| `callData` | string | Base64 encoded call data for contract execution |
+| `jobID` | integer | Unique identifier for the execution job |
+| `proofJobID` | integer | ID of the associated proof generation job |
+| `transactionHash` | string | Blockchain transaction hash |
+| `proofGenerationTime` | integer | Time taken to generate proof in milliseconds |
+| `executionTime` | integer | Total time taken for execution in milliseconds |
+| `gasSpent` | integer | Gas units consumed by the transaction |
+| `executionStatus` | string | Status of the blockchain execution |
+| `blockNumber` | integer | Blockchain block number where execution occurred |
+| `destChainId` | integer | Destination chain ID for cross-chain execution |
+| `destContractAddress` | string | Target contract address for execution |
+
+<Admonition type="tip">
+**Pure Execution Flow**: You can omit `proofRequest` entirely if you only need on-chain execution without proof generation.
+</Admonition>
+
+## Usage Example
+
+```javascript title="Complete Execution Flow" {2,6-24,29,33,34,38}
+const response = await axios.post(
+  "https://api.polymer.zone/v1/",
+  {
+    jsonrpc: "2.0",
+    id: 1,
+    method: "execute_request",
+    params": [{
+      proofRequest: {
+        srcChainId: 11155420,
+        srcBlockNumber: 29540611,
+        globalLogIndex: 5
+      },
+      executeRequest: {
+        destChainId: 84532,
+        destContractAddress: "0xdda9a457771534eDba705E1D79B1ed0f732d642E",
+        methodSignature: "setValueFromSource(string,bytes,bytes)",
+        args: ["tester", "0x1234", "$proof"],
+        gasLimit: 1000000
+      }
+    }]
+  },
+  {
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  }
+);
+
+const jobId = response.data.result.jobId;
+console.log(`Execution Job ID: ${jobId}`);
+
+// Poll for execution completion
+let executionResponse;
+let attempts = 0;
+const maxAttempts = 30;
+
+while (!executionResponse?.data?.result?.transactionHash && attempts < maxAttempts) {
+  await new Promise(resolve => setTimeout(resolve, 3000)); // Wait 3 seconds
+  
+  executionResponse = await axios.post(
+    "https://api.polymer.zone/v1/",
+    {
+      jsonrpc: "2.0",
+      id: 1,
+      method: "execute_query",
+      params: [jobId]
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+  
+  attempts++;
+}
+
+if (executionResponse?.data?.result?.transactionHash) {
+  console.log("Execution completed!");
+  console.log(`Transaction Hash: ${executionResponse.data.result.transactionHash}`);
+  console.log(`Gas Spent: ${executionResponse.data.result.gasSpent}`);
+} else {
+  console.error("Execution timeout or failed");
+}
+```
