@@ -55,6 +55,9 @@ import Admonition from '@theme/Admonition';
   </div>
 </div>
 ```
+<Admonition type="caution">
+Execute API is currently only available to Polymer partners.
+</Admonition>
 
 ### 1. Submit Execution Request
 
@@ -211,6 +214,10 @@ Accept: application/json
 <Admonition type="tip">
 **Pure Execution Flow**: You can omit `proofRequest` entirely if you only need on-chain execution without proof generation.
 </Admonition>
+
+## Partner Onboarding
+Polymer spins up a dedicated wallet for each partner API key.
+Partners must keep this wallet funded on every chain they plan to execute transactions on.
 
 ## Usage Example
 
