@@ -1,0 +1,122 @@
+---
+sidebar_position: 13
+sidebar_label: 'Execute API'
+---
+
+
+<Callout type="tip">
+⚡️ **Low Latency**  
+Submit any txn in milliseconds!
+</Callout>
+
+<Callout type="info">
+🛡️ **Single API**  
+Built-in support for Prove API polling.
+</Callout>
+
+<Callout type="success">
+💵 **Zero Maintenance**  
+No nonce management. Auto retries.
+</Callout>
+
+<Callout type="warning">
+🪙 **Expansion**  
+Add support for any chain in minutes.
+</Callout>
+
+## End-point
+
+```json 
+POST https://api.polymer.zone/v1/
+```
+
+### Execution Methods
+
+- `execute_request` – Request combined proof generation and execution  
+- `execute_query` – Query execution status and results
+
+---
+
+## Execute Request Method
+
+The `execute_request` method combines proof generation with automated on-chain execution.  
+This method requires authentication and allows you to request cross-chain proof generation and execution in a single API call.
+
+### Request Format
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "execute_request",
+  "params": [{
+    "proofRequest": {
+      "srcChainId": 11155420,
+      "srcBlockNumber": 29540611,
+      "globalLogIndex": 5
+    },
+    "executeRequest": {
+      "destChainId": 84532,
+      "destContractAddress": "0xdda9a457771534eDba705E1D79B1ed0f732d642E",
+      "methodSignature": "setValueFromSource(string,bytes,bytes)",
+      "args": ["tester", "0x1234", "$proof"],
+      "gasLimit": 1000000
+    }
+  }]
+}
+```
+
+### Request Parameters
+
+**ProofRequest Object**
+
+| Field            | Type    | Description |
+|------------------|---------|-------------|
+| `srcChainId`     | integer | Source blockchain chain ID |
+| `srcBlockNumber` | integer | Block number on source chain containing the event |
+| `globalLogIndex` | integer | Global log index of the event within the block |
+
+**ExecuteRequest Object**
+
+| Field                 | Type   | Description |
+|-----------------------|--------|-------------|
+| `destChainId`         | integer | Destination blockchain chain ID |
+| `destContractAddress` | string | Contract address on destination chain |
+| `methodSignature`     | string | Function signature for the contract method to call |
+| `args`                | array  | Arguments for the contract method. Use `"$proof"` as placeholder for proof data |
+| `gasLimit`            | integer | Gas limit for the transaction |
+
+<Callout type="warning">
+**Important Notes**  
+1. This method requires a Bearer token in the Authorization header.  
+2. The `params` envelope wraps `proofRequest` and `executeRequest`.  
+3. `methodSignature` only includes argument types, not names.  
+4. Use `"$proof"` in the args array where the generated proof should be inserted.
+</Callout>
+
+Executions can also be sent **without any proof** (pure execution flows):
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "execute_request",
+  "params": [{
+    "executeRequest": {
+      "destChainId": 84532,
+      "destContractAddress": "0xdda9a457771534eDba705E1D79B1ed0f732d642E",
+      "methodSignature": "setValue(string,bytes)",
+      "args": ["tester", "0x1234"],
+      "gasLimit": 1000000
+    }
+  }]
+}
+```
+
+**Returns / Response**
+
+```json
+{ "jobId": 12345 }
+```
+
+Poll `execute
