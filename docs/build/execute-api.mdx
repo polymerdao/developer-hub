@@ -10,54 +10,15 @@ import Admonition from '@theme/Admonition';
 
 # Execute API Methods
 
-<div className="container">
-  <div className="row">
-    <div className="col col--3">
-      <div className="card">
-        <div className="card__header">
-          <h4>⚡️ Low Latency</h4>
-        </div>
-        <div className="card__body">
-          Submit any txn in milliseconds!
-        </div>
-      </div>
-    </div>
-    <div className="col col--3">
-      <div className="card">
-        <div className="card__header">
-          <h4>🛡️ Single API</h4>
-        </div>
-        <div className="card__body">
-          Built-in support for Prove API polling.
-        </div>
-      </div>
-    </div>
-    <div className="col col--3">
-      <div className="card">
-        <div className="card__header">
-          <h4>💵 Zero Maintenance</h4>
-        </div>
-        <div className="card__body">
-          No nonce management. Auto retries.
-        </div>
-      </div>
-    </div>
-    <div className="col col--3">
-      <div className="card">
-        <div className="card__header">
-          <h4>🪙 Expansion</h4>
-        </div>
-        <div className="card__body">
-          Add support for any chain in minutes.
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<Admonition type="info">
 
+- Millisecond tx submission
 
-<Admonition type="caution">
-Execute API is currently only available to Polymer partners.
+- One call—proof + execution
+
+- No nonces, auto-retry
+
+- New chain: minutes to add
 </Admonition>
 
 ### 1. Submit Execution Request
@@ -217,6 +178,11 @@ Accept: application/json
 </Admonition>
 
 ## Partner Onboarding
+
+<Admonition type="caution">
+Execute API is currently only available to Polymer partners.
+</Admonition>
+
 Polymer spins up a dedicated wallet for each partner API key.
 Partners must keep this wallet funded on every chain they plan to execute transactions on.
 
