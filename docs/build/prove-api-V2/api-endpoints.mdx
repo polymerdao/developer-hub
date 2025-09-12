@@ -113,7 +113,7 @@ To query the status of a proof job, use the `proof_query` method:
 
 ```javascript title="Complete API Flow" {2,6-10,15,34,38,39,43}
 const response = await axios.post(
-  "https://api.polymer.zone/v1//",
+  "https://api.polymer.zone/v1/",
   {
     jsonrpc: "2.0",
     id: 1,
@@ -145,7 +145,7 @@ while (!proofResponse?.data?.result?.proof && attempts < maxAttempts) {
   await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds
   
   proofResponse = await axios.post(
-    "https://api.polymer.zone/v1//",
+    "https://api.polymer.zone/v1/",
     {
       jsonrpc: "2.0",
       id: 1,
