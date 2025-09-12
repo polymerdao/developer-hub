@@ -9,10 +9,10 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Admonition from '@theme/Admonition';
 
-This section outlines the error handling behavior of the proof generation API, specifically for the `polymer_requestProof` and `polymer_queryProof` methods. It details common validation errors, their error codes, messages, and failure reasons.
+This section outlines the error handling behavior of the proof generation API, specifically for the `proof_request` and `proof_query` methods. It details common validation errors, their error codes, messages, and failure reasons.
 
 <Admonition type="info">
-**API Methods Covered**: `polymer_requestProof` (requests proof generation) and `polymer_queryProof` (queries proof status by job ID)
+**API Methods Covered**: `proof_request` (requests proof generation) and `proof_query` (queries proof status by job ID)
 </Admonition>
 
 ## General Error Format
@@ -30,7 +30,7 @@ Errors are returned in the JSON-RPC 2.0 format:
 }
 ```
 
-For successful requests that later fail during processing, the error details are provided in the result field of the `polymer_queryProof` response:
+For successful requests that later fail during processing, the error details are provided in the result field of the `proof_query` response:
 
 ```json title="Failed Job Response" {4,6}
 {
@@ -55,7 +55,7 @@ For successful requests that later fail during processing, the error details are
 ## Polling Behavior
 
 <Admonition type="warning">
-**Polling Duration**: Proof status is polled for 20 seconds after a `polymer_requestProof` call returns a job ID.
+**Polling Duration**: Proof status is polled for 20 seconds after a `proof_request` call returns a job ID.
 </Admonition>
 
 - **Success Case**: Status will be `"completed"` when proof generation succeeds
@@ -69,7 +69,7 @@ For successful requests that later fail during processing, the error details are
 
 1. **Pre-Validate Inputs** - Check `chainId` against supported chains, ensure `blockNumber` is not in the future, verify `globalLogIndex` against block data
 
-2. **Handle Job IDs** - Store the result (job ID) from `polymer_requestProof`, poll `polymer_queryProof` to monitor status
+2. **Handle Job IDs** - Store the result (job ID) from `proof_request`, poll `proof_query` to monitor status
 
 3. **Graceful Error Recovery** - Retry requests for future blocks once they are mined, adjust invalid indices based on chain data
 
@@ -87,7 +87,7 @@ For successful requests that later fail during processing, the error details are
 {
   "jsonrpc": "2.0",
   "id": 1,
-  "method": "polymer_requestProof",
+  "method": "proof_request",
   "params": [{
     "srcChainId": 123456789,
     "srcBlockNumber": 12345,
@@ -128,7 +128,7 @@ For successful requests that later fail during processing, the error details are
 {
   "jsonrpc": "2.0",
   "id": 1,
-  "method": "polymer_requestProof",
+  "method": "proof_request",
   "params": [{
     "srcChainId": 84532,
     "srcBlockNumber": 21927382,
@@ -153,7 +153,7 @@ For successful requests that later fail during processing, the error details are
 {
   "jsonrpc": "2.0",
   "id": 1,
-  "method": "polymer_queryProof",
+  "method": "proof_query",
   "params": [15327]
 }
 ```
@@ -193,7 +193,7 @@ For successful requests that later fail during processing, the error details are
 {
   "jsonrpc": "2.0",
   "id": 1,
-  "method": "polymer_requestProof",
+  "method": "proof_request",
   "params": [{
     "srcChainId": 84532,
     "srcBlockNumber": 21926372,
@@ -246,7 +246,7 @@ async function requestProofWithErrorHandling(chainId, blockNumber, globalLogInde
     const response = await axios.post(API_ENDPOINT, {
       jsonrpc: "2.0",
       id: 1,
-      method: "polymer_requestProof",
+      method: "proof_request",
       params: [{
         srcChainId: chainId,
         srcBlockNumber: blockNumber,
@@ -272,7 +272,7 @@ async function requestProofWithErrorHandling(chainId, blockNumber, globalLogInde
       const statusResponse = await axios.post(API_ENDPOINT, {
         jsonrpc: "2.0",
         id: 1,
-        method: "polymer_queryProof",
+        method: "proof_query",
         params: [jobId]
       });
 

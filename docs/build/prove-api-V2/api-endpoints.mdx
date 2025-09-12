@@ -11,7 +11,7 @@ import Admonition from '@theme/Admonition';
 
 ### 1. Request Log Proof
 
-**Endpoint:** `proof.testnet.polymer.zone`
+**Endpoint:** `api.polymer.zone/v1/`
 
 **Method:** `POST`
 
@@ -29,7 +29,7 @@ Accept: application/json
 {
   "jsonrpc": "2.0",
   "id": 1,
-  "method": "polymer_requestProof",
+  "method": "proof_request",
   "params": [{
     "srcChainId": 11155420,
     "srcBlockNumber": 26421705,
@@ -68,19 +68,19 @@ The response contains a jobID that uniquely identifies your request.
 
 ### 2. Query Proof Status
 
-**Endpoint:** `proof.testnet.polymer.zone`
+**Endpoint:** `api.polymer.zone/v1/`
 
 **Method:** `POST`
 
 #### Request Body
 
-To query the status of a proof job, use the `polymer_queryProof` method:
+To query the status of a proof job, use the `proof_query` method:
 
 ```json title="Query Proof Status"
 {
   "jsonrpc": "2.0",
   "id": 1,
-  "method": "polymer_queryProof",
+  "method": "proof_query",
   "params": ["jobID"]
 }
 ```
@@ -113,11 +113,11 @@ To query the status of a proof job, use the `polymer_queryProof` method:
 
 ```javascript title="Complete API Flow" {2,6-10,15,34,38,39,43}
 const response = await axios.post(
-  "https://proof.testnet.polymer.zone/",
+  "https://api.polymer.zone/v1//",
   {
     jsonrpc: "2.0",
     id: 1,
-    method: "polymer_requestProof",
+    method: "proof_request",
     params: [{
       srcChainId: 11155420,
       srcBlockNumber: 26421705,
@@ -145,11 +145,11 @@ while (!proofResponse?.data?.result?.proof && attempts < maxAttempts) {
   await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds
   
   proofResponse = await axios.post(
-    "https://proof.testnet.polymer.zone/",
+    "https://api.polymer.zone/v1//",
     {
       jsonrpc: "2.0",
       id: 1,
-      method: "polymer_queryProof",
+      method: "proof_query",
       params: [jobId]
     },
     {

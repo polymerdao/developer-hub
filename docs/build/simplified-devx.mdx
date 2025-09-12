@@ -49,7 +49,7 @@ Polymer's cross-chain proof system works in just 4 steps. Here are code snippets
     // Sending a proof request for a given event
     const proofRequest = await axios.post(POLYMER_API_URL, {
         jsonrpc: "2.0",
-        method: "polymer_requestProof",
+        method: "proof_request",
         params: [{
             "srcChainId": 11155420,
             "srcBlockNumber": 26421705,
@@ -61,7 +61,7 @@ Polymer's cross-chain proof system works in just 4 steps. Here are code snippets
     while (!proofResponse?.data?.result?.proof && attempts < maxAttempts) {
         proofResponse = await axios.post(POLYMER_API_URL, {
             jsonrpc: "2.0",
-            method: "polymer_queryProof",
+            method: "proof_query",
             params: [jobId]
         });
     }
