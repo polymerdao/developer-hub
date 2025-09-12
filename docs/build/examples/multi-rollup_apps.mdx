@@ -175,7 +175,7 @@ class ProofGenerator {
                 {
                     jsonrpc: "2.0",
                     id: 1,
-                    method: "polymer_requestProof",
+                    method: "proof_request",
                     params: [{
                         srcChainId: eventParams.srcChainId,
                         srcBlockNumber: eventParams.srcBlockNumber,
@@ -204,7 +204,7 @@ class ProofGenerator {
 
 // Usage example
 const proofGenerator = new ProofGenerator(
-    "https://proof.testnet.polymer.zone", 
+    "api.testnet.polymer.zone/v1/", 
     process.env.POLYMER_API_KEY
 );
 
@@ -237,7 +237,7 @@ class ProofPolling {
                     {
                         jsonrpc: "2.0",
                         id: 1,
-                        method: "polymer_queryProof",
+                        method: "proof_query",
                         params: [jobId]
                     },
                     {
@@ -276,7 +276,7 @@ class ProofPolling {
 
 // Usage example
 const polling = new ProofPolling(
-    "https://proof.testnet.polymer.zone", 
+    "api.testnet.polymer.zone/v1/", 
     process.env.POLYMER_API_KEY
 );
 
