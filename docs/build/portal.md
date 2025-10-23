@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-sidebar_label: 'Get API Key'
+sidebar_label: 'Onboard Account'
 ---
 
 # Get your API key & credits
