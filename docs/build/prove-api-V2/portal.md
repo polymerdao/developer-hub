@@ -23,11 +23,17 @@ sidebar_label: 'Get API Key'
 
 
 ### How credits are spent
+Mainnet
+- **Prove API** -> Only the `proof_request` call costs credits; `proof_query` does not cost credits.
+- **Execute API** -> Only the `execute_request` call costs credits; `execute_query` does not cost credits.
 
-- One credit ≠ one proof.
-- Only the `proof_request` call costs credits; `proof_query` is free.
-- Testnet is **completely free**—no purchase required—and uses its own Testnet-API key (visible in the testnet toggle).
-- Mainnet credits are consumed at a customer-specific rate. Reach out to us before scaling so we can set (or adjust) your credits-per-proof ratio.
+Testnet
+- Credits are not required for Testnet and uses its own Testnet-API key (visible in the testnet toggle).
+
+### Pricing
+- $0.01 per credit
+- **Prove API** -> One credit = one proof
+- **Execute API** -> Credit rate may vary based on usecase. Reach out to us to learn more.
 
 ## 3. Make your first request
 
