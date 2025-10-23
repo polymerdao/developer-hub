@@ -10,7 +10,7 @@ sidebar_label: 'Onboard Account'
 <img width="3096" height="2178" alt="Accounts Image (1)" src="https://github.com/user-attachments/assets/052c4949-0d78-4ee5-94a4-9c8906d21f58" />
 
 - Go to Polymer Portal: [accounts.polymerlabs.org](https://accounts.polymerlabs.org/)
-- Sign in with Google — **we only support Google OAuth at this time**. (We currently support only one Google identity per developer/org.)
+- Sign in with Google — **we only support Google OAuth at this time**.
 - The portal instantly creates your personal API key and drops you on the dashboard (Mainnet / Testnet toggle, 0 credits).
 
 ## 2. Buy credits
