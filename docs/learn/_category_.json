@@ -1,9 +1,0 @@
-{
-    "label" : "Learn",
-    "position" : 1,
-    "collapsed": false,
-    "link" : {
-        "type" : "generated-index",
-        "description" : "Learn the fundamental concepts behind Polymer"
-    }
-}
