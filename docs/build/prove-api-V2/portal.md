@@ -31,7 +31,7 @@ Testnet
 - Credits are not required for Testnet and uses its own Testnet-API key (visible in the testnet toggle).
 
 ### Pricing
-- $.01 per credit
+- $0.01 per credit
 - **Prove API** -> One credit = one proof
 - **Execute API** -> Credit rate may vary based on usecase. Reach out to us to learn more.
 
