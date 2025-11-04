@@ -1,7 +1,9 @@
 ---
 sidebar_position: 4
-sidebar_label: 'Health API'
+sidebar_label: 'Check Polymer Health'
 ---
+
+# Polymer Chain Health Endpoint 
 
 **Endpoint:** `https://api.polymer.zone/v1`
 
