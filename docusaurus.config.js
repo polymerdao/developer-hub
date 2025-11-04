@@ -76,13 +76,7 @@ const config = {
             sidebarId: 'buildSidebar', 
             label : 'Build', 
             position: 'left'
-          }, 
-          {
-            type: "docSidebar",
-            sidebarId: "learnSidebar",
-            label : 'Learn', 
-            position: 'left'
-          },      
+          },       
           {
             href: 'https://github.com/polymerdao',
             // label: 'GitHub',
@@ -103,10 +97,6 @@ const config = {
               {
                 label: 'Build',
                 href: 'https://docs.polymerlabs.org/docs/build/start',
-              },
-              {
-                label: 'Learn',
-                href: 'https://docs.polymerlabs.org/docs/learn/intro',
               },
             ],
           },
