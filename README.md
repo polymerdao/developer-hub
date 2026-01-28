@@ -1,6 +1,6 @@
 # Website
 
-This website is built using [Docusaurus 3](https://docusaurus.io/), a modern static website generator. For the deployed version, visit the [Polymer docs](https://docs.polymerlabs.org).
+This website is built using [Docusaurus 3](https://docusaurus.io/), a modern, static website generator. For the deployed version, visit the [Polymer docs](https://docs.polymerlabs.org).
 
 ### Installation
 > Note: in the below commands you can also use other _npm_ compatible package managers instead of yarn.
