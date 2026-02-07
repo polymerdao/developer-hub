@@ -12,7 +12,7 @@ import TabItem from '@theme/TabItem';
 import Admonition from '@theme/Admonition';
 
 <Admonition type="info">
-This guide explains how to interpret and decode the returns from the `CrossL2ProverV2` contract, using a practical [multi-rollup example](https://docs.polymerlabs.org/docs/build/examples/multi-rollup_apps) to demonstrate the complete process.
+This guide explains how to interpret and decode the returns from the `CrossL2ProverV2` contract, using a practical [multi-rollup example](https://docs.polymerlabs.org/docs/build/why%20polymer/examples/multi-rollup_apps) to demonstrate the complete process.
 </Admonition>
 
 ## Overview
@@ -115,13 +115,28 @@ First, validate the proof and extract the basic return values:
 - `topics`: Concatenated event topics (requires parsing)
 - `unindexedData`: ABI-encoded parameters (requires decoding)
 
-### 2. Topics Array Parsing
+### 2. Topics Length Check
+The `topics` length must be checked against the expected length.
+
+```solidity
+require(
+    topics_from_proof.length == EXPECTED_LENGTH,
+    "Topics length does not match expected length"
+);
+```
+
+<Admonition type="warning">
+**Critical Security Check**: This ensures that the length of the topics has not been tampered with.
+</Admonition>
+
+
+### 3. Topics Array Parsing
 
 The `topics` bytes must be parsed into individual `bytes32` values:
 
 ```solidity title="Topics Parsing" {4,7}
 bytes32[] memory topicsArray = new bytes32[](3);
-require(topics.length >= 96, "Invalid topics length"); // 3 * 32 bytes
+require(topics.length == 96, "Invalid topics length"); // 3 * 32 bytes
 
 assembly {
     let topicsPtr := add(topics, 32)  // Skip length prefix
@@ -139,7 +154,7 @@ assembly {
 - `topicsArray[1]`: Indexed sender address (padded to 32 bytes)  
 - `topicsArray[2]`: Indexed hashedKey
 
-### 3. Event Signature Verification
+### 4. Event Signature Verification
 
 Always verify the event signature for security:
 
@@ -152,7 +167,7 @@ require(topicsArray[0] == expectedSelector, "Invalid event signature");
 **Critical Security Check**: This ensures only `ValueSet` events are processed and prevents attacks from similar events with different parameter types.
 </Admonition>
 
-### 4. Extract Indexed Parameters
+### 5. Extract Indexed Parameters
 
 Convert the indexed parameters from the topics:
 
@@ -165,7 +180,7 @@ bytes32 hashedKey = topicsArray[2];
 - `sender`: `bytes32` → `uint256` → `uint160` → `address`
 - `hashedKey`: Direct use (already `bytes32`)
 
-### 5. Decode Non-Indexed Parameters
+### 6. Decode Non-Indexed Parameters
 
 Extract the remaining parameters from the ABI-encoded data:
 
@@ -187,7 +202,7 @@ Extract the remaining parameters from the ABI-encoded data:
 - `nonce`: For replay protection
 - `version`: For version control
 
-### 6. Implement Replay Protection
+### 7. Implement Replay Protection
 
 Prevent the same event from being processed multiple times:
 
