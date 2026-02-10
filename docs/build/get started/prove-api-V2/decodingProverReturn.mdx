@@ -94,7 +94,7 @@ event ValueSet(
 **Topic Distribution**: `topics[0]` contains the event signature hash, `topics[1-2]` contain indexed parameters, and non-indexed parameters are ABI-encoded in `unindexedData`.
 </Admonition>
 
-## Step-by-Step Decoding Process
+## Step-by-Step Decoding & Validation Process
 
 ### 1. Initial Proof Validation
 
@@ -115,22 +115,35 @@ First, validate the proof and extract the basic return values:
 - `topics`: Concatenated event topics (requires parsing)
 - `unindexedData`: ABI-encoded parameters (requires decoding)
 
-### 2. Emitting Contract Address Validation
+### 2. Source Chain ID Validation
+
+Validate that the event originated from an expected source chain:
+
+```solidity title="Source Chain Validation"
+require(allowedSourceChains[sourceChainId], "Invalid source chain");
+```
+
+<Admonition type="warning">
+**Critical Security Check**: This ensures the event came from an authorized chain. If skipped, an event emitted on a different chain can be used to spoof the intended chain.
+</Admonition>
+
+### 3. Source Emitting Contract Validation
 
 Validate that the event was emitted by the expected contract:
 
 ```solidity
 if(sourceContract != expectedSourceContract){
-    revert invalidEmittingAddress(); 
+    revert invalidEmittingAddress();
 }
 )c;
 ```
 
 <Admonition type="warning">
-**Critical Security Check**: This ensures that the event originated from a trusted contract and not from an arbitrary contract on the source chain that can be deployed by anyone.
+**Critical Security Check**: This ensures that the event originated from a trusted contract and not from an arbitrary contract on the source chain that can be deployed by anyone. If skipped, a malicious contract on an allowed source chain can spoof events with arbitrary data.
 </Admonition>
 
-### 3. Topics Length Validation
+### 4. Topics Length Validation
+
 The `topics` length must be checked against the expected length.
 
 ```solidity
@@ -141,15 +154,15 @@ require(
 ```
 
 <Admonition type="warning">
-**Critical Security Check**: This validates that the topics length matches what is expected for the event being decoded.
+**Critical Security Check**: This validates that the topics length matches what is expected for the event being decoded. If this validation is skipped, arbitrary length topic arrays can be passed in and impact parsing of unindexed data.
 </Admonition>
 
+### 5. Event Signature Validation
 
-### 4. Topics Array Parsing
+Parse the `topics` bytes into individual `bytes32` values and verify the event signature:
 
-The `topics` bytes must be parsed into individual `bytes32` values:
-
-```solidity title="Topics Parsing" {4,7}
+```solidity title="Topics Parsing & Signature Verification"
+// Parse topics into bytes32 array
 bytes32[] memory topicsArray = new bytes32[](3);
 require(topics.length == 96, "Invalid topics length"); // 3 * 32 bytes
 
@@ -162,40 +175,39 @@ assembly {
         )
     }
 }
-```
 
-**Result:**
-- `topicsArray[0]`: Event signature hash
-- `topicsArray[1]`: Indexed sender address (padded to 32 bytes)  
-- `topicsArray[2]`: Indexed hashedKey
-
-### 5. Event Signature Verification
-
-Always verify the event signature for security:
-
-```solidity title="Signature Verification"
+// Verify event signature
 bytes32 expectedSelector = keccak256("ValueSet(address,string,bytes,uint256,bytes32,uint256)");
 require(topicsArray[0] == expectedSelector, "Invalid event signature");
 ```
 
 <Admonition type="warning">
-**Critical Security Check**: This ensures only `ValueSet` events are processed and prevents attacks from similar events with different parameter types.
+**Critical Security Check**: This ensures only `ValueSet` events are processed and prevents attacks from similar events with different parameter types. If skipped, events with different parameter types incorrectly processed, leading to corrupted event data.
 </Admonition>
 
-### 6. Extract Indexed Parameters
+### 6. Topics Array — Indexed Data Extraction
 
-Convert the indexed parameters from the topics:
+Using the `topicsArray` parsed in the previous step, extract the indexed parameters:
 
 ```solidity title="Indexed Parameters"
 address sender = address(uint160(uint256(topicsArray[1])));
 bytes32 hashedKey = topicsArray[2];
 ```
 
+**Result:**
+- `topicsArray[0]`: Event signature hash (validated in step 5)
+- `topicsArray[1]`: Indexed sender address (padded to 32 bytes)
+- `topicsArray[2]`: Indexed hashedKey
+
 **Conversion Logic:**
 - `sender`: `bytes32` → `uint256` → `uint160` → `address`
 - `hashedKey`: Direct use (already `bytes32`)
 
-### 7. Decode Non-Indexed Parameters
+<Admonition type="warning">
+**Important**: If skipped, indexed event parameters won't be available for processing.
+</Admonition>
+
+### 7. Decode Non-Indexed Event Data
 
 Extract the remaining parameters from the ABI-encoded data:
 
@@ -217,7 +229,11 @@ Extract the remaining parameters from the ABI-encoded data:
 - `nonce`: For replay protection
 - `version`: For version control
 
-### 8. Implement Replay Protection
+<Admonition type="warning">
+**Important**: If skipped, non-indexed event parameters won't be available for processing.
+</Admonition>
+
+### 8. Implement Replay Protection at App Level
 
 Prevent the same event from being processed multiple times:
 
@@ -231,7 +247,7 @@ usedUniqueHashes[uniqueHash] = true;
 ```
 
 <Admonition type="warning">
-**Critical Security**: Applications should implement replay protection using data from their event directly to prevent duplicate processing of the same cross-chain event.
+**Critical Security Check**: Applications should implement replay protection using data from their event directly to prevent duplicate processing of the same cross-chain event. If skipped, the same cross-chain event could be processed infinitely many times, leading to double-spending or duplicate state changes.
 </Admonition>
 
 ## Common Pitfalls & Solutions
@@ -354,55 +370,58 @@ usedUniqueHashes[uniqueHash] = true;
 
 ## Complete Implementation Example
 
-```solidity title="Full Implementation" {2,10,18,25,29,33,41}
+```solidity title="Full Implementation" {2,10,13,16,19,25,33,37,41,49}
 function setValueFromSource(bytes calldata proof) external {
     // 1. Validate the proof
     (
         uint32 sourceChainId,
-        address sourceContract,  
+        address sourceContract,
         bytes memory topics,
         bytes memory unindexedData
     ) = polymerProver.validateEvent(proof);
-    
-    // 2. Security validations
+
+    // 2. Source chain ID validation
     require(allowedSourceChains[sourceChainId], "Invalid source chain");
+
+    // 3. Source emitting contract validation
     require(authorizedContracts[sourceChainId][sourceContract], "Unauthorized contract");
-    
-    // 3. Parse topics
-    bytes32[] memory topicsArray = new bytes32[](3);
+
+    // 4. Topics length validation
     require(topics.length == 96, "Invalid topics length");
-    
+
+    // 5. Event signature validation (includes topics parsing)
+    bytes32[] memory topicsArray = new bytes32[](3);
+
     assembly {
         let topicsPtr := add(topics, 32)
         mstore(add(topicsArray, 32), mload(topicsPtr))
         mstore(add(topicsArray, 64), mload(add(topicsPtr, 32)))
         mstore(add(topicsArray, 96), mload(add(topicsPtr, 64)))
     }
-    
-    // 4. Verify event signature
+
     bytes32 expectedSelector = keccak256("ValueSet(address,string,bytes,uint256,bytes32,uint256)");
     require(topicsArray[0] == expectedSelector, "Invalid event signature");
-    
-    // 5. Extract indexed parameters
+
+    // 6. Extract indexed parameters from topics array
     address sender = address(uint160(uint256(topicsArray[1])));
     bytes32 hashedKey = topicsArray[2];
-    
-    // 6. Decode non-indexed parameters
+
+    // 7. Decode non-indexed event data
     (
         ,                       // skip key
         bytes memory value,
         uint256 nonce,
         uint256 version
     ) = abi.decode(unindexedData, (string, bytes, uint256, uint256));
-    
-    // 7. Implement replay protection
+
+    // 8. Implement replay protection at app level
     bytes32 uniqueHash = keccak256(
         abi.encodePacked(sourceChainId, sourceContract, hashedKey, nonce)
     );
     require(!usedUniqueHashes[uniqueHash], "hashKey already used");
     usedUniqueHashes[uniqueHash] = true;
-    
-    // 8. Process the validated data
+
+    // Process the validated data
     _processValidatedData(sender, hashedKey, value, nonce, version);
 }
 ```
