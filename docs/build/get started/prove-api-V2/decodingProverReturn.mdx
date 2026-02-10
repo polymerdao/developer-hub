@@ -115,7 +115,22 @@ First, validate the proof and extract the basic return values:
 - `topics`: Concatenated event topics (requires parsing)
 - `unindexedData`: ABI-encoded parameters (requires decoding)
 
-### 2. Topics Length Check
+### 2. Emitting Contract Address Validation
+
+Validate that the event was emitted by the expected contract:
+
+```solidity
+if(sourceContract != expectedSourceContract){
+    revert invalidEmittingAddress(); 
+}
+)c;
+```
+
+<Admonition type="warning">
+**Critical Security Check**: This ensures that the event originated from a trusted contract and not from an arbitrary contract on the source chain that can be deployed by anyone.
+</Admonition>
+
+### 3. Topics Length Validation
 The `topics` length must be checked against the expected length.
 
 ```solidity
@@ -126,11 +141,11 @@ require(
 ```
 
 <Admonition type="warning">
-**Critical Security Check**: This ensures that the length of the topics has not been tampered with.
+**Critical Security Check**: This validates that the topics length matches what is expected for the event being decoded.
 </Admonition>
 
 
-### 3. Topics Array Parsing
+### 4. Topics Array Parsing
 
 The `topics` bytes must be parsed into individual `bytes32` values:
 
@@ -154,7 +169,7 @@ assembly {
 - `topicsArray[1]`: Indexed sender address (padded to 32 bytes)  
 - `topicsArray[2]`: Indexed hashedKey
 
-### 4. Event Signature Verification
+### 5. Event Signature Verification
 
 Always verify the event signature for security:
 
@@ -167,7 +182,7 @@ require(topicsArray[0] == expectedSelector, "Invalid event signature");
 **Critical Security Check**: This ensures only `ValueSet` events are processed and prevents attacks from similar events with different parameter types.
 </Admonition>
 
-### 5. Extract Indexed Parameters
+### 6. Extract Indexed Parameters
 
 Convert the indexed parameters from the topics:
 
@@ -180,7 +195,7 @@ bytes32 hashedKey = topicsArray[2];
 - `sender`: `bytes32` → `uint256` → `uint160` → `address`
 - `hashedKey`: Direct use (already `bytes32`)
 
-### 6. Decode Non-Indexed Parameters
+### 7. Decode Non-Indexed Parameters
 
 Extract the remaining parameters from the ABI-encoded data:
 
@@ -202,7 +217,7 @@ Extract the remaining parameters from the ABI-encoded data:
 - `nonce`: For replay protection
 - `version`: For version control
 
-### 7. Implement Replay Protection
+### 8. Implement Replay Protection
 
 Prevent the same event from being processed multiple times:
 
