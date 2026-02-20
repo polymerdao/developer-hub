@@ -3,7 +3,114 @@ sidebar_position: 14
 sidebar_label: 'Release Notes'
 ---
 
-# Upcoming Release - Polymer API v1.0
+# Polymer API v2.0
+
+We're introducing **Prove API v2** with a new proof generation system and standardized proof type naming.
+
+## 🔧 New v2 API Endpoint
+
+**Base URL:** `https://api.polymer.zone/v2/`
+
+The v2 endpoint uses our next-generation proof generation system with improved performance and reliability.
+
+| **Endpoint** | **v1 Proof Type** | **v2 Proof Type** |
+| --- | --- | --- |
+| EVM proof requests | `evm_v1` | `evm_v2` |
+| Solana proof requests | `svm_v1` | `svm_v2` |
+
+### Standardized Proof Type Naming
+
+We've standardized proof type identifiers across all API versions:
+
+| **Legacy Name** | **New Name** | **Description** |
+| --- | --- | --- |
+| `log` | `evm_v1` | EVM event proofs (v1 generation) |
+| `global_log` | `evm_v1` | EVM event proofs (v1 generation) |
+| `solana` | `svm_v1` | Solana event proofs (v1 generation) |
+| *New* | `evm_v2` | EVM event proofs (v2 generation) |
+| *New* | `svm_v2` | Solana event proofs (v2 generation) |
+
+### Enhanced Response Format
+
+v2 responses include a `proofType` field indicating which proof generation version was used:
+
+```json
+{
+  "status": "complete",
+  "jobID": 12345,
+  "proofType": "evm_v2",
+  "proof": "0x...",
+  "proofRequest": { ... },
+  "createdAt": 1708300800,
+  "updatedAt": 1708300801
+}
+```
+
+## ⚠️ Breaking Changes
+
+### V2 Proofs Require V2 Contracts
+
+V2 proofs (`evm_v2`, `svm_v2`) are **only compatible with the new V2 prover contracts**. They will not work with V1 contracts. If you are using V1 contracts, continue using the `/v1/` endpoint which generates V1 proofs.
+
+| **Proof Type** | **Compatible Contracts** |
+| --- | --- |
+| `evm_v1`, `svm_v1` | V1 Prover Contracts |
+| `evm_v2`, `svm_v2` | V2 Prover Contracts only |
+
+### Removed: Receipt Index / Log Index Request Format
+
+Support for the legacy request format using `receiptIndex` and `logIndex` has been removed. All EVM proof requests must now use `globalLogIndex`:
+
+```jsx
+// ❌ No longer supported
+{
+  "srcChainId": 10,
+  "srcBlockNumber": 123456,
+  "receiptIndex": 0,
+  "logIndex": 2
+}
+
+// ✅ Use globalLogIndex instead
+{
+  "srcChainId": 10,
+  "srcBlockNumber": 123456,
+  "globalLogIndex": 5
+}
+```
+
+The `globalLogIndex` is the absolute index of the log within the entire block, not relative to a specific transaction receipt.
+
+## 🛠️ Migration Guide
+
+### For Existing Users
+
+- **v0/v1 endpoints continue to work unchanged** - no migration required
+- v0/v1 requests automatically use `evm_v1` or `svm_v1` proof types
+- Legacy proof type names (`log`, `global_log`, `solana`) are mapped to new names internally
+- If you were using `receiptIndex`/`logIndex`, you must migrate to `globalLogIndex`
+
+### For New Integrations
+
+Use the v2 endpoint to take advantage of the latest proof generation:
+
+```jsx
+const response = await fetch('https://api.polymer.zone/v2/', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    jsonrpc: "2.0",
+    method: "prove_request",
+    params: [{ srcChainId: 10, srcBlockNumber: 123456, globalLogIndex: 0 }]
+  })
+});
+```
+
+---
+
+# Polymer API v1.0
 
 We're excited to announce major enhancements to Polymer's proving infrastructure that deliver **sub-second proof latencies** and introduce **automated transaction execution** capabilities.
 
