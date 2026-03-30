@@ -6,7 +6,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Polymer Docs',
-  tagline: 'Make your contracts interopable.',
+  tagline: 'Make your contracts interoperable.',
   favicon: 'img/faviconnew.ico',
 
   // Set the production url of your site here
