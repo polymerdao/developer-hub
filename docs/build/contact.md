@@ -5,6 +5,6 @@ sidebar_label: 'Contact Us'
 
 # Contact
 
-For any mainnet inquiries contact contact us at **operations@polymerlabs.org** 
+For any mainnet inquiries contact us at **operations@polymerlabs.org** 
 
 Please include your **reason for reaching out** for us to respond.
