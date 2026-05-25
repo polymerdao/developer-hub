@@ -20,7 +20,7 @@ The critical element here is repayment. Solvers are only repaid if the user oper
 ## End-to-End Overview
 
 Applications using Openfort’s WalletSDK can abstract their application instances deployed across various chains and allow users to instantly interact with their application. 
-![image](https://github.com/user-attachments/assets/dcf2aac7-d45e-4966-84ad-5ec90cca05d7)
+![image](/img/chain-abstraction-overview.png)
 
 
 **Steps**
