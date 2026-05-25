@@ -7,7 +7,7 @@ sidebar_label: 'Onboard Account'
 
 ## 1. Log in and receive your key
 
-<img width="3096" height="2178" alt="Accounts Image (1)" src="https://github.com/user-attachments/assets/052c4949-0d78-4ee5-94a4-9c8906d21f58" />
+<img alt="Accounts Image" src="/img/portal-login.png" />
 
 - Go to Polymer Portal: [accounts.polymerlabs.org](https://accounts.polymerlabs.org/)
 - Sign in with Google — **we only support Google OAuth at this time**.
@@ -19,7 +19,7 @@ sidebar_label: 'Onboard Account'
 - Stripe checkout opens; choose any multiple of **10,000 credits**.
 - Complete the payment—credits appear in your dashboard **immediately**.
 
-<img width="3292" height="2424" alt="Accounts Image" src="https://github.com/user-attachments/assets/7b53fab9-b3c5-486c-8a17-4bc62f0f6190" />
+<img alt="Accounts Credits" src="/img/portal-credits.png" />
 
 
 ### How credits are spent
