@@ -76,7 +76,7 @@ const addPriorityFee = anchor.web3.ComputeBudgetProgram.setComputeUnitPrice({
 
 | Common Errors | Description | Resolution |
 | --- | --- | --- |
-| `Exceeded compute units` | Not enough compute budget | Increase compute unit limit to at least 1.4M |
+| `Exceeded compute units` | Not enough compute budget | Set compute unit limit to 1.4M (Solana's per-transaction maximum) |
 | `Account not initialized` | Cache account doesn't exist | Call load_proof first to create it |
 | `AccountDiscriminatorMismatch` | Wrong account structure | Use correct PDA derivation |
 | `Missing return data` | CPI call failed | Ensure all accounts are passed correctly |
