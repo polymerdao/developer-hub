@@ -9,9 +9,13 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Admonition from '@theme/Admonition';
 
+<Admonition type="caution">
+**V2 proofs require V2 prover contracts.** Proofs returned by the `/v2/` endpoint (`evm_v2`, `svm_v2`) are not compatible with V1 prover contracts. If your application still uses V1 contracts, keep calling the `/v1/` endpoint.
+</Admonition>
+
 ### 1. Request Log Proof
 
-**Endpoint:** `api.polymer.zone/v1/`
+**Endpoint:** `api.polymer.zone/v2/`
 
 **Method:** `POST`
 
@@ -54,7 +58,7 @@ The parameters are now enclosed in a single object (instead of an array of separ
 {
   "jsonrpc": "2.0",
   "id": 1,
-  "result": jobID
+  "result": 12345
 }
 ```
 
@@ -68,7 +72,7 @@ The response contains a jobID that uniquely identifies your request.
 
 ### 2. Query Proof Status
 
-**Endpoint:** `api.polymer.zone/v1/`
+**Endpoint:** `api.polymer.zone/v2/`
 
 **Method:** `POST`
 
@@ -81,19 +85,28 @@ To query the status of a proof job, use the `proof_query` method:
   "jsonrpc": "2.0",
   "id": 1,
   "method": "proof_query",
-  "params": ["jobID"]
+  "params": [12345]
 }
 ```
 
 #### Response Body (Success)
 
-```json title="Complete Proof Response" {5-6}
+```json title="Complete Proof Response" {5-7}
 {
   "jsonrpc": "2.0",
   "id": 1,
   "result": {
     "status": "complete",
-    "proof": "base64EncodedProofData..."
+    "proofType": "evm_v2",
+    "proof": "base64EncodedProofData...",
+    "jobID": 12345,
+    "proofRequest": {
+      "srcChainId": 11155420,
+      "srcBlockNumber": 26421705,
+      "globalLogIndex": 15
+    },
+    "createdAt": 1708300800000,
+    "updatedAt": 1708300801000
   }
 }
 ```
@@ -102,8 +115,14 @@ To query the status of a proof job, use the `proof_query` method:
 
 | Parameter | Description |
 | -------------------------------- | --------------------------- |
-| `proof` | Base64 encoded bytes payload containing the IAVL proof of the application's log stored in the Polymer Rollup. |
-| `status` | Indicates the current status of the proof (`complete`, `error`, `pending`). |
+| `status` | Current status of the proof: `initialized`, `pending`, `complete`, `error`, or `not_found`. |
+| `proofType` | Proof generation version used. Requests to `/v2/` return `evm_v2` for EVM chains or `svm_v2` for Solana. |
+| `proof` | Base64 encoded bytes payload containing the IAVL proof of the application's log stored in the Polymer Rollup. Only present when `status` is `complete`. |
+| `jobID` | The jobID this response corresponds to. |
+| `proofRequest` | The original request parameters, echoed back for traceability. |
+| `createdAt` | Unix timestamp in milliseconds when the proof request was created. |
+| `updatedAt` | Unix timestamp in milliseconds when the job was last updated. |
+| `failureReason` | Reason the proof failed. Only present when `status` is `error`. |
 
 <Admonition type="info">
 **Proof Encoding**: Proof bytes are `base64` encoded. Your application must decode and convert to `hex` to pass as call data to the contract on-chain.
@@ -113,7 +132,7 @@ To query the status of a proof job, use the `proof_query` method:
 
 ```javascript title="Complete API Flow" {2,6-10,15,34,38,39,43}
 const response = await axios.post(
-  "https://api.polymer.zone/v1/",
+  "https://api.polymer.zone/v2/",
   {
     jsonrpc: "2.0",
     id: 1,
@@ -145,7 +164,7 @@ while (!proofResponse?.data?.result?.proof && attempts < maxAttempts) {
   await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds
   
   proofResponse = await axios.post(
-    "https://api.polymer.zone/v1/",
+    "https://api.polymer.zone/v2/",
     {
       jsonrpc: "2.0",
       id: 1,
