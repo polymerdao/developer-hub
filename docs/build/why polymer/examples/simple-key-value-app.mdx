@@ -1,18 +1,18 @@
 ---
 sidebar_position: 0
-sidebar_label: 'For Multi-Rollup Apps'
+sidebar_label: 'Simple Key Value App'
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Admonition from '@theme/Admonition';
 
-# Multi-Rollup Applications
+# Simple Key Value App
 
 
 ## Overview
 
-Applications embracing the "fat app" thesis leverage rollups as servers for their operations. These apps maintain contract instances on multiple chains, requiring seamless inter-contract communication for complex workflows.
+A simple key-value app stores entries (a key mapped to a value) and keeps them in sync across every chain it runs on. The app deploys the same contract on multiple chains and needs each write on one chain to propagate to the others, without predefined routes or per-pair configuration.
 
 **State Sync** is a compelling example **built by our community** that allows applications to synchronize key-value pairs across multiple chains in seconds. Learn more at [Polymer State Sync](https://github.com/dpbmaverick98/polymer-state-sync).
 
@@ -55,7 +55,7 @@ Applications embracing the "fat app" thesis leverage rollups as servers for thei
 
 ## Architecture Overview
 
-The multi-rollup pattern follows a simple yet powerful flow:
+The key-value sync pattern follows a simple yet powerful flow:
 
 1. **Event Emission**: Application emits events on any supported chain
 2. **Proof Generation**: Relayer requests cryptographic proof of the event
