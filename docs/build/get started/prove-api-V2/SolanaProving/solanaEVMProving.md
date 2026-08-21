@@ -5,7 +5,7 @@ sidebar_label: 'Proving Solana Logs on EVM'
 
 # Solana Logs Verification Requirements
 
-This guide will walk you through the process of proving and verifying Solana program logs on EVM chains using Polymer's state proof system. By following these steps, you'll be able to emit logs on Solana and then cryptographically verify them on any EVM chain.
+This guide will walk you through the process of proving and verifying Solana program logs on EVM chains using Polymer's Prove API. By following these steps, you'll be able to emit logs on Solana and then cryptographically verify them on any EVM chain.
 
 This Solana documentation section will follow this example: [solana-polymer-prover-cpi](https://github.com/dpbmaverick98/solana-polymer-prover-cpi/blob/main/programs/my_anchor_project/src/lib.rs)
 You can learn more about Solana Light Client Implementation: [Here](https://docs.polymerlabs.org/docs/category/solana-light-client-1)
