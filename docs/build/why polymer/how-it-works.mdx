@@ -1,0 +1,64 @@
+---
+sidebar_position: 4
+sidebar_label: 'How It Works'
+---
+
+# How Polymer Works
+
+Polymer is a **cross-chain state oracle**: it reads chain state and events from many independent sources, reaches **m-of-n consensus** over what it read, and issues a **signed attestation** that any chain can verify. Applications request these attestations through the Prove API and verify them on-chain with the [Prover Contract](<../get started/prove-api-V2/proverContract.mdx>).
+
+## The pipeline
+
+```text
+  Sources                    Polymer                       Destination chain
+  ┌────────────┐   read   ┌──────────────────────┐ attest ┌────────────────────┐
+  │ RPC nodes  │────────▶ │  finality threshold  │──────▶ │  CrossL2ProverV2     │
+  │ sequencers │          │  m-of-n consensus    │ signed │  validateEvent(proof)│
+  │ TEEs       │          │  sign the result     │  proof │  → decoded event     │
+  │ own nodes  │          └──────────────────────┘        └────────────────────┘
+  └────────────┘
+```
+
+### 1. Read from many sources
+
+Polymer reads chain state and events from a deliberately diverse, redundant set of upstreams — RPC endpoints from different providers, data straight from a chain's sequencer, trusted execution environments (TEEs), and nodes Polymer runs itself. No single source is privileged or required; the model is source-agnostic.
+
+### 2. Apply a finality threshold
+
+Before a read counts, Polymer waits for the source chain to reach a per-chain **finality threshold**. This is the single largest contributor to end-to-end proof time: chains with fast finality can be attested in seconds, while chains with slower finality take longer by design. A deeper threshold means a safer attestation, so it is tuned per chain to balance safety against latency.
+
+### 3. Reach m-of-n consensus
+
+Polymer compares what the independent sources report and requires **m of n** to agree before it will attest an event. Because Polymer maintains more upstreams than the minimum needed to reach consensus, a single slow or unavailable source never blocks progress — there is no liveness dependency on any one provider.
+
+### 4. Sign the result
+
+Once m of n agree, Polymer signs the agreed result. That signed attestation *is* the proof an application receives from the Prove API.
+
+### 5. Verify on-chain
+
+The application submits the attestation to the [`CrossL2ProverV2`](<../get started/prove-api-V2/proverContract.mdx>) contract. `validateEvent(proof)` checks Polymer's signature and returns the decoded event — source chain, emitting contract, topics, and data — reverting if verification fails. The app runs no extra infrastructure.
+
+## Security model: m-of-n
+
+:::tip
+Polymer's security is **m-of-n**: trust is distributed across `n` independent sources, and an event is attested only when at least `m` of them agree. No single source can forge or censor an attestation.
+:::
+
+- **Distributed trust** — an attestation reflects agreement across many independent sources, not a single operator.
+- **Liveness by redundancy** — upstreams beyond the m-of-n minimum keep proofs flowing even if some sources lag or go offline.
+- **Independently checkable** — the attested state can be re-verified against public RPCs at the given block height.
+
+## Latency: finality dominates
+
+End-to-end proof time is dominated by the source chain's finality threshold, not by Polymer's own processing — consensus and signing complete in well under a second. See the per-chain latency and finality figures in [Key Network Information](../start.mdx).
+
+## What this looks like for developers
+
+From an application's point of view the flow stays simple:
+
+1. **Emit** a standard event from your contract on the source chain.
+2. **Request** a proof (attestation) for that event via the Prove API.
+3. **Verify** it on the destination chain with `validateEvent` and act on the returned data.
+
+See [Simplified DevX](./simplified-devx.mdx) for the end-to-end code.
