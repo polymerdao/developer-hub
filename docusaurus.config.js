@@ -70,10 +70,15 @@ const config = {
       {
         // Old URLs from the Learn/Build restructure -> current locations.
         redirects: [
-          { from: '/docs/build/why polymer/how-it-works', to: '/docs/learn/how-prove-api-works' },
-          { from: '/docs/build/why polymer/interop-contract', to: '/docs/learn/messaging-vs-proofs' },
+          { from: '/docs/build/why polymer/how-it-works', to: '/docs/build/learn/how-prove-api-works' },
+          { from: '/docs/build/why polymer/interop-contract', to: '/docs/build/learn/messaging-vs-proofs' },
           { from: '/docs/build/why polymer/simplified-devx', to: '/docs/build/get started/quickstart' },
-          { from: '/docs/build/why polymer/PolymerAtaGlance', to: '/docs/learn/about-polymer' },
+          { from: '/docs/build/why polymer/PolymerAtaGlance', to: '/docs/build/learn/about-polymer' },
+          // Learn moved out of its own navbar tab and into Build.
+          { from: '/docs/learn/about-polymer', to: '/docs/build/learn/about-polymer' },
+          { from: '/docs/learn/how-prove-api-works', to: '/docs/build/learn/how-prove-api-works' },
+          { from: '/docs/learn/how-execute-api-works', to: '/docs/build/learn/how-execute-api-works' },
+          { from: '/docs/learn/messaging-vs-proofs', to: '/docs/build/learn/messaging-vs-proofs' },
           { from: '/docs/build/why polymer/examples/simple-key-value-app', to: '/docs/build/examples/simple-key-value-app' },
           { from: '/docs/build/why polymer/examples/multi-rollup_apps', to: '/docs/build/examples/simple-key-value-app' },
           { from: '/docs/build/why polymer/examples/chain_abstraction', to: '/docs/build/examples/chain_abstraction' },
@@ -100,12 +105,6 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'buildSidebar',
             label : 'Build',
-            position: 'left'
-          },
-           {
-            type: 'docSidebar',
-            sidebarId: 'learnSidebar',
-            label : 'Learn',
             position: 'left'
           },
           {
