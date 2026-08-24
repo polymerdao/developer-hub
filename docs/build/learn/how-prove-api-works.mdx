@@ -5,7 +5,7 @@ sidebar_label: 'How the Prove API works'
 
 # How the Prove API works
 
-The **Prove API** is how Polymer proves that something happened on another chain. Under the hood, the proving engine works like a **cross-chain state oracle**: it reads chain state and events from many independent sources, reaches **m-of-n consensus** over what it read, and issues a **signed attestation** that any chain can verify. You request these attestations through the Prove API and verify them on-chain with the [Prover Contract](<../build/get started/prove-api-V2/proverContract.mdx>). For the bigger picture — including relaying via the Execute API — see [About Polymer](./about-polymer.mdx).
+The **Prove API** is how Polymer proves that something happened on another chain. Under the hood, the proving engine works like a **cross-chain state oracle**: it reads chain state and events from many independent sources, reaches **m-of-n consensus** over what it read, and issues a **signed attestation** that any chain can verify. You request these attestations through the Prove API and verify them on-chain with the [Prover Contract](<../get started/prove-api-V2/proverContract.mdx>). For the bigger picture — including relaying via the Execute API — see [About Polymer](./about-polymer.mdx).
 
 ## The pipeline
 
@@ -37,7 +37,7 @@ Once m of n agree, Polymer signs the agreed result. That signed attestation *is*
 
 ### 5. Verify on-chain
 
-The application submits the attestation to the [`CrossL2ProverV2`](<../build/get started/prove-api-V2/proverContract.mdx>) contract. `validateEvent(proof)` checks Polymer's signature and returns the decoded event — source chain, emitting contract, topics, and data — reverting if verification fails. The app runs no extra infrastructure.
+The application submits the attestation to the [`CrossL2ProverV2`](<../get started/prove-api-V2/proverContract.mdx>) contract. `validateEvent(proof)` checks Polymer's signature and returns the decoded event — source chain, emitting contract, topics, and data — reverting if verification fails. The app runs no extra infrastructure.
 
 ## Security model: m-of-n
 
@@ -51,7 +51,7 @@ Polymer's security is **m-of-n**: trust is distributed across `n` independent so
 
 ## Latency: finality dominates
 
-End-to-end proof time is dominated by the source chain's finality threshold, not by Polymer's own processing — consensus and signing complete in well under a second. See the per-chain latency and finality figures in [Key Network Information](../build/start.mdx).
+End-to-end proof time is dominated by the source chain's finality threshold, not by Polymer's own processing — consensus and signing complete in well under a second. See the per-chain latency and finality figures in [Key Network Information](../start.mdx).
 
 ## What this looks like for developers
 
@@ -61,4 +61,4 @@ From an application's point of view the flow stays simple:
 2. **Request** a proof (attestation) for that event via the Prove API.
 3. **Verify** it on the destination chain with `validateEvent` and act on the returned data.
 
-See the [Quickstart](<../build/get started/quickstart.mdx>) for the end-to-end code.
+See the [Quickstart](<../get started/quickstart.mdx>) for the end-to-end code.
