@@ -80,14 +80,14 @@ const config = {
         items: [
            {
             type: 'docSidebar',
-            sidebarId: 'learnSidebar',
-            label : 'Learn',
+            sidebarId: 'buildSidebar',
+            label : 'Build',
             position: 'left'
           },
            {
             type: 'docSidebar',
-            sidebarId: 'buildSidebar',
-            label : 'Build',
+            sidebarId: 'learnSidebar',
+            label : 'Learn',
             position: 'left'
           },
           {
