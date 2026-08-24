@@ -1,0 +1,42 @@
+---
+sidebar_position: 2
+sidebar_label: 'How the Execute API works'
+---
+
+# How the Execute API works
+
+The **Execute API** is how Polymer delivers a cross-chain call for you. Instead of generating a proof and submitting the destination transaction yourself (the [Prove API](./how-prove-api-works.mdx) flow), you hand Polymer a destination call and it runs the delivery end-to-end — **and the proof is optional**.
+
+## The flow
+
+1. **Submit an execute request.** You send an envelope with an optional `proofRequest` and an `executeRequest` describing the destination call: `destChainId`, `destContractAddress`, `methodSignature`, `args`, and `gasLimit`.
+2. **Polymer (optionally) proves.** If a `proofRequest` is present, Polymer generates the attestation with the same [proving engine](./how-prove-api-works.mdx) and substitutes it wherever you put the `$proof` placeholder in `args`.
+3. **Polymer relays and executes.** Its relayer submits the transaction on the destination chain — calling the method you specified with your arguments — and manages the wallet, nonces, retries, and gas.
+4. **You poll for the result** with `execute_query` to get the status and the destination `transactionHash`.
+
+→ [Execute API reference](<../build/get started/execute-api.mdx>)
+
+## Two modes
+
+### Prove + execute
+
+Include a `proofRequest` and reference the generated proof via `$proof` in your `args`. Polymer proves the source event, then calls your destination method with the proof inlined — one API call replaces "request proof → poll → submit transaction."
+
+### Pure execution (no proof)
+
+Omit `proofRequest` entirely and Polymer simply relays an **arbitrary destination call** for you. Nothing in this mode touches the proving engine.
+
+The flagship example is the **slippage-free USDC bridge on Circle CCTP v2**: Polymer uses pure execution to relay CCTP transfers, giving users a free ~20-minute path and a ~20-second fast path (1 bps) without running any relayer of their own. It uses none of Polymer's proofs — just the relaying.
+
+## What Polymer manages for you
+
+Polymer runs a dedicated wallet per partner and handles nonces, automatic retries, and gas, so a destination transaction lands in milliseconds without you operating any relayer infrastructure.
+
+:::info
+The Execute API is currently available to Polymer partners. Partners fund their dedicated wallet on each chain they execute on.
+:::
+
+## Execute vs Prove
+
+- Use the **Prove API** when you want to verify the proof yourself and keep control of destination execution.
+- Use the **Execute API** when you want Polymer to deliver — with a proof (prove + execute) or without one (pure execution / arbitrary calls).

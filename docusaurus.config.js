@@ -80,10 +80,16 @@ const config = {
         items: [
            {
             type: 'docSidebar',
-            sidebarId: 'buildSidebar', 
-            label : 'Build', 
+            sidebarId: 'learnSidebar',
+            label : 'Learn',
             position: 'left'
-          },       
+          },
+           {
+            type: 'docSidebar',
+            sidebarId: 'buildSidebar',
+            label : 'Build',
+            position: 'left'
+          },
           {
             href: 'https://github.com/polymerdao',
             // label: 'GitHub',
