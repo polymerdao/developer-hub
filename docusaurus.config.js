@@ -23,6 +23,13 @@ const config = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
+  // Keep non-production Netlify deploys out of search indexes. Netlify sets
+  // CONTEXT to 'production' | 'deploy-preview' | 'branch-deploy' | 'dev' at
+  // build time (undefined for local builds). Only production stays indexable;
+  // every other context gets <meta name="robots" content="noindex, nofollow">
+  // on every page, so branch/preview deploys can't surface stale docs in search.
+  noIndex: !!process.env.CONTEXT && process.env.CONTEXT !== 'production',
+
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
