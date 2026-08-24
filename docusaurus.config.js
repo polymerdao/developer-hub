@@ -64,6 +64,24 @@ const config = {
     ],
   ],
 
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        // Old URLs from the Learn/Build restructure -> current locations.
+        redirects: [
+          { from: '/docs/build/why polymer/how-it-works', to: '/docs/learn/how-prove-api-works' },
+          { from: '/docs/build/why polymer/interop-contract', to: '/docs/learn/messaging-vs-proofs' },
+          { from: '/docs/build/why polymer/simplified-devx', to: '/docs/build/get started/quickstart' },
+          { from: '/docs/build/why polymer/PolymerAtaGlance', to: '/docs/learn/about-polymer' },
+          { from: '/docs/build/why polymer/examples/simple-key-value-app', to: '/docs/build/examples/simple-key-value-app' },
+          { from: '/docs/build/why polymer/examples/multi-rollup_apps', to: '/docs/build/examples/simple-key-value-app' },
+          { from: '/docs/build/why polymer/examples/chain_abstraction', to: '/docs/build/examples/chain_abstraction' },
+        ],
+      },
+    ],
+  ],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
