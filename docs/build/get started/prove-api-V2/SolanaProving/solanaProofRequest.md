@@ -33,7 +33,7 @@ Here's the expected request format:
   "id": 1,
   "method": "polymer_requestProof",
   "params": [{
-    "srcChainId": 2, // Represents Solana within Polymer Network 
+    "srcChainId": 2, // Represents Solana within Polymer 
     "txSignature": "YOUR_SOLANA_TRANSACTION_SIGNATURE",
     "programID": "YOUR_SOLANA_PROGRAM_ID"
   }]

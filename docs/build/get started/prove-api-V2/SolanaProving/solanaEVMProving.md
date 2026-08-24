@@ -18,7 +18,7 @@ You can learn more about Solana Light Client Implementation: [Here](https://docs
 
 ## Log Format Requirements
 
-For logs to be properly recognized by the Light client on Polymer Rollup, you must:
+For logs to be properly recognized by Polymer, you must:
 
 1. Use the `msg!` macro in your Solana program
 2. Include the `Prove: program: {}` prefix in your log messages
