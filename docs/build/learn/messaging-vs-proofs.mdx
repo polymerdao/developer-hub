@@ -69,14 +69,6 @@ Skipping any of these is exploitable. Anyone can submit a valid proof — that i
 These checks are not optional. [Prover Integration](<../get started/prove-api-V2/decodingProverReturn.mdx>) walks through each one with code, and the [Trust model](./trust-model.mdx) explains why each exists.
 :::
 
-## When messaging is the better fit
-
-Be honest about the boundary:
-
-- **You need the destination call to be atomic with the source call.** Proving is asynchronous by construction — the source event must reach finality before an attestation exists.
-- **You want a single vendor to own delivery end-to-end and you do not want to write destination validation.** Polymer's [Execute API](./how-execute-api-works.mdx) covers the delivery half of this, but the destination-side validation is still yours.
-- **You are moving value along a canonical path that already has a native bridge.** Prove what happened; do not re-implement the bridge.
-
 ## Next
 
 - [Choosing an API](./choosing-an-api.mdx) — Prove or Execute
