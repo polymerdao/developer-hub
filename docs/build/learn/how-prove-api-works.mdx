@@ -1,11 +1,11 @@
 ---
-sidebar_position: 1
+sidebar_position: 3
 sidebar_label: 'How Prove API works'
 ---
 
 # How Prove API works
 
-**Prove API** is how Polymer proves that something happened on another chain. The proving engine reads chain state and events from many independent sources, reaches m-of-n consensus over what it read, and issues a signed attestation that any chain can verify. You request these attestations through the Prove API and verify them on-chain with the [Prover Contract](<../get started/prove-api-V2/proverContract.mdx>). For the bigger picture — including relaying via the Execute API — see [About Polymer](./about-polymer.mdx).
+**Prove API** is how Polymer proves that something happened on another chain. The proving engine reads chain state and events from many independent sources, reaches m-of-n consensus over what it read, and issues a signed attestation that any chain can verify. You request these attestations through the Prove API and verify them on-chain with the [Prover Contract](<../get started/prove-api-V2/proverContract.mdx>). For the bigger picture — including relaying via the Execute API — see [About Polymer](./about-polymer.mdx). For what an attestation does and does not guarantee, see [Trust model](./trust-model.mdx).
 
 ## The pipeline
 
@@ -49,6 +49,8 @@ Polymer's security is **m-of-n**: trust is distributed across `n` independent so
 - **Liveness by redundancy** — upstreams beyond the m-of-n minimum keep proofs flowing even if some sources lag or go offline.
 - **Independently checkable** — the attested state can be re-verified against public RPCs at the given block height.
 
+[Trust model](./trust-model.mdx) covers this in full: what the destination contract actually verifies, how liveness and safety failures differ, and the five checks your own contract still has to perform.
+
 ## Latency: finality dominates
 
 End-to-end proof time is dominated by the source chain's finality threshold, not by Polymer's own processing — consensus and signing complete in well under a second. See the per-chain latency and finality figures in [Key Network Information](../start.mdx).
@@ -61,4 +63,4 @@ From an application's point of view the flow stays simple:
 2. **Request** a proof (attestation) for that event via the Prove API.
 3. **Verify** it on the destination chain with `validateEvent` and act on the returned data.
 
-See the [Quickstart](<../get started/quickstart.mdx>) for the end-to-end code.
+See the [Quickstart](<../get started/quickstart.mdx>) for the end-to-end code, and [Prover Integration](<../get started/prove-api-V2/decodingProverReturn.mdx>) for the validation your destination contract must perform on the decoded event.

@@ -7,27 +7,48 @@ sidebar_label: 'About Polymer'
 
 **Polymer is an interoperability protocol.** It lets the contracts you already run act on what happens on other chains — either by *proving* a source event and verifying it yourself, or by having Polymer *prove and execute* on your behalf.
 
+Nothing about your source contract has to change. You emit a standard event; Polymer proves it happened.
+
 ## Two ways to use Polymer
 
 ### Prove API — get a verifiable proof
 
 Request a signed attestation of an event that happened on a source chain, then verify it on-chain yourself with the [`CrossL2ProverV2`](<../get started/prove-api-V2/proverContract.mdx>) contract's `validateEvent`. You keep full control of destination execution.
 
-→ [How the Prove API works](./how-prove-api-works.mdx) · [Prove API reference](<../get started/prove-api-V2/api-endpoints.mdx>)
+→ [How Prove API works](./how-prove-api-works.mdx) · [Prove API reference](<../get started/prove-api-V2/api-endpoints.mdx>)
 
 ### Execute API — let Polymer relay and execute
 
 Hand Polymer a destination call and it handles delivery: it *optionally* generates the proof, then its relayer submits an **arbitrary contract call** on the destination — managing the wallet, nonces, retries, and gas. Because the proof is optional, Execute can also drive **pure execution** flows that use no proof at all.
 
-→ [How the Execute API works](./how-execute-api-works.mdx) · [Execute API reference](<../get started/execute-api.mdx>)
+Execute API is currently available to Polymer partners.
+
+→ [How Execute API works](./how-execute-api-works.mdx) · [Execute API reference](<../get started/execute-api.mdx>)
+
+Not sure which one you need? See [Choosing an API](./choosing-an-api.mdx).
 
 ## One engine underneath
 
-Both APIs sit on the same proving engine: Polymer reads chain state from many independent sources, applies a per-chain finality threshold, reaches **m-of-n consensus**, and signs the result — so an attestation is trustworthy without any single source being trusted. See [How the Prove API works](./how-prove-api-works.mdx) for the details.
+Both APIs sit on the same proving engine: Polymer reads chain state from many independent sources, applies a per-chain finality threshold, reaches m-of-n consensus, and signs the result — so an attestation is trustworthy without any single source being trusted.
+
+→ [How Prove API works](./how-prove-api-works.mdx) for the mechanism · [Trust model](./trust-model.mdx) for what you are trusting and what you still have to check
 
 ## What Polymer powers
 
-Each of these flagships has already processed over **$1.5 billion** in volume.
+Each of these flagships has processed over **$1.5 billion** in cumulative volume.
 
 - **Slippage-free USDC bridge (Circle CCTP v2) — the flagship Execute API use case.** Users move canonical USDC across chains with no slippage — a free ~20-minute slow path (CCTP v2 standard transfer) and a ~20-second fast path for 1 bps (CCTP v2 Fast Transfer). Polymer provides the **execution/relaying** via the Execute API so users never run their own relayer. This flow uses relaying only — no Prove API.
-- **Open Intents Framework (OIF) — the flagship Prove API use case.** The Prove API powers OIF and runs in production for **LI.FI** intents and their solver network: a solver's fill on one chain is proven and used to settle and repay on another. It also powers synced contract state, cross-chain governance, and similar prove-and-act flows. See [Messaging vs Proofs](./messaging-vs-proofs.mdx).
+- **Open Intents Framework (OIF) — the flagship Prove API use case.** The Prove API powers OIF and runs in production for intent protocols and their solver networks: a solver's fill on one chain is proven and used to settle and repay on another. It also powers synced contract state, cross-chain governance, and similar prove-and-act flows.
+
+→ [Use cases](./use-cases.mdx) for the full set of patterns Polymer supports
+
+## Where to go next
+
+| If you want to | Read |
+| --- | --- |
+| Understand why proofs beat messaging for this | [Proofs vs messaging](./messaging-vs-proofs.mdx) |
+| Pick between the two APIs | [Choosing an API](./choosing-an-api.mdx) |
+| See how a proof is produced and verified | [How Prove API works](./how-prove-api-works.mdx) |
+| Know what you are trusting | [Trust model](./trust-model.mdx) |
+| Write code now | [Quickstart](<../get started/quickstart.mdx>) |
+| Get an API key | [Onboard account](<../get started/portal.md>) |

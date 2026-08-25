@@ -1,0 +1,59 @@
+---
+sidebar_position: 2
+sidebar_label: 'Choosing an API'
+---
+
+# Choosing an API
+
+Polymer exposes two APIs over one proving engine. The decision is about **who submits the destination transaction** — you, or Polymer.
+
+| | Prove API | Execute API |
+| --- | --- | --- |
+| Who generates the proof | Polymer, on request | Polymer, as part of the call — or not at all |
+| Who submits the destination transaction | You (or anyone) | Polymer's relayer |
+| Who pays destination gas | Whoever submits | Your partner wallet, funded per chain |
+| Who validates the event | Your destination contract | Your destination contract |
+| Relayer infrastructure to operate | None, if you submit on demand | None |
+| Wallet, nonce and retry management | Yours | Polymer's |
+| Works without a proof | No | Yes — pure execution |
+| Availability | Generally available | Polymer partners |
+
+Both paths call `validateEvent` on the destination and both require your contract to validate what comes back. Execute API changes who *delivers* the proof, not who *checks* it.
+
+## Use Prove API when
+
+- You want to hold the proof and decide when and where to use it.
+- Someone other than you submits the destination transaction — a solver, a keeper, or the end user.
+- You want one source event settled on several destinations, on your own schedule.
+- You would rather not depend on a third party for liveness of the destination call.
+
+→ [How Prove API works](./how-prove-api-works.mdx) · [Quickstart](<../get started/quickstart.mdx>)
+
+## Use Execute API when
+
+- You want one API call to cover proving *and* the destination transaction.
+- You do not want to run a relayer, manage nonces, or handle retries and gas.
+- You need the destination call to land fast and predictably without your own submission path.
+
+→ [How Execute API works](./how-execute-api-works.mdx) · [Execute API reference](<../get started/execute-api.mdx>)
+
+## Pure execution: Execute API with no proof
+
+Omit `proofRequest` and Execute API becomes a relayer for an arbitrary destination call. Nothing touches the proving engine. This is how Polymer relays canonical bridge transfers on behalf of users who do not want to operate submission infrastructure.
+
+Reach for this when the thing you need is delivery, not verification.
+
+## The integration, either way
+
+1. **Emit** a standard event from your contract on the source chain.
+2. **Obtain a proof** — request it yourself via Prove API, or let Execute API generate it inline.
+3. **Validate** on the destination: call `validateEvent`, then check the source chain, the emitting contract, the event signature, and replay protection.
+4. **Act** on the decoded event.
+
+Step 3 is where integrations go wrong. Read [Prover Integration](<../get started/prove-api-V2/decodingProverReturn.mdx>) before you ship it.
+
+## Next
+
+- [Trust model](./trust-model.mdx) — what an attestation does and does not guarantee
+- [Key network information](../start.mdx) — endpoints, contract addresses, supported chains
+- [Onboard account](<../get started/portal.md>) — get an API key
