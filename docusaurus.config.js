@@ -79,11 +79,12 @@ const config = {
           { from: '/docs/learn/how-prove-api-works', to: '/docs/build/learn/how-prove-api-works' },
           { from: '/docs/learn/how-execute-api-works', to: '/docs/build/learn/how-execute-api-works' },
           { from: '/docs/learn/messaging-vs-proofs', to: '/docs/build/learn/messaging-vs-proofs' },
-          { from: '/docs/build/why polymer/examples/simple-key-value-app', to: '/docs/build/examples/simple-key-value-app' },
-          { from: '/docs/build/why polymer/examples/multi-rollup_apps', to: '/docs/build/examples/simple-key-value-app' },
-          { from: '/docs/build/why polymer/examples/chain_abstraction', to: '/docs/build/examples/chain_abstraction' },
-          // "Examples" category renamed to "Explorations"; its generated index moved.
-          { from: '/docs/category/examples', to: '/docs/category/explorations' },
+          { from: '/docs/build/why polymer/examples/simple-key-value-app', to: '/docs/build/learn/examples/explorations/simple-key-value-app' },
+          { from: '/docs/build/why polymer/examples/multi-rollup_apps', to: '/docs/build/learn/examples/explorations/simple-key-value-app' },
+          { from: '/docs/build/why polymer/examples/chain_abstraction', to: '/docs/build/learn/examples/explorations/chain_abstraction' },
+          // Examples moved under Learn -> Examples -> Explorations.
+          { from: '/docs/build/examples/simple-key-value-app', to: '/docs/build/learn/examples/explorations/simple-key-value-app' },
+          { from: '/docs/build/examples/chain_abstraction', to: '/docs/build/learn/examples/explorations/chain_abstraction' },
         ],
       },
     ],
