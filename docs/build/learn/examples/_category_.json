@@ -1,6 +1,6 @@
 {
-    "label": "Explorations",
-    "position": 3,
+    "label": "Examples",
+    "position": 6,
     "collapsed": true,
     "link": {
       "type": "generated-index"

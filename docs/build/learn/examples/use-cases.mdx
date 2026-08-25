@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 1
 sidebar_label: 'Use Cases'
 ---
 
@@ -16,7 +16,7 @@ Prove that something *happened* on one chain, then act on it somewhere else. Nee
 - **Solver-fronted actions** — let a solver front a user-defined action (a swap, a vault entry) and prove the user's signed authorisation and the resulting execution.
 - **Cross-chain governance** — let holders vote on whichever chain they hold on, and prove outcomes back to a canonical chain for aggregation.
 
-→ [How Prove API works](./how-prove-api-works.mdx) · [Prover Integration](<../get started/prove-api-V2/decodingProverReturn.mdx>)
+→ [How Prove API works](../how-prove-api-works.mdx) · [Prover Integration](<../../get started/prove-api-V2/decodingProverReturn.mdx>)
 
 ## Keep contract state in sync
 
@@ -26,7 +26,7 @@ One deployment writes; every other deployment learns about it. Needs **Prove API
 - **Yield aggregation** — consolidate positions held on several chains into one reported figure, or expand a single-chain vault to more chains without duplicating the backend.
 - **Treasury and reserve status** — relay reserve, yield or attestation state for a stablecoin or structured product to every chain it trades on.
 
-→ [Simple key value app](../examples/simple-key-value-app.mdx) — the reference implementation of this pattern
+→ [Simple key value app](./explorations/simple-key-value-app.mdx) — the reference implementation of this pattern
 
 ## Build once, serve everywhere
 
@@ -46,7 +46,7 @@ Treat several chains as one execution environment. Needs **Prove API**, and ofte
 - **Chained transactions** — run order-dependent workflows across chains (act on A, then B, fall back to A on failure) with each checkpoint proven rather than assumed.
 - **Offloaded computation** — do compute-heavy matching or auctions on whichever chain is best suited, then prove the result back to where settlement happens.
 
-→ [Chain abstraction](../examples/chain_abstraction.md) · [Choosing an API](./choosing-an-api.mdx)
+→ [Chain abstraction](./explorations/chain_abstraction.md) · [Choosing an API](../choosing-an-api.mdx)
 
 ## Delivery without proving
 
@@ -55,16 +55,23 @@ Sometimes the hard part is not verification — it is running submission infrast
 - **Relaying canonical bridge transfers** — submit the destination side of a native bridge transfer on a user's behalf, so they never operate a relayer. This is how Polymer supports the slippage-free USDC path on Circle CCTP v2.
 - **Arbitrary destination calls** — hand Polymer a contract call and have it land, with wallet, nonce, retry and gas handling included.
 
-→ [How Execute API works](./how-execute-api-works.mdx)
+→ [How Execute API works](../how-execute-api-works.mdx)
 
 ## Flagships
 
 - **Slippage-free USDC bridge (Circle CCTP v2)** — Execute API, pure execution. A free ~20-minute path and a ~20-second fast path at 1 bps, with no relayer for the user to run.
 - **Open Intents Framework (OIF)** — Prove API. Solver fills proven on one chain and used to settle and repay on another, in production across intent protocols and their solver networks.
 
-Each has processed over **$1.5 billion** in cumulative volume.
+Each has processed **billions** in cumulative volume — see the [analytics dashboard](https://dashboard.polymerlabs.org/analytics) for current figures.
+
+## Explorations
+
+Two of these patterns are worked through end to end — contract code, proof request, and destination validation.
+
+- **[Simple key value app](./explorations/simple-key-value-app.mdx)** — the synced-state pattern. Writes on one chain propagate to every other deployment, with the full `setValue` / `setValueFromSource` pair and each security check in place.
+- **[Chain abstraction](./explorations/chain_abstraction.md)** — the prove-an-action pattern. An invoice is emitted when a solver fronts a user operation, then proven on the chain holding the funds to release repayment.
 
 ## Next
 
-- [Quickstart](<../get started/quickstart.mdx>) — build the four-step flow
-- [Trust model](./trust-model.mdx) — what you must validate before acting on a proof
+- [Quickstart](<../../get started/quickstart.mdx>) — build the four-step flow
+- [Trust model](../trust-model.mdx) — what you must validate before acting on a proof
