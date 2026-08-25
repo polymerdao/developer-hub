@@ -10,7 +10,7 @@ Chain Abstraction protocols are redefining interoperability by combining resourc
 
 The critical element here is repayment. Solvers are only repaid if the user operation succeeds, and this is precisely where the Prove API steps in. It provides developers with execution proofs to validate user operations and facilitate repayments.
 
-**Openfort** is one of the first teams leveraging the Prove API, pushing the boundaries of chain abstraction. Openfort extends ERC4337 by incorporating an invoice manager and settlement system, enabling cross-chain functionality with Polymer. (See the [Openfort Chain Abstraction repository](https://github.com/openfort-xyz/openfort-chain-abstraction)).
+Teams building on the Prove API extend ERC4337 with an **invoice manager** and settlement system, which is what makes the cross-chain repayment leg work. The walkthrough below follows that design: an invoice is emitted where the user operation is sponsored, then proven on the chain that holds the funds.
 
 <div style={{position: 'relative', paddingBottom: '59.31830676195712%', height: 0}}><iframe src="https://github.com/user-attachments/assets/34cf828f-27e2-4f61-b86a-626f46cf0892" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}></iframe></div>
 
@@ -19,7 +19,7 @@ The critical element here is repayment. Solvers are only repaid if the user oper
 
 ## End-to-End Overview
 
-Applications using Openfort’s WalletSDK can abstract their application instances deployed across various chains and allow users to instantly interact with their application. 
+A wallet SDK can abstract an application's instances deployed across various chains and let users interact with any of them instantly. 
 ![image](https://github.com/user-attachments/assets/dcf2aac7-d45e-4966-84ad-5ec90cca05d7)
 
 
@@ -27,7 +27,7 @@ Applications using Openfort’s WalletSDK can abstract their application instanc
 
 1. **User Interaction**: When a user interacts with the application, a UserOp is created containing details about the tokens the user will pay with and the sponsor token chain. This data is sent to an ERC4337-compatible Paymaster as `paymasterAndData`.
 2. **Invoice Creation**: Once the user request is fronted by a solver or the application’s excess liquidity, a `createInvoice` generates and emits an `invoiceID` in the post operation. This globally unique identifier secures repayments.
-3. **Proof Request**: Openfort’s backend requests a proof for the `invoiceID` event from the Prove API.
+3. **Proof Request**: The application's backend requests a proof for the `invoiceID` event from the Prove API.
 4. **Repayment**: Using the execution proof, the backend calls the repay function to settle the `invoiceID` and repay the sponsor tokens.
 
 <br/>
@@ -136,7 +136,7 @@ The key advantage here is that Polymer validates the log with a single call and 
 - The emitting contract (in this case, the paymaster)
 - All related topics and unindexed data, including the invoiceID hash from another chain
 
-Since the context is also maintained by the Invoice Manager and the invoiceID, it ensures end-to-end mapping of the UserOp. In the future, this will enable any solver to request settlement without requiring the Openfort backend to perform transactions.
+Since the context is also maintained by the Invoice Manager and the invoiceID, it ensures end-to-end mapping of the UserOp. In the future, this will enable any solver to request settlement without requiring the application's backend to perform transactions.
 
 Additionally, the Invoice Manager maintains a record of already paid invoiceIDs, effectively preventing double-spend attacks.
 
