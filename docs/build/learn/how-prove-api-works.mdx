@@ -5,7 +5,7 @@ sidebar_label: 'How Prove API works'
 
 # How Prove API works
 
-**Prove API** is how Polymer proves that something happened on another chain. The proving engine reads chain state and events from many independent sources, reaches m-of-n consensus over what it read, and issues a signed attestation that any chain can verify. You request these attestations through the Prove API and verify them on-chain with the [Prover Contract](<../get started/prove-api-V2/proverContract.mdx>). For the bigger picture — including relaying via the Execute API — see [About Polymer](./about-polymer.mdx). For what an attestation does and does not guarantee, see [Trust model](./trust-model.mdx).
+**Prove API** is how Polymer proves that something happened on another chain. The proving engine reads chain state and events from many independent sources, reaches m-of-n consensus over what it read, and issues a signed attestation that any chain can verify. You request these attestations through the Prove API and verify them on-chain with the [Prover Contract](<../get started/prove-api-V2/proverContract.mdx>). For the bigger picture — including relaying via the Execute API — see [About Polymer](./about-polymer.mdx).
 
 ## The pipeline
 
@@ -49,7 +49,9 @@ Polymer's security is **m-of-n**: trust is distributed across `n` independent so
 - **Liveness by redundancy** — upstreams beyond the m-of-n minimum keep proofs flowing even if some sources lag or go offline.
 - **Independently checkable** — the attested state can be re-verified against public RPCs at the given block height.
 
-[Trust model](./trust-model.mdx) covers this in full: what the destination contract actually verifies, how liveness and safety failures differ, and the five checks your own contract still has to perform.
+`validateEvent` verifies **Polymer's signature** over the attestation; it does not re-verify the source chain's consensus on-chain. An attestation's security rests on the m-of-n agreement behind it — a deliberate trade, and the reason verification costs a fraction of a cent and works identically on every supported chain.
+
+Anyone holding a valid proof can submit it, so confirming that a decoded event is one your application should act on — the source chain, the emitting contract, the event signature, and replay protection — is your contract's responsibility. [Prover Integration](<../get started/prove-api-V2/decodingProverReturn.mdx>) covers each of those with code.
 
 ## Latency: finality dominates
 
