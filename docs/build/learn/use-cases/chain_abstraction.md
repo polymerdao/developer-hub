@@ -1,6 +1,6 @@
 ---
-sidebar_position: 1
-sidebar_label: 'For Chain Abstraction'
+sidebar_position: 2
+sidebar_label: 'Chain Abstraction'
 ---
 
 
