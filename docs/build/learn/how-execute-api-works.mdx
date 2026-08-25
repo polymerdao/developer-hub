@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 4
 sidebar_label: 'How Execute API works'
 ---
 
@@ -36,7 +36,14 @@ Polymer runs a dedicated wallet per partner and handles nonces, automatic retrie
 The Execute API is currently available to Polymer partners. Partners fund their dedicated wallet on each chain they execute on.
 :::
 
-## Execute vs Prove
+## Still your job
 
-- Use the **Prove API** when you want to verify the proof yourself and keep control of destination execution.
-- Use the **Execute API** when you want Polymer to deliver — with a proof (prove + execute) or without one (pure execution / arbitrary calls).
+Execute API changes who submits the destination transaction. It does not change what your destination contract has to verify: the source chain, the emitting contract, the event signature, the topics length, and replay protection are all still yours to check on the decoded event.
+
+→ [Prover Integration](<../get started/prove-api-V2/decodingProverReturn.mdx>) · [Trust model](./trust-model.mdx)
+
+## Next
+
+- [Choosing an API](./choosing-an-api.mdx) — Prove or Execute, side by side
+- [Execute API reference](<../get started/execute-api.mdx>) — methods, parameters and responses
+- [Use cases](./use-cases.mdx) — what people build with pure execution

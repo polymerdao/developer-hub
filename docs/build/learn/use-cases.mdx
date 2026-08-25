@@ -1,0 +1,70 @@
+---
+sidebar_position: 6
+sidebar_label: 'Use Cases'
+---
+
+# Use cases
+
+Patterns Polymer is used for in production, grouped by what they ask of the protocol. Each group notes which API it needs and where the relevant guide is.
+
+## Prove actions across chains
+
+Prove that something *happened* on one chain, then act on it somewhere else. Needs **Prove API**.
+
+- **Intent settlement** — prove that a solver's fill occurred on the destination chain before releasing or repaying on the origin chain. The proof is what makes the repayment safe to automate.
+- **Batched intent settlement** — prove many fills in one settlement pass, so per-intent settlement overhead stops scaling with volume.
+- **Solver-fronted actions** — let a solver front a user-defined action (a swap, a vault entry) and prove the user's signed authorisation and the resulting execution.
+- **Cross-chain governance** — let holders vote on whichever chain they hold on, and prove outcomes back to a canonical chain for aggregation.
+
+→ [How Prove API works](./how-prove-api-works.mdx) · [Prover Integration](<../get started/prove-api-V2/decodingProverReturn.mdx>)
+
+## Keep contract state in sync
+
+One deployment writes; every other deployment learns about it. Needs **Prove API**, usually with a keeper or the writing user submitting.
+
+- **Lending markets** — synchronise the yield-affecting events that determine rates, so APY stays consistent across deployments.
+- **Yield aggregation** — consolidate positions held on several chains into one reported figure, or expand a single-chain vault to more chains without duplicating the backend.
+- **Treasury and reserve status** — relay reserve, yield or attestation state for a stablecoin or structured product to every chain it trades on.
+
+→ [Simple key value app](../examples/simple-key-value-app.mdx) — the reference implementation of this pattern
+
+## Build once, serve everywhere
+
+Publish on one chain; let anyone prove it wherever they need it. Needs **Prove API**.
+
+- **Data feeds** — serve values from a single chain and let consumers prove the value they need, when they need it, instead of paying to push updates everywhere.
+- **Optimistic oracle results** — resolve once on the chain where resolution happens, then prove the outcome to every chain that cares.
+- **Stablecoin extensions** — extend to a new chain without replicating the issuance or accounting backend.
+
+The economics are the point: pushing state to *n* chains costs *n* messages, while proving costs one write and a proof per consumer who actually needs it.
+
+## Compose across chains
+
+Treat several chains as one execution environment. Needs **Prove API**, and often **Execute API** for the delivery half.
+
+- **Multi-source funding** — draw funds from balances on several chains to satisfy one user operation, and repay each source with a single proof of the outcome.
+- **Chained transactions** — run order-dependent workflows across chains (act on A, then B, fall back to A on failure) with each checkpoint proven rather than assumed.
+- **Offloaded computation** — do compute-heavy matching or auctions on whichever chain is best suited, then prove the result back to where settlement happens.
+
+→ [Chain abstraction](../examples/chain_abstraction.md) · [Choosing an API](./choosing-an-api.mdx)
+
+## Delivery without proving
+
+Sometimes the hard part is not verification — it is running submission infrastructure. Needs **Execute API** in pure execution mode.
+
+- **Relaying canonical bridge transfers** — submit the destination side of a native bridge transfer on a user's behalf, so they never operate a relayer. This is how Polymer supports the slippage-free USDC path on Circle CCTP v2.
+- **Arbitrary destination calls** — hand Polymer a contract call and have it land, with wallet, nonce, retry and gas handling included.
+
+→ [How Execute API works](./how-execute-api-works.mdx)
+
+## Flagships
+
+- **Slippage-free USDC bridge (Circle CCTP v2)** — Execute API, pure execution. A free ~20-minute path and a ~20-second fast path at 1 bps, with no relayer for the user to run.
+- **Open Intents Framework (OIF)** — Prove API. Solver fills proven on one chain and used to settle and repay on another, in production across intent protocols and their solver networks.
+
+Each has processed over **$1.5 billion** in cumulative volume.
+
+## Next
+
+- [Quickstart](<../get started/quickstart.mdx>) — build the four-step flow
+- [Trust model](./trust-model.mdx) — what you must validate before acting on a proof
