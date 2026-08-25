@@ -82,6 +82,8 @@ const config = {
           { from: '/docs/build/why polymer/examples/simple-key-value-app', to: '/docs/build/examples/simple-key-value-app' },
           { from: '/docs/build/why polymer/examples/multi-rollup_apps', to: '/docs/build/examples/simple-key-value-app' },
           { from: '/docs/build/why polymer/examples/chain_abstraction', to: '/docs/build/examples/chain_abstraction' },
+          // "Examples" category renamed to "Explorations"; its generated index moved.
+          { from: '/docs/category/examples', to: '/docs/category/explorations' },
         ],
       },
     ],
