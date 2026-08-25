@@ -18,7 +18,7 @@ That claim is produced by agreement, not by a validity proof:
 3. It requires **m of n** of those independent sources to agree on what they read.
 4. It signs the agreed result.
 
-So the trust assumption is: **no set of m sources is simultaneously wrong or colluding.** No single provider — including Polymer's own nodes — can produce an attestation alone.
+So the trust assumption is: **no set of m sources reports the same incorrect state.** No single provider — including Polymer's own nodes — can produce an attestation alone.
 
 ## What the destination contract actually checks
 
@@ -34,37 +34,39 @@ Distinguishing these two matters, because the mitigations are unrelated.
 
 **Liveness — proofs stop flowing.** Polymer maintains more upstreams than the minimum needed to reach consensus, so a single slow or unavailable provider does not block progress. There is no liveness dependency on any one source. The visible symptom is latency or a `pending` job, not a wrong answer.
 
-**Safety — a wrong claim gets signed.** This requires at least m independent sources to report the same incorrect state. Deeper finality thresholds raise the cost of the source-chain reorganisations that could cause honest sources to agree on state that is later undone, which is why the threshold is tuned per chain rather than set globally.
+**Safety — an incorrect claim is attested.** This would require at least m of the independent sources to report the same incorrect state. Deeper finality thresholds reduce the chance of honest sources agreeing on state that the chain later reorganises away, which is why the threshold is tuned per chain rather than set globally.
 
 You can also check Polymer's work after the fact. `inspectPolymerState` returns the attested state root, the block height it corresponds to, and the signature — enough to query a public RPC at that height and confirm the attested state matches what the chain actually holds.
 
 → [Prover Contract](<../get started/prove-api-V2/proverContract.mdx>) for the inspection methods
 
-## What Polymer does not do for you
+## Where your application's responsibility begins
 
-An attestation proves that an event happened. It says nothing about whether *your* contract should act on it. Polymer will happily prove an event emitted by an attacker's contract, on a chain you never intended to accept, that you have already processed — because all three of those things did, in fact, happen.
+An attestation establishes that an event occurred on the source chain. Whether that event is one your application should act on is a separate question, and only your contract is in a position to answer it — the attestation carries no view of your application's intent.
 
-Your destination contract must therefore check:
+So before acting on a decoded event, a destination contract confirms:
 
-| Check | Why | If you skip it |
-| --- | --- | --- |
-| Source chain is one you accept | Events exist on every supported chain | An event from an unintended chain is treated as canonical |
-| Emitting contract is one you authorise | Anyone can deploy a contract that emits your event shape | An attacker's contract spoofs your events with arbitrary data |
-| Event signature matches exactly | Different parameter types hash differently | A similar event decodes into corrupted values |
-| Topics length is what you expect | Length affects how unindexed data parses | Arbitrary-length topics distort decoding |
-| The event has not been processed before | Proofs are not unique per submission and anyone may submit | The same event is replayed for duplicate effect |
+| Check | What it establishes |
+| --- | --- |
+| The source chain is one you accept | The event came from a chain your application recognises |
+| The emitting contract is one you authorise | The event came from a contract you trust, not merely from one that emits the same shape |
+| The event signature matches exactly | This is the event you intended to handle, with the parameter types you expect |
+| The topics length is what you expect | The indexed and unindexed portions align with how you decode them |
+| The event has not been processed before | Each event affects your state once |
 
-:::danger
-These are not defence-in-depth niceties; each one is load-bearing. [Prover Integration](<../get started/prove-api-V2/decodingProverReturn.mdx>) implements all five with code you can copy.
+Together these establish that the proven event is genuinely one of yours, and that acting on it is correct. They belong in the integration from the start rather than as hardening added later.
+
+:::info
+[Prover Integration](<../get started/prove-api-V2/decodingProverReturn.mdx>) implements all five with code you can copy, and explains the reasoning behind each.
 :::
 
-Note in particular that a proof is **not** a unique identifier. Do not use it as your replay key — derive the key from the event's own data.
+One detail worth noting: a proof is **not** a unique identifier for an event, so it is not a suitable replay key. Derive the key from the event's own data instead.
 
-## Permissionless execution is a property, not an accident
+## Submission is open by design
 
 Anyone holding a valid proof can submit it. That is what allows solvers, keepers and end users to drive your destination logic without being whitelisted, and it is why one source event can settle on many chains without you operating anything.
 
-It also means your destination function is publicly callable with attacker-chosen timing. If your application needs a narrower set of submitters, add that access control yourself — the proof system will not do it for you.
+The corollary is that the proof system does not decide who calls your destination function, or when. If your application needs a narrower set of submitters, or guarantees about ordering, that belongs in your contract alongside the checks above.
 
 ## Next
 
