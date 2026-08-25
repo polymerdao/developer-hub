@@ -63,10 +63,10 @@ Concretely, a destination contract must check for itself:
 - that the event signature is the event you meant to handle,
 - that you have not processed this event before.
 
-Skipping any of these is exploitable. Anyone can submit a valid proof — that is the point of permissionless execution, and it is also why the validation lives in your contract.
+These checks are what make a proven event actionable. Anyone can submit a valid proof — that is the point of permissionless execution, and it is why the decision to act on one belongs in your contract.
 
 :::warning
-These checks are not optional. [Prover Integration](<../get started/prove-api-V2/decodingProverReturn.mdx>) walks through each one with code, and the [Trust model](./trust-model.mdx) explains why each exists.
+These checks are part of the integration, not optional hardening. [Prover Integration](<../get started/prove-api-V2/decodingProverReturn.mdx>) walks through each one with code, and the [Trust model](./trust-model.mdx) explains why each exists.
 :::
 
 ## Next
