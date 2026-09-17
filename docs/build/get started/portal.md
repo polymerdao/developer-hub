@@ -32,7 +32,7 @@ Testnet
 
 ### Pricing
 - Varies but generally $0.01 per credit
-- **Prove API** -> One credit = one proof
+- **Prove API** -> Proofs vary from 1-100 credits.
 - **Execute API** -> Credit rate may vary based on usecase. Reach out to us to learn more.
 
 ## 3. Make your first request
