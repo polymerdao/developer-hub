@@ -1,0 +1,5 @@
+# Headers Cloudflare Pages used to add on its own, kept after the move to Workers.
+/*
+  Access-Control-Allow-Origin: *
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Content-Type-Options: nosniff

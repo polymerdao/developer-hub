@@ -1,0 +1,13 @@
+// Cloudflare Worker that serves the Docusaurus build as static assets.
+// Workers Builds runs `npm run build`, then `npx wrangler deploy` on main
+// and `npx wrangler versions upload` on other branches (previews).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "developer-hub",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./build",
+    "not_found_handling": "404-page"
+  },
+  "routes": [{ "pattern": "docs.polymerlabs.org/*", "zone_name": "polymerlabs.org" }]
+}
